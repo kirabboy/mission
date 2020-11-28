@@ -1,0 +1,8 @@
+.footer-nav li i {
+    display: block;
+    margin: 0.16rem auto 0;
+    width: 0.44rem;
+    height: 0.44rem;
+    font-size: 25px;
+    color: #fff
+}
