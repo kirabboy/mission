@@ -135,7 +135,9 @@
             height: 25px;
             float: right;
         }
+        
         .btn-battery{
+
             font-size: 10px;
             color: #fff;
             border: 1px solid #fff;
@@ -147,7 +149,26 @@
             margin: 5px auto;
         }
         .btn-battery i{
+            color: rgb(9, 255, 0);
             margin: auto;
+
+        }
+        .title-cskh h6{
+            color: lightcoral;
+            font-weight: 900px;
+            padding: 2px 0px;
+            background: rgba(91, 95, 107, 0.644);
+
+        }
+        .title-cskh {
+            padding: 70px 0px 0px 0px;
+        }
+        .area-cskh{
+            background-image: url('{{asset("/resources/image/tdv.jpg")}}');
+            background-size: cover;
+        }
+        .btn-battery .fa-circle{
+            color: rgb(9, 255, 0);
         }
         .btnc{
             -webkit-border-radius: 10px;

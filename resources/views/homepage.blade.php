@@ -5,9 +5,10 @@
         <div class="row no-gutters">
             <div class="col-12">
                 <!-- Add images to <div class="fotorama"></div> -->
-                <div class="fotorama"  data-width="100%" data-nav="false">
-                    <img src="https://s.fotorama.io/1.jpg" width="100%">
-                    <img src="https://s.fotorama.io/2.jpg" width="100%">
+                <div class="fotorama"  data-width="100%" data-nav="false"  data-autoplay="true">
+                    <img src="{{asset('/resources/image/banner1.jpg')}}" width="100%">
+                    <img src="{{asset('/resources/image/banner2.jpg')}}" width="100%">
+                    <img src="{{asset('/resources/image/banner3.jpg')}}" width="100%">
                 </div>
             </div>
         </div>
@@ -19,8 +20,8 @@
             </div>
             <div class="col-6">
                 <div class="area-battery block text-center">
-                        <button class="btnc text-center btn-battery progress-bar progress-bar-success progress-bar-striped active" role="progressbar">
-                            <i class='fas fa-user-check'> 154123 online</i> 
+                        <button class="btnc text-center btn-battery progress-bar progress-bar-primary progress-bar-striped active" role="progressbar">
+                            <i class='fas fa-user-check'> {{rand(33333,55555)}} online <i class='fas fa-circle'></i></i> 
                         </button>
                 </div>
             </div>
@@ -71,7 +72,7 @@
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="area-invite text-center block">
-                    <button class="btnc btn-invite waviy ">
+                    <button class="btnc btn-invite waviy" onclick="location.href='{{URL::to('/my-referal')}}'">
                         <i class='fas fa-paper-plane'></i>
                         <span style="--i:2">M</span>
                         <span style="--i:3">ờ</span>
@@ -104,9 +105,7 @@
                     <div class="title title-cskh text-center">
                         <h6>CSKH 24/7</h6>
                     </div>
-                    <div class="gif-cskh">
-                        <img src="{{asset("/resources/image/contact.gif")}}"/>
-                    </div>
+
                 </div>
             </div>
         </div>
