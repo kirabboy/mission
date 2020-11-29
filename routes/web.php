@@ -17,10 +17,26 @@ use App\Http\Controllers\AccountController;
 
 Route::get('/', [HomeController::class, 'getHome']);
 
-Route::get('/my', [AccountController::class, 'getMyAccount']);
+Route::get('/my-account', [AccountController::class, 'getMyAccount']);
 
 Route::get('/login', [AccountController::class, 'getLogin']);
 Route::post('/login', [AccountController::class, 'postLogin']);
 
 Route::get('/register', [AccountController::class, 'getRegister']);
+Route::get('/register/{refcode}', [AccountController::class, 'getRegister']);
+
 Route::post('/register', [AccountController::class, 'postRegister']);
+
+Route::get('/logout', [AccountController::class, 'logout']);
+
+Route::get('/my-referal', [AccountController::class, 'getReferal']);
+
+Route::get('/my-info', [AccountController::class, 'getInfo']);
+
+Route::get('/upgrate', [AccountController::class, 'getUpgrate']);
+
+Route::get('/history', [AccountController::class, 'getHistory']);
+
+Route::get('/earn-money', [HomeController::class, 'getEarnMoney']);
+
+Route::get('/helpcenter', [HomeController::class, 'getHelpCenter']);
