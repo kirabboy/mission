@@ -154,18 +154,19 @@
 
         }
         .title-cskh h6{
-            color: lightcoral;
-            font-weight: 900px;
+            color: red;
+            font-weight: 900;
             padding: 2px 0px;
-            background: rgba(91, 95, 107, 0.644);
+            background: rgba(91, 95, 107, 0.747);
 
         }
         .title-cskh {
-            padding: 70px 0px 0px 0px;
+            padding: 130px 0px 0px 0px;
         }
         .area-cskh{
             background-image: url('{{asset("/resources/image/tdv.jpg")}}');
             background-size: cover;
+            height: 150px;
         }
         .btn-battery .fa-circle{
             color: rgb(9, 255, 0);
@@ -264,9 +265,12 @@
             padding: 10px;
         }
         .area-buy-spin img{
-            height: 75px;
-            width: auto;
+            height: 100%;
+            width: 100%;
            
+        }
+        .area-buy-spin{
+            height: 150px;
         }
         .btn-buy-spin{
             border: 1px solid #fff;
@@ -313,6 +317,21 @@
         .list-dstv{
             list-style: none;
             padding: 0;
+
+        }
+        .area-facebook img, .area-zalo img{
+            width: 100%;
+        }
+        .area-facebook .col-4, .area-zalo .col-4,.area-facebook .col-8, .area-zalo .col-8{
+            padding: 5px;
+        }
+        .area-facebook h5, .area-zalo h5{
+            font-size: 15px;
+            font-weight: 700;
+
+        }
+        .area-facebook span, .area-zalo span{
+            color: lightslategrey;
         }
         .row-dstv{
             padding: 10px 3px;
@@ -400,7 +419,262 @@
         .menu-bottom .active h6{
             color: red;
         }
+        .block-social{
+            background: #163266;
+        }
+        .row-vip{
+            margin: 50px 0px;
+        }
+        .alert-bronze {
+            color: #1b1e21;
+            background-color: #d2af43;
+            border-color: #c6c8ca;
+        }
+        .alert-bronze{
+            -webkit-animation: glowing1 1500ms infinite;
+            -moz-animation: glowing1 1500ms infinite;
+            -o-animation: glowing1 1500ms infinite;
+            animation: glowing1 1500ms infinite;
+        }
+        @-webkit-keyframes glowing1 {
+            0% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            50% { background-color: #d2af43; -webkit-box-shadow: 0 0 10px #d2af43; }
+            100% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            }
+
+            @-moz-keyframes glowing1 {
+                0% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            50% { background-color: #d2af43; -webkit-box-shadow: 0 0 10px #d2af43; }
+            100% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            }
+
+            @-o-keyframes glowing1 {
+                0% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            50% { background-color: #d2af43; -webkit-box-shadow: 0 0 10px #d2af43; }
+            100% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            }
+
+            @keyframes glowing1 {
+                0% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+            50% { background-color: #d2af43; -webkit-box-shadow: 0 0 10px #d2af43; }
+            100% { background-color: #d2af43; -webkit-box-shadow: 0 0 3px #d2af43; }
+        }
+        .alert-secondary{
+            -webkit-animation: glowing2 1500ms infinite;
+            -moz-animation: glowing2 1500ms infinite;
+            -o-animation: glowing2 1500ms infinite;
+            animation: glowing2 1500ms infinite;
+        }
+        @-webkit-keyframes glowing2 {
+            0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 10px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            }
+
+            @-moz-keyframes glowing2 {
+                0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 10px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            }
+
+            @-o-keyframes glowing2 {
+                0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 10px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            }
+
+            @keyframes glowing2 {
+                0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 10px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+        }
+        .alert-secondary{
+            -webkit-animation: glowing2 1500ms infinite;
+            -moz-animation: glowing2 1500ms infinite;
+            -o-animation: glowing2 1500ms infinite;
+            animation: glowing2 1500ms infinite;
+        }
+        @-webkit-keyframes glowing2 {
+            0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 15px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            }
+
+            @-moz-keyframes glowing2 {
+                0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 15px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            }
+
+            @-o-keyframes glowing2 {
+                0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 15px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            }
+
+            @keyframes glowing2 {
+                0% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+            50% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 15px #e2e3e5; }
+            100% { background-color: #e2e3e5; -webkit-box-shadow: 0 0 3px #e2e3e5; }
+        }
+        .alert-gold {
+            color: #1b1e21;
+            background-color: #fff100;
+            border-color: #c6c8ca;
+        }
+        .alert-gold{
+            -webkit-animation: glowing3 1500ms infinite;
+            -moz-animation: glowing3 1500ms infinite;
+            -o-animation: glowing3 1500ms infinite;
+            animation: glowing3 1500ms infinite;
+        }
+        @-webkit-keyframes glowing3 {
+            0% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #fff100; }
+            50% { background-color: #fff100; -webkit-box-shadow: 0 0 20px #fff100; }
+            100% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #fff100; }
+            }
+
+            @-moz-keyframes glowing3 {
+                0% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #fff100; }
+            50% { background-color: #fff100; -webkit-box-shadow: 0 0 20px #fff100; }
+            100% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #fff100; }
+            }
+
+            @-o-keyframes glowing3 {
+                0% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #d2af43; }
+            50% { background-color: #fff100; -webkit-box-shadow: 0 0 20px #d2af43; }
+            100% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #d2af43; }
+            }
+
+            @keyframes glowing3 {
+                0% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #fff100; }
+            50% { background-color: #fff100; -webkit-box-shadow: 0 0 20px #fff100; }
+            100% { background-color: #fff100; -webkit-box-shadow: 0 0 3px #fff100; }
+        }
+        .alert-platium{
+            color: #1b1e21;
+            background-color: #d4ffc2;
+            border-color: #c6c8ca;
+        }
+        .alert-platium{
+            -webkit-animation: glowing4 1500ms infinite;
+            -moz-animation: glowing4 1500ms infinite;
+            -o-animation: glowing4 1500ms infinite;
+            animation: glowing4 1500ms infinite;
+        }
+        @-webkit-keyframes glowing4 {
+            0% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            50% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 25px #d4ffc2; }
+            100% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            }
+
+            @-moz-keyframes glowing4{
+                0% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            50% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 25px #d4ffc2; }
+            100% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            }
+
+            @-o-keyframes glowing4 {
+                0% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            50% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 25px #d4ffc2; }
+            100% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            }
+
+            @keyframes glowing4 {
+                0% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+            50% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 25px #d4ffc2; }
+            100% { background-color: #d4ffc2; -webkit-box-shadow: 0 0 3px #d4ffc2; }
+        }
+        .aler-diamond{
+            color: #1b1e21;
+            background-color: #9bdeff;
+            border-color: #c6c8ca;
+        }
+        .alert-diamond{
+            -webkit-animation: glowing5 1500ms infinite;
+            -moz-animation: glowing5 1500ms infinite;
+            -o-animation: glowing5 1500ms infinite;
+            animation: glowing5 1500ms infinite;
+        }
+        @-webkit-keyframes glowing5 {
+            0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            }
+
+            @-moz-keyframes glowing5{
+                0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            }
+
+            @-o-keyframes glowing5 {
+                0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            }
+
+            @keyframes glowing5 {
+                0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+        }
+        .avatar-vip img{
+            width: 100%;
+        }
+        .content-vip h5{
+            color: #89ff00;
+            font-weight: 700;
+        }
+        .content-vip{
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            background: #00000066;
+        }
+        .vip-price{
+            border: 1px solid lightskyblue;
+            border-radius: 5px;
+            padding: 1px 2px;
+            font-weight: 700;
+            color: #fff;
+            background: #0e1526b4;
+        }
+        .area-title-page h5{
+            padding: 5px; 
+            font-weight: 700;
+            font-size: 15px; 
+        }
+        #form-info label{
+            color: #fff;
+        }
+        .area-history{
+            margin: 30px 0px 0px 0px;
+        }
+        .img-mission img{
+            width: 100%;
+        }
+        .area-mission h5, .area-mission span, .area-mission p{
+            color: black;
+        }
+        h5.mission-price{
+            font-size: 25px;
+            color: darkorange;
+        }
+        h5.mission-name{
+            color: lightslategray;
+        }
+        h5.mission-count{
+            border: 1px solid lightsteelblue;
+            border-radius: 5px;
+            padding: 1px 2px;
+            background: dodgerblue;
+        }
+        .img-mission-detail img{
+            width: 100%;
+        }
     </style>
+    
     <body style="background-color:  #0e1526">
         <header>
                 <div class="container-fluid">

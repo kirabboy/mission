@@ -66,6 +66,8 @@ class AccountController extends Controller
                     DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite, 'role'=>0, 'referal_code' => $referal_code]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
                     DB::table('statistical')->insert(['ofuser'=> $phone]);
+                    DB::table('info_users')->insert(['ofuser'=> $phone]);
+
                 }else{
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
                 }
@@ -73,6 +75,8 @@ class AccountController extends Controller
                 DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
                 DB::table('statistical')->insert(['ofuser'=> $phone]);
+                DB::table('info_users')->insert(['ofuser'=> $phone]);
+
             }
             return redirect('/login');
         }else{
@@ -93,16 +97,66 @@ class AccountController extends Controller
     public function getInfo(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            return view('info_user', ['user' => $user]);
+            $info = DB::table('info_users')->where('ofuser', $user->phone)->first();
+            return view('info_user', ['user' => $user, 'info'=>$info]);
         }else{
             return redirect('/login');
         }
+    }
+
+    public function postEditInfo(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $name = $request->name;
+            $email = $request->email;
+            $facebook = $request->facebook;
+            $zalo = $request->zalo;
+            DB::table('info_users')->update(['name'=>$name, 'email'=>$email, 'facebook'=>$facebook, 'zalo'=>$zalo]);
+            $createhistory = new AccountController();
+            $createhistory->createHistory($user->phone, 'Cập nhật thông tin cá nhân');
+            return back()->with('success','Cập nhật thông tin cá nhân thành công');
+        }else{
+            return redirect('/login');
+        }
+    }
+    public function createHistory($phone, $content){
+        DB::table('history')->insert(['ofuser'=>$phone, 'content'=>$content]);
+        return null;
     }
     
     public function getUpgrate(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            return view('upgrate', ['user' => $user]);
+            $vip = DB::table('role')->get();
+            $role_cur = DB::table('role')->where('ofrole', $user->role)->first();
+            return view('upgrate', ['user' => $user, 'vip' => $vip, 'role_cur' => $role_cur]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function postUpgrateRole(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $role = DB::table('role')->where('ofrole', $request->idrole)->first();
+            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+            if($user->role < $role->ofrole){
+                if($role != null){
+                    if($wallet->balance - $role->role_price >=   0){
+                        DB::table('users')->where('phone', $user->phone)->update('role', $role->ofrole);
+                        DB::table('wallet')->where('wallet', $user->phone)->update('balance', $wallet->balance - $role->role_price);
+                        $createhistory = new AccountController();
+                        $createhistory->createHistory($user->phone, 'Nâng cấp tài khoản lên '.$role->name);
+                        return back()->with('success', 'Bạn đã nâng cấp thành công tài khoản lên '.$role->name);
+                    }else{
+                        return back()->with('error', 'Số dư không đủ để nâng cấp');
+                    }
+                }else{
+                    return back()->with('error', 'Gói vip không tồn tại');
+                }
+            }else{
+                return back()->with('error', 'Cấp hiện tại của bạn cao hơn');
+            }
         }else{
             return redirect('/login');
         }
@@ -111,11 +165,13 @@ class AccountController extends Controller
     public function getHistory(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            return view('history', ['user' => $user]);
+            $histories = DB::table('history')->where('ofuser', $user->phone)->paginate(5);
+            return view('history', ['user' => $user, 'histories'=>$histories]);
         }else{
             return redirect('/login');
         }
     }
+
 
     public function logout(){
         Auth::guard('users')->logout();

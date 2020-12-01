@@ -4,9 +4,9 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12">
-					<div class="area-img-login">
-						<img src="{{asset('/resources/image/mmo.jpg')}}"/>
-					</div>
+					<div class="block area-title-page">
+						<h5>Giới thiệu bạn bè</h5>
+					</div>		
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">

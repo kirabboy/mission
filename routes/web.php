@@ -40,3 +40,11 @@ Route::get('/history', [AccountController::class, 'getHistory']);
 Route::get('/earn-money', [HomeController::class, 'getEarnMoney']);
 
 Route::get('/helpcenter', [HomeController::class, 'getHelpCenter']);
+
+Route::post('/post-editinfo', [AccountController::class, 'postEditInfo']);
+
+Route::get('/upgrate-role/{idrole}', [AccountController::class, 'postUpgrateRole']);
+
+Route::get('/mission-detail/{idmission}', [HomeController::class, 'getMissionDetail']);
+
+Route::get('/take-mission/{idmission}',[HomeController::class, 'takeMission']);
