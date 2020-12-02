@@ -47,7 +47,7 @@
                             <div class="col-12">
                                 <div class="area-balance block">
                                     <div class="alert balance-alert alert-info text-center" role="alert">
-                                        <h4>Số dư ví: <span>{{$wallet->balance}}</span> tiền vàng</h4>
+                                        <h4>Số dư ví: <span>{{$wallet->balance}}</span> vnđ</h4>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                         Số dư cá nhân
                                     </p>
                                     <p class="amount-price">
-                                        {{$wallet->balance}}
+                                        {{$wallet->balance}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                         Nhiệm vụ hôm nay
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->today_mission_amount}}
+                                        {{$statistical->today_mission_amount}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                         Hoa hồng nhận được
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->total_referal}}
+                                        {{$statistical->total_referal}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                         Tổng doanh thu hôm nay
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->today_total}}
+                                        {{$statistical->today_total}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                         Tổng doanh thu tháng
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->month_total}}
+                                        {{$statistical->month_total}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                         Tổng doanh thu
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->total}}
+                                        {{$statistical->total}} vnđ
                                     </p> 
                                 </div>
                             </div>

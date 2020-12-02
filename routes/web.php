@@ -48,3 +48,7 @@ Route::get('/upgrate-role/{idrole}', [AccountController::class, 'postUpgrateRole
 Route::get('/mission-detail/{idmission}', [HomeController::class, 'getMissionDetail']);
 
 Route::get('/take-mission/{idmission}',[HomeController::class, 'takeMission']);
+
+Route::post('/uploadimgmission', [HomeController::class, 'uploadImgMission']);
+
+Route::get('/donemission/{idmission}', [HomeController::class, 'doneMission']);

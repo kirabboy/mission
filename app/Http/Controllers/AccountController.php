@@ -22,6 +22,9 @@ class AccountController extends Controller
 
     public function getLogin(){
         if (Auth::guard('users')->check()){
+            $user = Auth::guard('users')->user();
+        
+           
             return redirect('/');
         }else{
             return view('login');
@@ -32,6 +35,12 @@ class AccountController extends Controller
         $phone = $request->input('phone');
         $password = $request->input('password');
         if (Auth::guard('users')->attempt(['phone' => $phone, 'password' => $password])) {
+            $date =date("Y-m-d");
+            $statistical = DB::table('statistical')->where('ofuser', $phone)->first();
+            if(strtotime($date) != strtotime($statistical->today)){
+                
+                DB::table('statistical')->where('ofuser', $phone)->update(['today'=>$date, 'today_total'=>0, 'today_mission_amount'=>0,'today_count_mission'=>0 ]);
+            }
             return redirect('/my-account');
         }else{
             return back()->with('error', 'Sai số điện thoại hoặc mật khẩu');
@@ -166,7 +175,50 @@ class AccountController extends Controller
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
             $histories = DB::table('history')->where('ofuser', $user->phone)->paginate(5);
-            return view('history', ['user' => $user, 'histories'=>$histories]);
+            $missions = DB::table('taking_mission')->where('id_user', $user->id)->where('status', 3)->get();
+
+            $arr_mission_done=$arr_mission_pending=$arr_mission_new=$arr_mission_cancel = array();
+            foreach($missions as $val){
+                $mission = DB::table('missions')->where('id', $val->id_mission)->first();
+                if($val->status == 3){
+                    array_push( $arr_mission_done, $mission);
+                }elseif($val->status == 2){
+                    array_push($arr_mission_pending, $mission);
+                }elseif($val->status == 1){
+                    array_push($arr_mission_cancel, $mission);
+                }elseif($val->status == 0){
+                    array_push($arr_mission_new, $mission);
+                }
+            }
+            for($i=0; $i<count($arr_mission_done)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_done)-1; $j++){
+                    if($arr_mission_done[$i]->id == $arr_mission_done[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+            for($i=0; $i<count($arr_mission_pending)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_pending)-1; $j++){
+                    if($arr_mission_pending[$i]->id == $arr_mission_pending[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+            for($i=0; $i<count($arr_mission_cancel)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_cancel)-1; $j++){
+                    if($arr_mission_cancel[$i]->id == $arr_mission_cancel[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+            for($i=0; $i<count($arr_mission_new)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_new)-1; $j++){
+                    if($arr_mission_new[$i]->id == $arr_mission_new[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+            return view('history', ['user' => $user, 'histories'=>$histories, 'mission_done'=>$arr_mission_done,'mission_cancel'=>$arr_mission_cancel,'mission_new'=>$arr_mission_new,'mission_pending'=>$arr_mission_pending ]);
         }else{
             return redirect('/login');
         }

@@ -20,6 +20,9 @@
 				</div>
 			</div>
 			<div class="row-vip">
+				<div class="block area-title-page text-center">
+					<h5>Cấp độ hiện tại của bạn</h5>
+				</div>
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
@@ -30,9 +33,9 @@
 											<h5 class="vip-price">Cấp độ hiện tại</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$role_cur->name}} <span class="vip-price">{{$role_cur->role_price}}</span></h5>
+										<h5>{{$role_cur->name}} <span class="vip-price">{{number_format($role_cur->role_price,0,',','.')}} vnđ</span></h5>
 										<span>Số nhiệm vụ tối đa <b>{{$role_cur->max_mission}}</b></span><br />
-										<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{$role_cur->max_price}}</b><br />
+										<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($role_cur->max_price,0,',','.')}} vnđ</b><br />
 										<span>{{$role_cur->description}}</span><br />
 										<span>Thời hạn <b>{{$role_cur->time}}</b></span>
 									</div>
@@ -40,6 +43,9 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="block area-title-page text-center">
+					<h5>Cấp độ của hệ thống</h5>
 				</div>
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
@@ -51,9 +57,9 @@
 										<h5 class="vip-price">Nâng cấp</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$vip[0]->name}} <span class="vip-price">{{$vip[0]->role_price}}</span></h5>
+										<h5>{{$vip[0]->name}} <span class="vip-price">{{number_format($vip[0]->role_price,0,',','.')}} vnđ</span></h5>
 										<span>Số nhiệm vụ tối đa <b>{{$vip[0]->max_mission}}</b></span><br />
-										<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{$vip[0]->max_price}}</b><br />
+										<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($vip[0]->max_price,0,',','.')}} vnđ</b><br />
 										<span>{{$vip[0]->description}}</span><br />
 										<span>Thời hạn <b>@if($vip[0]->time == 999) vĩnh viễn @else {{$vip[0]->time}} ngày @endif</b></span>
 									</div>
@@ -72,9 +78,9 @@
 										<h5 class="vip-price">Nâng cấp</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$vip[1]->name}} <span class="vip-price">{{$vip[1]->role_price}}</h5>
+										<h5>{{$vip[1]->name}} <span class="vip-price">{{number_format($vip[1]->role_price,0,',','.')}} vnđ</h5>
 											<span>Số nhiệm vụ tối đa <b>{{$vip[1]->max_mission}}</b></span><br />
-											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{$vip[1]->max_price}}</b><br />
+											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($vip[1]->max_price,0,',','.')}} vnđ</b><br />
 											<span>{{$vip[1]->description}}</span><br />
 											<span>Thời hạn <b>@if($vip[1]->time == 999) vĩnh viễn @else {{$vip[2]->time}} ngày @endif</b></span>
 									</div>
@@ -93,9 +99,9 @@
 										<h5 class="vip-price">Nâng cấp</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$vip[2]->name}} <span class="vip-price">{{$vip[2]->role_price}}</h5>
+										<h5>{{$vip[2]->name}} <span class="vip-price">{{number_format($vip[2]->role_price,0,',','.')}} vnđ</h5>
 											<span>Số nhiệm vụ tối đa <b>{{$vip[2]->max_mission}}</b></span><br />
-											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{$vip[2]->max_price}}</b><br />
+											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($vip[2]->max_price,0,',','.')}} vnđ</b><br />
 											<span>{{$vip[2]->description}}</span><br />
 											<span>Thời hạn <b>@if($vip[2]->time == 999) vĩnh viễn @else {{$vip[2]->time}} ngày @endif</b></span>
 									</div>
@@ -114,9 +120,9 @@
 										<h5 class="vip-price">Nâng cấp</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$vip[3]->name}} <span class="vip-price">{{$vip[3]->role_price}}</h5>
+										<h5>{{$vip[3]->name}} <span class="vip-price">{{number_format($vip[3]->role_price,0,',','.')}} vnđ</h5>
 											<span>Số nhiệm vụ tối đa <b>{{$vip[3]->max_mission}}</b></span><br />
-											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{$vip[3]->max_price}}</b><br />
+											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($vip[3]->max_price,0,',','.')}} vnđ</b><br />
 											<span>{{$vip[3]->description}}</span><br />
 											<span>Thời hạn <b>@if($vip[3]->time == 999) vĩnh viễn @else {{$vip[3]->time}} ngày @endif</b></span>
 									</div>
@@ -135,9 +141,9 @@
 										<h5 class="vip-price">Nâng cấp</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$vip[4]->name}} <span class="vip-price">{{$vip[4]->role_price}}</h5>
+										<h5>{{$vip[4]->name}} <span class="vip-price">{{number_format($vip[4]->role_price,0,',','.')}} vnđ</h5>
 											<span>Số nhiệm vụ tối đa <b>{{$vip[4]->max_mission}}</b></span><br />
-											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{$vip[4]->max_price}}</b><br />
+											<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($vip[4]->max_price,0,',','.')}} vnđ</b><br />
 											<span>{{$vip[4]->description}}</span><br />
 											<span>Thời hạn <b>@if($vip[4]->time == 999) vĩnh viễn @else {{$vip[4]->time}} ngày @endif</b></span>
 									</div>
@@ -185,8 +191,7 @@
 				</div>
 				<script>
 					function getidrole(idrole){
-						var link = "http://localhost:8888/mission/upgrate-role/"+idrole;
-						alert(link);
+						var link = "http://demo12.mevivu.com/mission/upgrate-role/"+idrole;
 						$('#upgrate-role').attr('href', link);
 					}
 				</script>

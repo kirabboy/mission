@@ -26,8 +26,12 @@
 							<h5>Tên: {{$mission->name}}</h5>
 						</div>
 						<div class="form-group">
-							<h5>Tiền nhận được: {{$mission->name}}</h5>
+							<h5>Tiền nhận được: {{$mission->price}} vnđ</h5>
 						</div>
+						<div class="form-group">
+							<h5>Link: <a class="btn btn-primary" href="{{$mission->link}}"> Ấn vào</a></h5>
+						</div>
+						<h5>
 						<div class="form-group">
 							<h5>Số lượt còn lại: {{$mission->count}}</h5>
 						</div>
@@ -43,29 +47,55 @@
 								<img src="{{asset('/resources/image/'.$mission->example)}}"/>
 							</p>
 						</div>
-						@if($checkMission->status == 0 )
-							<div class="form-group img-mission-detail">
-								<h5>Up kết quả của bạn lên đây: </h5>
-								<input type="hidden" class=
-								<p>
-									<input class="form-control" type="file" name="result" />
-								</p>
+						
+							<div class="form-group img-mission-detail text-center">
+								@if($checkMission != null && $checkMission->status != 1)
+								<h5>Up ảnh chụp màn hình của bạn lên đây: </h5>
+									@if($checkMission->result != null && $checkMission->status != 1 )
+										<div class="img-result">
+											<img src="{{asset('/resources/image/'.$checkMission->result)}}"/>
+										</div>
+									@endif
+								@endif
+								@if($checkMission != null)
+									@if($checkMission->status == 0 )
+									<p>
+										<form action="{{URL::to("/uploadimgmission")}}" method="POST" enctype="multipart/form-data" required>
+											{{ csrf_field() }}
+											<input type="hidden" name="idmission" value="{{$mission->id}}"/>
+											<input  class="form-control" type="file" name="result" multiple/>
+											<button id="upimg" class="btn btn-info" type="submit">
+												@if($checkMission->result != null)
+												Đổi ảnh	
+												@else
+												Đăng ảnh
+												@endif
+											</button>
+										</form>
+									</p>
+									@endif
+								@endif
 							</div>
-						@endif
-						<div class="form-group">
-							<h5>Nhận nhiệm vụ: </h5>
+							@if($checkMission != null)
+								@if($checkMission->result != null && $checkMission->status == 0)
+									<div class="form-group text-center">
+										<a class="btn btn-success" href="{{URL::to('/donemission/'.$mission->id)}}">Xác nhận</a>
+									</div>
+								@endif
+							@endif
+						
+						<div class="form-group text-center">
+							<h5>Thao tác nhiệm vụ: </h5>
 							<p class="text-center">
 								@if($checkMission != null)
 									@if($checkMission->status == 2 )
-										<a class="btn btn-success">Hoàn thành</a>
+										<a class="btn btn-success">Đã xong</a>
 									@elseif($checkMission->status == 0 )
 										<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-danger">
 											Huỷ
 										</a>
-									@else
-										<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-primary">
-											Nhận
-										</a>
+									@elseif($checkMission->status == 1)
+										<a class="btn btn-danger">Đã huỷ</a>
 									@endif
 								@else
 									<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-primary">
