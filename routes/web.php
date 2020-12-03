@@ -52,3 +52,7 @@ Route::get('/take-mission/{idmission}',[HomeController::class, 'takeMission']);
 Route::post('/uploadimgmission', [HomeController::class, 'uploadImgMission']);
 
 Route::get('/donemission/{idmission}', [HomeController::class, 'doneMission']);
+
+Route::get('/spin', function(){
+    return view('spin.spin');
+});
