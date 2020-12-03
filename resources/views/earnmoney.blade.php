@@ -14,15 +14,15 @@
 					<div class="area-mission">
 						<div class="group-tabs tab-earn">
 							<!-- Nav tabs -->
-							<ul class="nav nav-tabs col" role="tablist">
-							  <li role="presentation" class="active "><a href="#facebook" aria-controls="home" role="tab" data-toggle="tab">Facebook</a></li>
-							  <li role="presentation"><a class="" href="#youtube" aria-controls="profile" role="tab" data-toggle="tab">Youtube</a></li>
-							  <li role="presentation"><a class="" href="#zalo" aria-controls="messages" role="tab" data-toggle="tab">Zalo</a></li>
+							<ul class="nav nav-tabs">
+							  <li class="active"><a href="#facebook" data-toggle="tab">Facebook</a></li>
+							  <li><a class="" href="#youtube" data-toggle="tab">Youtube</a></li>
+							  <li><a class="" href="#zalo" data-toggle="tab">Zalo</a></li>
 							</ul>
 					  
 							<!-- Tab panes -->
-							<div class="tab-content">
-							  <div role="tabpanel" class="tab-pane active" id="facebook">
+							<div class="tab-content clearfix">
+								<div  class="tab-pane fade in active" id="facebook">
 								@foreach($mission_f as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
@@ -43,7 +43,7 @@
 									</div>
 								@endforeach
 								</div>
-							  <div role="tabpanel" class="tab-pane" id="youtube">
+							  <div  class="tab-pane fade" id="youtube">
 								@foreach($mission_y as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
@@ -64,7 +64,7 @@
 									</div>
 								@endforeach
 							  </div>
-							  <div role="tabpanel" class="tab-pane" id="zalo">
+							  <div  class="tab-pane fade" id="zalo">
 								@foreach($mission_z as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">

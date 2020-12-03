@@ -26,7 +26,7 @@
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
-							<div class="alert alert-success" role="alert">
+							<div class="alert alert-dark" role="alert">
 								<div class="row no-gutter">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>

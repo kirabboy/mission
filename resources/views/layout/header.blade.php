@@ -655,7 +655,7 @@
         }
         .tab-history li a{
             padding: 10px 2px;
-            font-size: 13px;
+            font-size: 11px;
              color: #fff;
         }
         .tab-earn li{

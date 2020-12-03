@@ -15,17 +15,16 @@
 						<div class="group-tabs tab-history">
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-							  <li role="presentation" class="active"><a href="#overview" aria-controls="" role="tab" data-toggle="tab">Tổng quan</a></li>
-							  <li role="presentation"><a href="#missiondone" aria-controls="" role="tab" data-toggle="tab"> Đã xong</a></li>
-							  <li role="presentation"><a href="#missionpending" aria-controls="" role="tab" data-toggle="tab"> Đang duyệt</a></li>
-
-							  <li role="presentation"><a href="#missionnew" aria-controls="" role="tab" data-toggle="tab">Đang làm</a></li>
-							  <li role="presentation"><a href="#missioncancel" aria-controls="" role="tab" data-toggle="tab">Đã huỷ</a></li>
+							  <li class="active"><a href="#overview" data-toggle="tab">Tổng quan</a></li>
+							  <li><a href="#missiondone" data-toggle="tab"> Đã xong</a></li>
+							  <li><a href="#missionpending" data-toggle="tab"> Đang duyệt</a></li>
+							  <li><a href="#missionnew" data-toggle="tab">Đang làm</a></li>
+							  <li><a href="#missioncancel" data-toggle="tab">Đã huỷ</a></li>
 							</ul>
 					  
 							<!-- Tab panes -->
-							<div class="tab-content">
-							  <div role="tabpanel" class="tab-pane active" id="overview">
+							<div class="tab-content clearfix">
+							  <div class="tab-pane fade in active" id="overview">
 									<div class="container">
 										@foreach ($histories as $history)
 											<div class="alert alert-info" role="alert">
@@ -33,9 +32,11 @@
 											</div>
 										@endforeach
 									</div>
-									{{ $histories->links() }}
+									<div class="text-center">
+										{{ $histories->links() }}
+									</div>
 								</div>
-							  <div role="tabpanel" class="tab-pane" id="missiondone">
+							  <div class="tab-pane fade" id="missiondone">
 								@foreach($mission_done as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
@@ -56,7 +57,7 @@
 									</div>
 								@endforeach
 							  </div>
-							  <div role="tabpanel" class="tab-pane" id="missionpending">
+							  <div class="tab-pane fade" id="missionpending">
 								@foreach($mission_pending as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
@@ -77,7 +78,7 @@
 									</div>
 								@endforeach
 							  </div>
-							  <div role="tabpanel" class="tab-pane" id="missioncancel">
+							  <div class="tab-pane fade" id="missioncancel">
 								@foreach($mission_cancel as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
@@ -98,7 +99,7 @@
 									</div>
 								@endforeach
 							  </div>
-							  <div role="tabpanel" class="tab-pane" id="missionnew">
+							  <div class="tab-pane fade" id="missionnew">
 								@foreach($mission_new as $value)
 									<div class="alert alert-dark" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
