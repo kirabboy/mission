@@ -35,12 +35,24 @@ class AccountController extends Controller
         $phone = $request->input('phone');
         $password = $request->input('password');
         if (Auth::guard('users')->attempt(['phone' => $phone, 'password' => $password])) {
+            $user = Auth::guard('users')->user();
             $date =date("Y-m-d");
             $statistical = DB::table('statistical')->where('ofuser', $phone)->first();
+            $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
             if(strtotime($date) != strtotime($statistical->today)){
                 
                 DB::table('statistical')->where('ofuser', $phone)->update(['today'=>$date, 'today_total'=>0, 'today_mission_amount'=>0,'today_count_mission'=>0 ]);
             }
+            foreach($taking_missions as $taking_mission){
+
+                if(strtotime($date) != strtotime($taking_mission->today)){
+                    DB::table('taking_mission')->where('id', $taking_mission->id)->update(['status_day'=>1 ]);
+                    if($taking_mission->status == 0){
+                        DB::table('taking_mission')->where('id', $taking_mission->id)->update(['status'=>1 ]);
+                    }
+                }
+            }
+           
             return redirect('/my-account');
         }else{
             return back()->with('error', 'Sai số điện thoại hoặc mật khẩu');
@@ -174,11 +186,11 @@ class AccountController extends Controller
     public function getHistory(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            $histories = DB::table('history')->where('ofuser', $user->phone)->paginate(5);
-            $missions = DB::table('taking_mission')->where('id_user', $user->id)->where('status', 3)->get();
+            $histories = DB::table('history')->where('ofuser', $user->phone) ->orderBy('id', 'desc')->paginate(5);
+            $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
 
             $arr_mission_done=$arr_mission_pending=$arr_mission_new=$arr_mission_cancel = array();
-            foreach($missions as $val){
+            foreach($taking_missions as $val){
                 $mission = DB::table('missions')->where('id', $val->id_mission)->first();
                 if($val->status == 3){
                     array_push( $arr_mission_done, $mission);

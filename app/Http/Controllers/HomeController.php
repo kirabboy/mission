@@ -25,8 +25,7 @@ class HomeController extends Controller
     public function getEarnMoney(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            $checkMissionDones = DB::table('taking_mission')->where('id_user', $user->id)->where('status',3)->get();
-            $checkMissionDones1 = DB::table('taking_mission')->where('id_user', $user->id)->where('status',1)->where('status_day',1)->get();
+            $checkMissionDones = DB::table('taking_mission')->where('id_user', $user->id)->where('status_day',1)->get();
 
             $missions = DB::table('missions')->where('ofrole', $user->role)->get();
             $mission_avai_f = array();
@@ -34,7 +33,7 @@ class HomeController extends Controller
             $mission_avai_z = array();
             $role = DB::table('role')->where('ofrole', $user->role)->first();
             $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first(); 
-            if($role->ofrole == 0){
+            if($user->role == 0){
                 $num_f = $role->max_mission;
                 $num_y = 0;
                 $num_z = 0;
@@ -45,30 +44,52 @@ class HomeController extends Controller
                 $num_z = intval($role->max_mission *1/5);
 
             }
-           
-            foreach($missions as $mission){
-                foreach($checkMissionDones as $checkMissionDone){
-                    $check = true;
-                    if($mission->id == $checkMissionDone->id_mission){
-                        $check = false;
-                        break;
-                    }
-                    if($check || $mission->type == 1 ){
+            if(count($checkMissionDones) == 0){
+                foreach($missions as $mission){
+                  
+                    if($mission->type == 1 ){
                         if(count($mission_avai_f) < $num_f){
                             array_push($mission_avai_f, $mission);
                         }
                     }
-                    if($check || $mission->type == 2 ){
+                    if( $mission->type == 2 ){
                         if(count($mission_avai_y) < $num_y){
                             array_push($mission_avai_y, $mission);
                         }
                     }
-                    if($check || $mission->type == 3 ){
+                    if($mission->type == 3 ){
                         if(count($mission_avai_z) < $num_z){
                             array_push($mission_avai_z, $mission);
                         }
                     }
+                        
                     
+                }
+            }else{
+                foreach($missions as $mission){
+                    foreach($checkMissionDones as $checkMissionDone){
+                        $check = true;
+                        if($mission->id == $checkMissionDone->id_mission){
+                            $check = false;
+                            break;
+                        }
+                        if($check || $mission->type == 1 ){
+                            if(count($mission_avai_f) < $num_f){
+                                array_push($mission_avai_f, $mission);
+                            }
+                        }
+                        if($check || $mission->type == 2 ){
+                            if(count($mission_avai_y) < $num_y){
+                                array_push($mission_avai_y, $mission);
+                            }
+                        }
+                        if($check || $mission->type == 3 ){
+                            if(count($mission_avai_z) < $num_z){
+                                array_push($mission_avai_z, $mission);
+                            }
+                        }
+                        
+                    }
                 }
 
                 
@@ -94,9 +115,9 @@ class HomeController extends Controller
         if (Auth::guard('users')->check()){
             $user = Auth::guard('users')->user();
             $date =date("Y/m/d");
-            $checkMission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->orderBy('id', 'desc')->first();
+            $checkMission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->first();
             if($checkMission == null || $checkMission->status != 0 ){ 
-                DB::table('taking_mission')->insert(['id_mission'=>$request->idmission, 'id_user'=>$user->id, 'today'=>$date, 'status' => 0 ]);
+                DB::table('taking_mission')->insert(['id_mission'=>$request->idmission, 'id_user'=>$user->id, 'today'=>$date, 'status' => 0, 'status_day' => 0 ]);
                 return back()->with('success','Nhận nhiệm vụ thành công');
             }else{
                 DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->update(['status' => 1]);
@@ -122,7 +143,7 @@ class HomeController extends Controller
         $checkMission = DB::table('taking_mission')->where('id_mission', $request->idmission)->orderBy('id', 'desc')->first();
         $mission = DB::table('missions')->where('id', $request->idmission)->first();
         if($checkMission->result != null && $checkMission->status ==0 ){
-            DB::table('taking_mission')->where('id', $checkMission->id)->update(['status' => 3]);
+            DB::table('taking_mission')->where('id', $checkMission->id)->update(['status' => 2]);
             $createhistory = new AccountController();
             $createhistory->createHistory($user->phone, 'Bạn đã đã xác nhận hoàn thành nhiệm vụ "'.$mission->name.'"');
             return back()->with('success', 'Bạn đã xác nhận hoàn thành nhiệm vụ');

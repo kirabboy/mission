@@ -60,10 +60,10 @@
 								@if($checkMission != null)
 									@if($checkMission->status == 0 )
 									<p>
-										<form action="{{URL::to("/uploadimgmission")}}" method="POST" enctype="multipart/form-data" required>
+										<form action="{{URL::to("/uploadimgmission")}}" method="POST" enctype="multipart/form-data" >
 											{{ csrf_field() }}
 											<input type="hidden" name="idmission" value="{{$mission->id}}"/>
-											<input  class="form-control" type="file" name="result" multiple/>
+											<input  class="form-control" type="file" name="result" multiple required/>
 											<button id="upimg" class="btn btn-info" type="submit">
 												@if($checkMission->result != null)
 												Đổi ảnh	
