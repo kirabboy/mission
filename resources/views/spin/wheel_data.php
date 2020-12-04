@@ -7,55 +7,20 @@ $data = array(
 "segmentValuesArray" => array( 
 
 	array(
-    "probability" => 20,
+    "probability" => 100,
     "type" => "string",
     "value" => "HOLIDAY^FOR TWO",
     "win" => false,
-    "resultText" => "YOU WON A HOLIDAY!",
+    "resultText" => "Quốc Thịnh",
     "userData" => array("score" => 10)
-),
+),  
+
 	array(
-    "probability" => 25,
-    "type" => "image",
-    "value" => "media/tip_star.svg",
-    "win" => true,
-    "resultText" => "A STAR!",
-    "userData" => array("score" => 20)
-)
-,
-	array(
-    "probability" => 120,
-    "type" => "image",
-    "value" => "media/tip_sqr.svg",
-    "win" => true,
-    "resultText" => "A SQUARE!",
-    "userData" => array("score" => 3000)
-)
-,
-	array(
-    "probability" => 20,
-    "type" => "image",
-    "value" => "media/tip_oct.svg",
-    "win" => false,
-    "resultText" => "An OCTOGON!",
-    "userData" => array("score" => 40)
-)
-,
-	array(
-    "probability" => 20,
-    "type" => "image",
-    "value" => "media/tip_hex.svg",
-    "win" => true,
-    "resultText" => "A HEXAGON!",
-    "userData" => array("score" => 50)
-)
-,
-	array(
-    "probability" => 14,
+    "probability" => 0,
     "type" => "image",
     "value" => "media/tip_triangle.svg",
     "win" => true,
-    "resultText" => "A TRIANGLE!",
+    "resultText" => "Quốc Thịnh dog",
     "userData" => array("score" => 60)
 )
 ),

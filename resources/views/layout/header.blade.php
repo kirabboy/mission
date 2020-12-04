@@ -5,13 +5,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
          <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <link href='https://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
         <!-- Bootstrap CSS -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <!-- jQuery 1.8 or later, 33 KB -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>        <link rel="styleshee" href="{{URL::to('/resources/css/app.css')}}" />
         <script src='https://kit.fontawesome.com/a076d05399.js'></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -19,11 +19,13 @@
         <link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{{URL::to('resources/views/spin/css/style.css')}}">
 
         <title>Like</title>
     </head>
     <style>
+        .row-spin .alert-dark h5{
+            color: #000;
+        }
         .menu-bottom .col-2 img{
             height: 25px;
             width: 25px;
@@ -96,7 +98,7 @@
             border-radius: 5px 5px 5px 5px;
         }
         .gif-spin img{
-            width: 25%;
+            width: 100%;
         }
         .spin-notice-name{
             font-size: 9px;
@@ -640,6 +642,10 @@
         .img-mission-detail img{
             width: 100%;
         }
+        .area-spin img{
+            height: 50px;
+            width: 50px;
+        }
         h5.mission-count{
             border: 1px solid lightsteelblue;
             border-radius: 5px;
@@ -666,6 +672,9 @@
             padding: 10px 5px;
             font-size: 13px;
              color: #fff;
+        }
+        .gif-buy-spin img{
+            width: 100%;
         }
     </style>
     

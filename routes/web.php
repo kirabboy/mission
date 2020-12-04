@@ -53,6 +53,16 @@ Route::post('/uploadimgmission', [HomeController::class, 'uploadImgMission']);
 
 Route::get('/donemission/{idmission}', [HomeController::class, 'doneMission']);
 
-Route::get('/spin', function(){
-    return view('spin.spin');
-});
+Route::get('/getJson', [HomeController::class, 'settingJson']);
+
+Route::get('/spin', [HomeController::class,'getSpin']);
+
+Route::get('/buy-spin', [HomeController::class,'getBuySpin']);
+
+Route::post('/buy-spin', [HomeController::class,'postBuySpin']);
+
+Route::get('/postspin', [HomeController::class, 'postSpin']);
+
+Route::get('/spin-history', [HomeController::class, 'getSpinHistory']);
+
+Route::get('/recei-spin/{id}', [HomeController::class, 'receiSpin']);

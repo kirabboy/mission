@@ -1,5 +1,7 @@
 @extends('layout.master')
 @section('content')
+<link rel="stylesheet" href="{{URL::to('resources/views/spin/css/style.css')}}">
+
 <div class="row no-gutters">
   <div class="col-12 text-center">
     <div class="block area-title-page">
@@ -7,7 +9,9 @@
     </div>			
   </div>
 </div>
-    
+<div class="alert alert-warning text-center" role="alert">
+<b style="color: #000">Số lượt còn lại: <span style="color: red" id="count-spin">{{$spin_ofuser->count}}</span></b>
+</div>
       <div class="wheelContainer">
         <svg class="wheelSVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" text-rendering="optimizeSpeed">
       <defs>
@@ -38,6 +42,7 @@
         <div class="toast">
         </p>
         </div>
+      </div>
         <script>
           function Spin2WinWheel() {
 
@@ -640,11 +645,11 @@
             showResult = function(e) {
               
               updateWheelBounds();
-              
+
               var resultObj;
               //if it's an error 
               if (e == "invalidSpin") {
-
+                
                 TweenMax.set(wheel, {
                     rotation: spinDestinationArray[spinCount]
                   })
@@ -668,7 +673,7 @@
 
                 showToast(resultStr2);
                 //create a result object 
-                resultObj = {target:thisWheel, type:'result', spinCount:spinCount, win:segmentValuesArray[e].win, msg:segmentValuesArray[e].resultText, gameId:gameId};
+                resultObj = {target:thisWheel, type:'result', spinCount:spinCount, win:segmentValuesArray[e].win,resultText:segmentValuesArray[e].resultText, msg:segmentValuesArray[e].resultText, gameId:gameId};
                 
                 //fire the result event
                 onResult(resultObj);
@@ -795,7 +800,7 @@
           function loadJSON(callback) {
             var xobj = new XMLHttpRequest();
             xobj.overrideMimeType("application/json");
-            xobj.open('GET', '{{URL::to("/resources/views/spin/wheel_data.php")}}', true); 
+            xobj.open('GET', '{{URL::to("/getJson")}}', true); 
             xobj.onreadystatechange = function() {
               if (xobj.readyState == 4 && xobj.status == "200") {
                 //Call the anonymous function (callback) passing in the response
@@ -807,8 +812,72 @@
             
             //your own function to capture the spin results
             function myResult(e) {
-            //e is the result object
-              console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg);
+              
+              console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg + e.resultText );
+              // if you have defined a userData object...
+              var type, value;
+              switch (e.resultText) {
+                case "Chúc mừng bạn đã trúng 1 iphone 12 pro":
+                  type = 1;
+                  value = 1;
+                  break;
+                case "Chúc bạn mừng bạn đã trúng 1 Tivi 50inch":
+                  type = 1;
+                  value = 2;
+                  break;
+                case "Chúc mừng bạn đã trúng 1 samsung a71":
+                  type = 1;
+                  value = 3;
+                  break;
+                case "Chúc bạn mừng bạn đã trúng 1 đôi Gucci":
+                  type = 1;
+                  value = 4;
+                  break;
+                case "Chúc mừng bạn đã trúng 5 chỉ vàng 9999":
+                  type = 1;
+                  value = 5;
+                  break;
+                case "Chúc bạn may mắn lần sau":
+                  type = 0;
+                  value = 0;
+                  break;
+                case "Chúc bạn mừng bạn đã trúng 20.000 VNĐ":
+                  type = 2;
+                  value = 20000;
+                  break;
+                case "Chúc bạn mừng bạn đã trúng 100.000 VNĐ":
+                  type = 2;
+                  value = 100000;  
+                  break;
+                case "Chúc bạn mừng bạn đã trúng 1.000.000 VNĐ":
+                  type = 2;
+                  value = 1000000;
+                  break;
+                case "Chúc bạn mừng bạn đã trúng 50.000.000 VNĐ":
+                  type = 2  ;
+                  value = 50000000;
+                  break;
+              }
+                $.ajax({
+                  type: "get",
+                  url: "{{URL::to('/postspin')}}",
+                  data: {type: type, value: value}, 
+                  error: function(reponses){
+                    console.log(reponses);
+                    console.log('false');
+                  },// serializes the form's elements.
+                  success: function(reponses)
+                  {
+                      $('#count-spin').text($('#count-spin').text()-1);
+                      console.log(reponses); // show response from the php script.
+                  }
+                });
+              
+             
+
+              console.log(type +' '+ value)
+                
+
             if(e.spinCount == 3){
               //show the game progress when the spinCount is 3
               console.log(e.target.getGameProgress());
@@ -851,7 +920,7 @@
             //And finally call it
             init();
         </script>
-        
+
       
 @endsection
 

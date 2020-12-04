@@ -57,14 +57,9 @@
             </div>
             <div class="col-6">
                 <div class="area-btn-spin text-center block">
-                    <div class="title spin-title text-center">
-                        <h6>Vòng quay triệu phú</h6>
-                    </div>
+                   
                     <div class="gif-spin">
-                        <img src="{{asset('/resources/image/spin.gif')}}"/>
-                    </div>
-                    <div class="btn-area text-center">
-                        <button class="btnc btn-spin"> Quay ngay</button>
+                        <img onclick="location.href='{{URL::to('/spin')}}'" src="{{asset('/resources/image/spin-wheel.gif')}}"/>
                     </div>
                 </div>
             </div>
@@ -94,11 +89,11 @@
 				<div class="area-zalo block block-social">
 					<div class="row no-gutters">
 						<div class="col-4">
-							<img src="{{asset("/resources/image/zalo.png")}}"/>
+							<img src="{{asset("/resources/image/youtube.png")}}"/>
 						</div>
 						<div class="col-8">
-							<h5>Zalo</h5>
-							<span>Kết bạn đễ liên lạc</span>
+							<h5>Youtube</h5>
+							<span>Xem video để nhận thưởng</span>
 						</div>
 					</div>
 				</div>
@@ -111,7 +106,7 @@
 						</div>
 						<div class="col-8">
 							<h5>Facebook</h5>
-							<span>Theo dõi</span>
+							<span>Yêu thích hoặc theo dõi</span>
 						</div>
 					</div>
 				</div>
@@ -124,7 +119,7 @@
                         <h6>Mua lượt quay</h6>
                     </div>
                     <div class="gif-buy-spin">
-                        <img src="{{asset("/resources/image/slotmac.gif")}}"/>
+                        <img onclick="location.href='{{URL::to('/buy-spin')}}'" src="{{asset("/resources/image/slotmac.gif")}}"/>
                     </div>
                 </div>
             </div>

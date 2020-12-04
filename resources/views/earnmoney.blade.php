@@ -49,7 +49,7 @@
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
 											<div class="row row-mission text-center">
 												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+													<img src="{{asset('/resources/image/youtube.png')}}"/>
 												</div>
 												<div class="col-6">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
@@ -70,7 +70,7 @@
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
 											<div class="row row-mission text-center">
 												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+													<img src="{{asset('/resources/image/zalo.png')}}"/>
 												</div>
 												<div class="col-6">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>

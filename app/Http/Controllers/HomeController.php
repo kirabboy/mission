@@ -67,29 +67,29 @@ class HomeController extends Controller
                 }
             }else{
                 foreach($missions as $mission){
+                    $check = true;
                     foreach($checkMissionDones as $checkMissionDone){
-                        $check = true;
                         if($mission->id == $checkMissionDone->id_mission){
                             $check = false;
-                            break;
                         }
-                        if($check || $mission->type == 1 ){
-                            if(count($mission_avai_f) < $num_f){
-                                array_push($mission_avai_f, $mission);
-                            }
-                        }
-                        if($check || $mission->type == 2 ){
-                            if(count($mission_avai_y) < $num_y){
-                                array_push($mission_avai_y, $mission);
-                            }
-                        }
-                        if($check || $mission->type == 3 ){
-                            if(count($mission_avai_z) < $num_z){
-                                array_push($mission_avai_z, $mission);
-                            }
-                        }
-                        
                     }
+                    if($check && $mission->type == 1 ){
+                        if(count($mission_avai_f) < $num_f){
+                            array_push($mission_avai_f, $mission);
+                        }
+                    }
+                    if($check && $mission->type == 2 ){
+                        if(count($mission_avai_y) < $num_y){
+                            array_push($mission_avai_y, $mission);
+                        }
+                    }
+                    if($check && $mission->type == 3 ){
+                        if(count($mission_avai_z) < $num_z){
+                            array_push($mission_avai_z, $mission);
+                        }
+                    }
+                        
+                    
                 }
 
                 
@@ -150,5 +150,272 @@ class HomeController extends Controller
         }else{
             return back()->with('error', 'Bạn chưa đủ điều kiến xác nhận hoàn thành nhiệm vụ');
         }
+    }
+    public function getBuySpin(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+            $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+
+            $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
+            return view('buy_spin',['user'=>$user, 'wallet'=>$wallet, 'spin_setting'=>$spin_setting, 'spin_ofuser'=>$spin_ofuser]);
+        }else{
+            return redirect('/login');
+        }
+    }
+    public function postBuySpin(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+            $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+            $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
+            $qty = $request->quantity;
+            $total = $qty * $spin_setting->price_per_round;
+            if($wallet->balance > $total){
+                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance-$total]);
+                DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count+$qty]);
+
+                return back()->with('success', 'Đã mua lượt quay thành công, quay ngay thôi nào'); 
+            }else{
+                return back()->with('error', 'Số dư của bạn không đủ, vui lòng nạp thêm tiền');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+    public function getSpin(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+
+            return view('spin.spin',['spin_ofuser'=> $spin_ofuser]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function postSpin(Request $request){
+        $user = Auth::guard('users')->user();
+        $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+
+        $type = $_GET['type'];
+        $value = $_GET['value'];
+        if($type != 0){
+            DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
+            DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
+        }
+        return null;
+    }
+
+    public function getSpinHistory(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+
+            $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->get();
+
+            return view('spinhistory',['spin_history'=> $spin_history, 'statistical' => $statistical]);
+        }else{
+            return redirect('/login');
+        }
+    }
+    
+    public function receiSpin(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $id_spin = $request->id;
+            $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+            $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->get();
+            $spin = DB::table('spin_history')->where('id',$id_spin)->first();
+            if($spin->type == 2){
+                if($spin->status == 0){
+                    DB::table('spin_history')->where('id',$id_spin)->update(['status'=>1]);
+                    DB::table('wallet')->where('ofuser',$user->phone)->update(['balance'=>$wallet->balance+$spin->value]);
+                    DB::table('statistical')->where('ofuser',$user->phone)->update(['total_spin_money'=> $statistical->total_spin_money+$spin->value, 'total_spin_money'=> $statistical->month_total+$spin->value, 'total_spin_money'=> $statistical->today_total+$spin->value,'total_spin_money'=> $statistical->total+$spin->value]);
+
+                    return back()->with('success', 'Nhận thưởng thành công');
+
+                }else{
+                    return back()->with('error', 'Bạn đã nhận thưởng');
+                }
+            }else{
+                return back()->with('error', 'Chúng tôi sẽ liên lạc để trao thưởng');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+    public function settingJson(){
+        $user = Auth::guard('users')->user();
+        $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+        header('Content-type: application/json');
+        $data = array(
+        "colorArray" => array("#364C62", "#F1C40F", "#E74C3C", "#ECF0F1", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B", "#BDC3C7","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"),
+
+        "segmentValuesArray" => array( 
+            //0:giay 1: vang 2:ss 3:ip 4 tivi
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "50.000.000 VNĐ",
+            "win" => false,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 50.000.000 VNĐ",
+            "userData" => array("type"=>1, "value"=>50000000)
+        ),  
+
+        array(
+            "probability" => 100,
+            "type" => "image",
+            "value" => url('resources/image/img_spin/tivi.png'),
+            "win" => true,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 1 Tivi 50inch",
+            "userData" => array("type"=>2, "value"=>4)
+        ),
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "Chúc may mắn",
+            "win" => true,
+            "resultText" => "Chúc bạn may mắn lần sau",
+            "userData" => array("type"=>0, "value"=>0)
+        ),
+
+        array(
+            "probability" => 100,
+            "type" => "image",
+            "value" => url('resources/image/img_spin/ip.png'),
+            "win" => true,
+            "resultText" => "Chúc mừng bạn đã trúng 1 iphone 12 pro",
+            "userData" => array("type"=>2, "value"=>3)
+        ),   
+
+
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "Chúc may mắn",
+            "win" => true,
+            "resultText" => "Chúc bạn may mắn lần sau",
+            "userData" => array("type"=>0, "value"=>0)
+        ), 
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "20.000 VNĐ",
+            "win" => true,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 20.000 VNĐ",
+            "userData" => array("type"=>1, "value"=>20000)
+        ), 
+
+            array(
+            "probability" => 100,
+            "type" => "image",
+            "value" => url('resources/image/img_spin/ss.png'),
+            "win" => true,
+            "resultText" => "Chúc mừng bạn đã trúng 1 samsung a71",
+            "userData" => array("type"=>2, "value"=>2)
+        ),  
+
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "Chúc may mắn",
+            "win" => true,
+            "resultText" => "Chúc bạn may mắn lần sau",
+            "userData" => array("type"=>0, "value"=>0)
+        ), 
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "20.000 VNĐ",
+            "win" => true,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 20.000 VNĐ",
+            "userData" => array("type"=>1, "value"=>20000)
+        ),  
+
+        array(
+            "probability" => 100,
+            "type" => "image",
+            "value" => url('resources/image/img_spin/gold.png'),
+            "win" => true,
+            "resultText" => "Chúc mừng bạn đã trúng 5 chỉ vàng 9999",
+            "userData" => array("type"=>2, "value"=>1)
+        ),  
+
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "Chúc may mắn",
+            "win" => true,
+            "resultText" => "Chúc bạn may mắn lần sau",
+            "userData" => array("type"=>0, "value"=>0)
+        ),  
+
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "1.000.000 VNĐ",
+            "win" => true,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 1.000.000 VNĐ",
+            "userData" => array("type"=>1, "value"=>1000000)
+        ), 
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "Chúc may mắn",
+            "win" => true,
+            "resultText" => "Chúc bạn may mắn lần sau",
+            "userData" => array("type"=>0, "value"=>0)
+        ),  
+        array(
+            "probability" => 100,
+            "type" => "string",
+            "value" => "100.000 VNĐ",
+            "win" => true,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 100.000 VNĐ",
+            "userData" => array("type"=>1, "value"=>100000)
+        ),
+        array(
+            "probability" => 100,
+            "type" => "image",
+            "value" => url('resources/image/img_spin/gc.png'),
+            "win" => true,
+            "resultText" => "Chúc bạn mừng bạn đã trúng 1 đôi Gucci",
+            "userData" => array("type"=>2, "value"=>0)
+        )
+        ),
+        "svgWidth" => 1024,
+        "svgHeight" => 768,
+        "wheelStrokeColor" => "#D0BD0C",
+        "wheelStrokeWidth" => 18,
+        "wheelSize" => 950,
+        "wheelTextOffsetY" => 90,
+        "wheelTextColor" => "#EDEDED",
+        "wheelTextSize" => "1.5em",
+        "wheelImageOffsetY" => 10,
+        "wheelImageSize" => 150,
+        "centerCircleSize" => 50,
+        "centerCircleStrokeColor" => "#F1DC15",
+        "centerCircleStrokeWidth" => 12,
+        "centerCircleFillColor" => "#EDEDED",
+        "segmentStrokeColor" => "#E2E2E2",
+        "segmentStrokeWidth" => 4,
+        "centerX" => 512,
+        "centerY" => 384,  
+        "hasShadows" => true,
+        "numSpins" => $spin_ofuer->count ,
+        "spinDestinationArray" => array(),
+        "minSpinDuration" => 1,
+        "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt quay ở phía dưới!",
+        "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
+        "introText" => "Bạn có ".$spin_ofuer->count." lượt quay",
+        "hasSound" => true,
+        "gameId" => "9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
+        "clickToSpin" => true
+
+        );
+
+        return json_encode( $data);
     }
 }

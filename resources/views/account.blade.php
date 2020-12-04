@@ -47,7 +47,7 @@
                             <div class="col-12">
                                 <div class="area-balance block">
                                     <div class="alert balance-alert alert-info text-center" role="alert">
-                                        <h4>Số dư ví: <span>{{$wallet->balance}}</span> vnđ</h4>
+                                        <h4>Số dư ví: <span>{{number_format($wallet->balance,0,',','.')}}</span> vnđ</h4>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                         Số dư cá nhân
                                     </p>
                                     <p class="amount-price">
-                                        {{$wallet->balance}} vnđ
+                                        {{number_format($wallet->balance,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                         Nhiệm vụ hôm nay
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->today_mission_amount}} vnđ
+                                        {{number_format($statistical->today_mission_amount,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                         Hoa hồng nhận được
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->total_referal}} vnđ
+                                        {{number_format($statistical->total_referal,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                         Tổng doanh thu hôm nay
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->today_total}} vnđ
+                                        {{number_format($statistical->today_total,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                         Tổng doanh thu tháng
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->month_total}} vnđ
+                                        {{number_format($statistical->month_total,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                         Tổng doanh thu
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->total}} vnđ
+                                        {{number_format($statistical->total,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                         Nhiệm vụ hôm nay hoàn thành
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->today_count_mission}}
+                                        {{number_format($statistical->today_count_mission,0,',','.')}}
                                     </p> 
                                 </div>
                             </div>
@@ -133,11 +133,33 @@
                                         Nhiệm vụ đã hoàn thành
                                     </p>
                                     <p class="amount-price">
-                                        {{$statistical->total_mission}}
+                                        {{number_format($statistical->total_mission,0,',','.')}}
                                     </p> 
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-6 text-center">
+                                <div class="block area-amount">
+                                    <p class="amount-title">
+                                        Tổng thu nhập từ vòng quay
+                                    </p>
+                                    <p class="amount-price">
+                                        {{number_format($statistical->total_spin_money,0,',','.')}} vnđ
+                                    </p> 
+                                </div>
+                            </div>
+                            <div class="col-6 text-center">
+                                <div class="block area-spin area-user">
+                                    <a href="{{URL::to('/spin-history')}}">
+                                        <p class="amount-title">
+                                            Lịch sử vòng quay
+                                        </p>
+                                        <img src="{{asset('/resources/image/swift.png')}}"/>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="row-user row no-gutters">
                             <div class="col-4 text-center">
