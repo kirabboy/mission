@@ -1,7 +1,43 @@
 @extends('layout.master')
 @section('content')
 <link rel="stylesheet" href="{{URL::to('resources/views/spin/css/style.css')}}">
+<button type="button" id="btn-congra" class="btn btn-primary" data-toggle="modal" data-target="#congra" style="display:none">
+  Launch demo modal
+</button>
+<style>
+  .congra-img img{
+    width: 100%;
+  }
+  .congra-content p{
+    color: #000;
+  }
+</style>
+<!-- Modal -->
+<div class="modal fade" style="z-index: 999999999999999" id="congra" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center uppercase" id="exampleModalLongTitle" style="width: 100%; color: red; font-weight: 600;">Chúc mừng bạn đã trúng thưởng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="congra-img">
+          <img src="" />
+        </div>
+        <div class="congra-content">
+          <p></p>
 
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Quay tiếp</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='{{URL::to('/contact')}}'">Liên hệ nhận thưởng</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row no-gutters">
   <div class="col-12 text-center">
     <div class="block area-title-page">
@@ -43,6 +79,10 @@
         </p>
         </div>
       </div>
+      <audio id="clap">
+        <source src="{{URL::to('resources/views/spin/media/clap.mp3')}}" type="audio/mpeg">
+      </audio>
+      
         <script>
           function Spin2WinWheel() {
 
@@ -812,51 +852,61 @@
             
             //your own function to capture the spin results
             function myResult(e) {
+            
               
               console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg + e.resultText );
               // if you have defined a userData object...
-              var type, value;
-              switch (e.resultText) {
-                case "Chúc mừng bạn đã trúng 1 iphone 12 pro":
-                  type = 1;
-                  value = 1;
-                  break;
-                case "Chúc bạn mừng bạn đã trúng 1 Tivi 50inch":
-                  type = 1;
-                  value = 2;
-                  break;
-                case "Chúc mừng bạn đã trúng 1 samsung a71":
-                  type = 1;
-                  value = 3;
-                  break;
-                case "Chúc bạn mừng bạn đã trúng 1 đôi Gucci":
-                  type = 1;
-                  value = 4;
-                  break;
-                case "Chúc mừng bạn đã trúng 5 chỉ vàng 9999":
-                  type = 1;
-                  value = 5;
-                  break;
-                case "Chúc bạn may mắn lần sau":
-                  type = 0;
-                  value = 0;
-                  break;
-                case "Chúc bạn mừng bạn đã trúng 20.000 VNĐ":
-                  type = 2;
-                  value = 20000;
-                  break;
-                case "Chúc bạn mừng bạn đã trúng 100.000 VNĐ":
-                  type = 2;
-                  value = 100000;  
-                  break;
-                case "Chúc bạn mừng bạn đã trúng 1.000.000 VNĐ":
-                  type = 2;
-                  value = 1000000;
-                  break;
-                case "Chúc bạn mừng bạn đã trúng 50.000.000 VNĐ":
-                  type = 2  ;
-                  value = 50000000;
-                  break;
+              var type, value, img, content;
+              type = $('#btn-spin').data("type");
+              value = $('#btn-spin').data("value");
+              switch(type){
+                case 1:
+                  switch(value){
+                    case 1:
+                      img = '{{URL::to("/resources/image/img_spin/ip-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 1 điện thoại Iphone 12 pro';
+                      break;
+
+                    case 2:
+                      img = '{{URL::to("/resources/image/img_spin/tivi-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 1 tivi 50inch';
+                      break;
+
+                    case 3:
+                      img = '{{URL::to("/resources/image/img_spin/ss-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 1 điện thoại Samsung A71';
+                      break;
+
+                    case 4:
+                      img = '{{URL::to("/resources/image/img_spin/gucci-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 1 đôi Gucci';
+                      break;
+
+                    case 5:
+                      img = '{{URL::to("/resources/image/img_spin/gold-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 5 chỉ vàng';
+                      break;
+
+                  }
+                case 2:
+                  switch(value){
+                    case 20000:
+                      img = '{{URL::to("/resources/image/img_spin/20000-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 20.000 VNĐ';
+                      break;
+                    case 100000:
+                      img = '{{URL::to("/resources/image/img_spin/100000.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 100.000 VNĐ';
+                      break;
+                    case 1000000:
+                      img = '{{URL::to("/resources/image/img_spin/1000000-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng 1.000.000 VNĐ';
+                      break;
+                    case 50000000:
+                      img = '{{URL::to("/resources/image/img_spin/5000000-rs.png")}}';
+                      content = 'Chúc mừng bạn đã trúng thưởng tiền mặt 50.000.000 VNĐ';
+                      break;
+                  }
               }
                 $.ajax({
                   type: "get",
@@ -868,14 +918,26 @@
                   },// serializes the form's elements.
                   success: function(reponses)
                   {
+
+                    if(type !=0){
+                      var x = document.getElementById("clap"); 
+
+                    }
+                    
+                    $('.congra-img img').attr('src', img);
+                    $('.congra-content p').text(content);
+
+                    x.play(); 
                       $('#count-spin').text($('#count-spin').text()-1);
                       console.log(reponses); // show response from the php script.
+                      $('#btn-congra').trigger('click');
+
                   }
                 });
               
              
 
-              console.log(type +' '+ value)
+              console.log(type +' '+ value);
                 
 
             if(e.spinCount == 3){
@@ -920,8 +982,8 @@
             //And finally call it
             init();
         </script>
-
-      
+ 
+          
 @endsection
 
     

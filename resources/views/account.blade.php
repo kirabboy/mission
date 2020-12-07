@@ -53,6 +53,22 @@
                             </div>
                         </div>
                         <div class="row no-gutters">
+                            <div class="col-6">
+                                <div class="block">
+                                    <div class="alert alert-warning text-center" onclick="location.href='{{URL::to('/deposit')}}'" role="alert">
+                                        <h5 style="color:#000;">Nạp tiền</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="block">
+                                    <div class="alert  alert-dark text-center" onclick="location.href='{{URL::to('/withdrawn')}}'" role="alert">
+                                        <h5 style="color:#000;">Rút tiền</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
                             <div class="col-4 text-center">
                                 <div class="block area-amount">
                                     <p class="amount-title">
@@ -164,7 +180,7 @@
                         <div class="row-user row no-gutters">
                             <div class="col-4 text-center">
                                 <div class="block area-user">
-                                    <a href="{{URL::to('/my-info')}}">
+                                    <a href="{{URL::to('/manager-info')}}">
                                         <p class="user-title">
                                             Thông tin cá nhân
                                         </p>

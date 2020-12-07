@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function getHome(){
-     
-        return view('homepage');
+        $banners = DB::table('banner')->get();
+        return view('homepage',['banners'=>$banners]);
     }
     
     public function getHelpCenter(){
@@ -21,6 +21,17 @@ class HomeController extends Controller
             return redirect('/login');
         }
     }
+
+    public function getContact(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            return view('contact', ['user' => $user]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    
 
     public function getEarnMoney(){
         if (Auth::guard('users')->check()) {
@@ -114,7 +125,7 @@ class HomeController extends Controller
     public function takeMission(Request $request){
         if (Auth::guard('users')->check()){
             $user = Auth::guard('users')->user();
-            $date =date("Y/m/d");
+            $date =date("Y-m-d");
             $checkMission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->first();
             if($checkMission == null || $checkMission->status != 0 ){ 
                 DB::table('taking_mission')->insert(['id_mission'=>$request->idmission, 'id_user'=>$user->id, 'today'=>$date, 'status' => 0, 'status_day' => 0 ]);
@@ -200,7 +211,7 @@ class HomeController extends Controller
 
         $type = $_GET['type'];
         $value = $_GET['value'];
-        if($type != 0){
+        if($type > 0){
             DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
             DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
         }
@@ -212,7 +223,7 @@ class HomeController extends Controller
             $user = Auth::guard('users')->user();
             $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
 
-            $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->get();
+            $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->orderBy('id', 'desc')->get();
 
             return view('spinhistory',['spin_history'=> $spin_history, 'statistical' => $statistical]);
         }else{
@@ -232,7 +243,7 @@ class HomeController extends Controller
                 if($spin->status == 0){
                     DB::table('spin_history')->where('id',$id_spin)->update(['status'=>1]);
                     DB::table('wallet')->where('ofuser',$user->phone)->update(['balance'=>$wallet->balance+$spin->value]);
-                    DB::table('statistical')->where('ofuser',$user->phone)->update(['total_spin_money'=> $statistical->total_spin_money+$spin->value, 'total_spin_money'=> $statistical->month_total+$spin->value, 'total_spin_money'=> $statistical->today_total+$spin->value,'total_spin_money'=> $statistical->total+$spin->value]);
+                    DB::table('statistical')->where('ofuser',$user->phone)->update(['total_spin_money'=> $statistical->total_spin_money+$spin->value, 'month_total'=> $statistical->month_total+$spin->value, 'today_total'=> $statistical->today_total+$spin->value,'total'=> $statistical->total+$spin->value]);
 
                     return back()->with('success', 'Nhận thưởng thành công');
 
@@ -260,8 +271,7 @@ class HomeController extends Controller
             "type" => "string",
             "value" => "50.000.000 VNĐ",
             "win" => false,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 50.000.000 VNĐ",
-            "userData" => array("type"=>1, "value"=>50000000)
+            "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
@@ -269,16 +279,14 @@ class HomeController extends Controller
             "type" => "image",
             "value" => url('resources/image/img_spin/tivi.png'),
             "win" => true,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 1 Tivi 50inch",
-            "userData" => array("type"=>2, "value"=>4)
+            "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>"
         ),
         array(
             "probability" => 100,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
-            "resultText" => "Chúc bạn may mắn lần sau",
-            "userData" => array("type"=>0, "value"=>0)
+            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ),
 
         array(
@@ -286,8 +294,7 @@ class HomeController extends Controller
             "type" => "image",
             "value" => url('resources/image/img_spin/ip.png'),
             "win" => true,
-            "resultText" => "Chúc mừng bạn đã trúng 1 iphone 12 pro",
-            "userData" => array("type"=>2, "value"=>3)
+            "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>"
         ),   
 
 
@@ -296,16 +303,14 @@ class HomeController extends Controller
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
-            "resultText" => "Chúc bạn may mắn lần sau",
-            "userData" => array("type"=>0, "value"=>0)
+            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ), 
         array(
             "probability" => 100,
             "type" => "string",
             "value" => "20.000 VNĐ",
             "win" => true,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 20.000 VNĐ",
-            "userData" => array("type"=>1, "value"=>20000)
+            "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>"
         ), 
 
             array(
@@ -313,8 +318,7 @@ class HomeController extends Controller
             "type" => "image",
             "value" => url('resources/image/img_spin/ss.png'),
             "win" => true,
-            "resultText" => "Chúc mừng bạn đã trúng 1 samsung a71",
-            "userData" => array("type"=>2, "value"=>2)
+            "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
@@ -323,15 +327,14 @@ class HomeController extends Controller
             "value" => "Chúc may mắn",
             "win" => true,
             "resultText" => "Chúc bạn may mắn lần sau",
-            "userData" => array("type"=>0, "value"=>0)
+            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ), 
         array(
             "probability" => 100,
             "type" => "string",
             "value" => "20.000 VNĐ",
             "win" => true,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 20.000 VNĐ",
-            "userData" => array("type"=>1, "value"=>20000)
+            "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
@@ -339,8 +342,7 @@ class HomeController extends Controller
             "type" => "image",
             "value" => url('resources/image/img_spin/gold.png'),
             "win" => true,
-            "resultText" => "Chúc mừng bạn đã trúng 5 chỉ vàng 9999",
-            "userData" => array("type"=>2, "value"=>1)
+            "resultText" => "<button id='btn-spin' data-type='1' data-value='5' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
@@ -349,7 +351,7 @@ class HomeController extends Controller
             "value" => "Chúc may mắn",
             "win" => true,
             "resultText" => "Chúc bạn may mắn lần sau",
-            "userData" => array("type"=>0, "value"=>0)
+            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
@@ -357,16 +359,14 @@ class HomeController extends Controller
             "type" => "string",
             "value" => "1.000.000 VNĐ",
             "win" => true,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 1.000.000 VNĐ",
-            "userData" => array("type"=>1, "value"=>1000000)
+            "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>"
         ), 
         array(
             "probability" => 100,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
-            "resultText" => "Chúc bạn may mắn lần sau",
-            "userData" => array("type"=>0, "value"=>0)
+            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ),  
         array(
             "probability" => 100,
@@ -374,7 +374,7 @@ class HomeController extends Controller
             "value" => "100.000 VNĐ",
             "win" => true,
             "resultText" => "Chúc bạn mừng bạn đã trúng 100.000 VNĐ",
-            "userData" => array("type"=>1, "value"=>100000)
+            "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>"
         ),
         array(
             "probability" => 100,
@@ -382,7 +382,7 @@ class HomeController extends Controller
             "value" => url('resources/image/img_spin/gc.png'),
             "win" => true,
             "resultText" => "Chúc bạn mừng bạn đã trúng 1 đôi Gucci",
-            "userData" => array("type"=>2, "value"=>0)
+            "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>"
         )
         ),
         "svgWidth" => 1024,

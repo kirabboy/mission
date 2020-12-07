@@ -33,7 +33,7 @@
 						</div>
 						<div class="form-group">
 							<label><i class='fas fa-phone'></i> Mã giới thiệu</label>
-							<input type="text" id="refphone" name="refphone" class="form-control" value="{{$refcode}}" @if($refcode != null) readonly @endif/>
+							<input type="text" id="refphone" name="codeinvite" class="form-control" value="{{$codeinvite}}" @if($codeinvite != null) readonly @endif/>
 						</div>
 						<div class="form-group text-center">
 							<button class="btn btn-primary">Đăng ký</button>

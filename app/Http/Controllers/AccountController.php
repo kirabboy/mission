@@ -37,12 +37,19 @@ class AccountController extends Controller
         if (Auth::guard('users')->attempt(['phone' => $phone, 'password' => $password])) {
             $user = Auth::guard('users')->user();
             $date =date("Y-m-d");
+            $month =date("m");
             $statistical = DB::table('statistical')->where('ofuser', $phone)->first();
             $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
             if(strtotime($date) != strtotime($statistical->today)){
                 
                 DB::table('statistical')->where('ofuser', $phone)->update(['today'=>$date, 'today_total'=>0, 'today_mission_amount'=>0,'today_count_mission'=>0 ]);
             }
+            if(date("m", strtotime($statistical->today)) != $month){
+                DB::table('statistical')->where('ofuser', $phone)->update(['month_total'=>0]);
+            }
+
+
+
             foreach($taking_missions as $taking_mission){
 
                 if(strtotime($date) != strtotime($taking_mission->today)){
@@ -64,11 +71,11 @@ class AccountController extends Controller
         if (Auth::guard('users')->check()) {
             return redirect('/');
         }else{
-            $refcode = $request->refcode;
-            if($refcode != null){
-                return view('register', ['refcode' => $refcode]);
+            $codeinvite = $request->codeinvite;
+            if($codeinvite != null){
+                return view('register', ['codeinvite' => $codeinvite]);
             }else{
-                return view('register',['refcode' => null]);
+                return view('register',['codeinvite' => null]);
             }
         }
     }
@@ -76,6 +83,7 @@ class AccountController extends Controller
     public function postRegister(Request $request){
         $phone = $request->input('phone');
         $password = $request->input('password');
+        $date =date("Y-m-d");
         $code_invite = $request->input('codeinvite');
         $hashed = Hash::make($password);
         $checkPhone = DB::table('users')->where('phone', $phone)->first();
@@ -84,10 +92,11 @@ class AccountController extends Controller
             if($code_invite != null){
                 $user_invite = DB::table('users')->where('referal_code', $code_invite)->first();
                 if($user_invite != null){
-                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite, 'role'=>0, 'referal_code' => $referal_code]);
+                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>0, 'referal_code' => $referal_code]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
-                    DB::table('statistical')->insert(['ofuser'=> $phone]);
+                    DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                     DB::table('info_users')->insert(['ofuser'=> $phone]);
+                    DB::table('spin_ofuser')->insert(['ofuser'=>$phone,'count'=>1]);
 
                 }else{
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
@@ -95,11 +104,13 @@ class AccountController extends Controller
             }else{
                 DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
-                DB::table('statistical')->insert(['ofuser'=> $phone]);
+                DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
+                DB::table('spin_ofuser')->insert(['ofuser'=>$phone,'count'=>1]);
+            
 
             }
-            return redirect('/login');
+            return redirect('/login')->with('success', 'Bạn đã đăng ký tài khoản thành công và được tặng một lần quay may mắn hãy đăng nhập để trải nghiệm ');
         }else{
             return redirect('/register')->with('error','Số điện thoại đã tồn tại');
         }
@@ -164,8 +175,8 @@ class AccountController extends Controller
             if($user->role < $role->ofrole){
                 if($role != null){
                     if($wallet->balance - $role->role_price >=   0){
-                        DB::table('users')->where('phone', $user->phone)->update('role', $role->ofrole);
-                        DB::table('wallet')->where('wallet', $user->phone)->update('balance', $wallet->balance - $role->role_price);
+                        DB::table('users')->where('phone', $user->phone)->update(['role'=> $role->ofrole]);
+                        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=> $wallet->balance - $role->role_price]);
                         $createhistory = new AccountController();
                         $createhistory->createHistory($user->phone, 'Nâng cấp tài khoản lên '.$role->name);
                         return back()->with('success', 'Bạn đã nâng cấp thành công tài khoản lên '.$role->name);
@@ -236,6 +247,71 @@ class AccountController extends Controller
         }
     }
 
+    public function getMangerInfo(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            return view('manager_info');
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function getBankInfo(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $bank = DB::table('bank')->where('ofuser', $user->phone)->first();
+            return view('info_bank',['bank'=>$bank]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function postBankInfo(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $bank = DB::table('bank')->where('ofuser', $user->phone)->first();
+            $username = $request->username;
+            $bankname = $request->bankname;
+            $banknumber = $request->banknumber;
+            DB::table('bank')->where('ofuser', $user->phone)->update(['username'=>$username, 'bankname'=>$bankname, 'banknumber'=>$banknumber]);
+            $createhistory = new AccountController();
+            $createhistory->createHistory($user->phone, 'Cập nhật thông tin ngân hàng thành công');
+            return back()->with('success', 'Cập nhật thông tin ngân hàng thành công');
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function getDeposit(){
+        if (Auth::guard('users')->check()) {
+          
+            return view('deposit');
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function postDeposit(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+
+            if($request->hasFile('bill'))
+                {
+                    $destinationPath = 'resources/image/img_bill';
+                    $file = $request->file('bill');
+                    $file_name = $file->getClientOriginalName(); 
+                    $file->move($destinationPath , $file_name); 
+                    DB::table('deposit')->insert(['ofuser'=>$user->phone, 'amount'=>$request->amount, 'bill'=>$file_name,'status'=>0]);
+                    return back()->with('success','Bạn đã gửi lệnh nạp tiền thành công, chúng tôi sẽ duyệt nhanh nhất có thể');
+
+                }else{
+                    return back()->with('error','Bạn đã gửi lệnh nạp tiền thất bại');
+
+                }
+        }else{
+            return redirect('/login');
+        }
+    }
 
     public function logout(){
         Auth::guard('users')->logout();

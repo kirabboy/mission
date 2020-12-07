@@ -18,6 +18,11 @@
 								{{Session::get('error')}}
 							</div>
 						@endif
+						@if(Session::has('success'))
+							<div class="alert alert-success" role="alert">
+								{{Session::get('success')}}
+							</div>
+						@endif
 						<div class="form-group">
 							<label><i class='fas fa-phone-square-alt'></i> Số điện thoại</label>
 							<input type="number" id="phone" name="phone" class="form-control" required/>

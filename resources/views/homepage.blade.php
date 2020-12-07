@@ -6,9 +6,9 @@
             <div class="col-12">
                 <!-- Add images to <div class="fotorama"></div> -->
                 <div class="fotorama"  data-width="100%" data-nav="false"  data-autoplay="true">
-                    <img src="{{asset('/resources/image/banner1.jpg')}}" width="100%">
-                    <img src="{{asset('/resources/image/banner2.jpg')}}" width="100%">
-                    <img src="{{asset('/resources/image/banner3.jpg')}}" width="100%">
+                    @foreach($banners as $val)
+                        <img src="{{asset('/resources/image/'.$val->name)}}" width="100%">
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -87,11 +87,11 @@
 		<div class="row no-gutters">
 			<div class="col-6">
 				<div class="area-zalo block block-social">
-					<div class="row no-gutters">
+					<div class="row no-gutters" onclick="location.href='{{URL::to('/earn-money')}}'">
 						<div class="col-4">
 							<img src="{{asset("/resources/image/youtube.png")}}"/>
 						</div>
-						<div class="col-8">
+						<div class="col-8" >
 							<h5>Youtube</h5>
 							<span>Xem video để nhận thưởng</span>
 						</div>
@@ -100,11 +100,11 @@
 			</div>
 			<div class="col-6">
 				<div class="area-facebook block block-social">
-					<div class="row no-gutters">
+					<div class="row no-gutters" onclick="location.href='{{URL::to('/earn-money')}}'">
 						<div class="col-4">
 							<img src="{{asset("/resources/image/facebook.png")}}"/>
 						</div>
-						<div class="col-8">
+						<div class="col-8" >
 							<h5>Facebook</h5>
 							<span>Yêu thích hoặc theo dõi</span>
 						</div>
@@ -125,7 +125,7 @@
             </div>
             <div class="col-6">
                 <div class="area-cskh block text-center">
-                    <div class="title title-cskh text-center">
+                    <div class="title title-cskh text-center" onclick="location.href='{{URl::to('/contact')}}'">
                         <h6>CSKH 24/7</h6>
 					</div>
 					

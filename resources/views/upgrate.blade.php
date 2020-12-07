@@ -68,7 +68,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row no-gutters container-fluid">
+				<div class="row no-gutters container-fluid" >
 					<div class="col-12">
 						<div class="area-vip-pack">
 							<div class="alert alert-secondary" role="alert">
@@ -152,7 +152,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal fade" id="vip-modal-lock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal fade in" id="vip-modal-lock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -170,7 +170,7 @@
 					  </div>
 					</div>
 				</div>
-				<div class="modal fade" id="vip-modal-unlock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal fade in" id="vip-modal-unlock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -189,9 +189,11 @@
 					  </div>
 					</div>
 				</div>
+				
 				<script>
+				
 					function getidrole(idrole){
-						var link = "http://demo12.mevivu.com/mission/upgrate-role/"+idrole;
+						var link = "{{URL::to('/upgrate-role/')}}/"+idrole;
 						$('#upgrate-role').attr('href', link);
 					}
 				</script>

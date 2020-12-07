@@ -45,10 +45,10 @@ input.qtyminus { width:25px; height:25px;}
 					<div class="alert alert-dark" role="alert">
 						<div class="text-center">
 							<p >
-								<b style="font-weight: 600; color:black ">Số dư cá nhân: <span style="color: red;">{{$wallet->balance}} vnđ</span></b>
+								<b style="font-weight: 600; color:black ">Số dư cá nhân: <span style="color: red;">{{number_format($wallet->balance,0,',','.')}} vnđ</span></b>
 							</p>
 							<p >
-								<b style="font-weight: 600; color:black ">Lượt quay hiện có: <span style="color: red;">{{$spin_ofuser->count}}</span></b>
+								<b style="font-weight: 600; color:black ">Lượt quay hiện có: <span style="color: red;">{{number_format($spin_ofuser->count,0,',','.')}}</span></b>
 
 							</p> 
 						</div>

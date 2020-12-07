@@ -42,7 +42,16 @@
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
 											<div class="row row-mission text-center">
 												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+													<img src="
+													@if($value->type== 1)
+													{{asset('/resources/image/facebook.png')}}
+													@elseif($value->type ==2)
+													{{asset('/resources/image/youtube.png')}}
+													@else
+													{{asset('/resources/image/zalo.png')}}
+
+													@endif
+													"/>
 												</div>
 												<div class="col-6">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
@@ -63,7 +72,16 @@
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
 											<div class="row row-mission text-center">
 												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+													<img src="
+													@if($value->type== 1)
+													{{asset('/resources/image/facebook.png')}}
+													@elseif($value->type ==2)
+													{{asset('/resources/image/youtube.png')}}
+													@else
+													{{asset('/resources/image/zalo.png')}}
+
+													@endif
+													"/>
 												</div>
 												<div class="col-6">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
@@ -84,7 +102,16 @@
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
 											<div class="row row-mission text-center">
 												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+													<img src="
+													@if($value->type== 1)
+													{{asset('/resources/image/facebook.png')}}
+													@elseif($value->type ==2)
+													{{asset('/resources/image/youtube.png')}}
+													@else
+													{{asset('/resources/image/zalo.png')}}
+
+													@endif
+													"/>
 												</div>
 												<div class="col-6">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
@@ -105,7 +132,16 @@
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
 											<div class="row row-mission text-center">
 												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+													<img src="
+													@if($value->type== 1)
+													{{asset('/resources/image/facebook.png')}}
+													@elseif($value->type ==2)
+													{{asset('/resources/image/youtube.png')}}
+													@else
+													{{asset('/resources/image/zalo.png')}}
+
+													@endif
+													"/>
 												</div>
 												<div class="col-6">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>

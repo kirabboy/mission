@@ -89,13 +89,15 @@
 							<p class="text-center">
 								@if($checkMission != null)
 									@if($checkMission->status == 2 )
-										<a class="btn btn-success">Đã xong</a>
+										<a class="btn btn-success">Đang duyệt</a>
 									@elseif($checkMission->status == 0 )
 										<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-danger">
 											Huỷ
 										</a>
 									@elseif($checkMission->status == 1)
 										<a class="btn btn-danger">Đã huỷ</a>
+									@elseif($checkMission->status == 3)
+										<a class="btn btn-danger">Đã duyệt</a>
 									@endif
 								@else
 									<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-primary">

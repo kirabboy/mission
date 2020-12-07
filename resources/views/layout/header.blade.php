@@ -676,6 +676,15 @@
         .gif-buy-spin img{
             width: 100%;
         }
+        .admin .row-home-admin a{
+            width: 100%;
+        }
+        .table-cus tr,  .table-cus thead{
+            color: #000;
+        }
+        .table-cus td{
+            color: #000;
+        }
     </style>
     
     <body style="background-color:  #0e1526">
@@ -685,6 +694,7 @@
                     <a class="navbar-brand" href="{{URL::to('/')}}">
                         <img src="{{asset('/resources/image/like.png')}}"/>
                     </a>
+                    <a class="btn btn-info" href="{{URL::to('/admin')}}" style="float: right">Admin</a>
                 </div>
                 </div>
             </nav>
