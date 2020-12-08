@@ -44,14 +44,14 @@ class HomeController extends Controller
             $mission_avai_z = array();
             $role = DB::table('role')->where('ofrole', $user->role)->first();
             $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first(); 
-            if($user->role == 0){
-                $num_f = $role->max_mission;
-                $num_y = 0;
-                $num_z = 0;
+            if($user->role == -1){
+                $num_f = 1;
+                $num_y = 1;
+                $num_z = 1;
 
             }else{
-                $num_f = intval($role->max_mission *3/5);
-                $num_y = intval($role->max_mission *1/5);
+                $num_f = intval($role->max_mission *1/5);
+                $num_y = intval($role->max_mission *3/5);
                 $num_z = intval($role->max_mission *1/5);
 
             }

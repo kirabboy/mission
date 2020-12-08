@@ -97,6 +97,8 @@ class AccountController extends Controller
                     DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                     DB::table('info_users')->insert(['ofuser'=> $phone]);
                     DB::table('spin_ofuser')->insert(['ofuser'=>$phone,'count'=>1]);
+                    DB::table('bank')->insert(['ofuser'=>$phone]);
+
 
                 }else{
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
@@ -107,6 +109,8 @@ class AccountController extends Controller
                 DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
                 DB::table('spin_ofuser')->insert(['ofuser'=>$phone,'count'=>1]);
+                DB::table('bank')->insert(['ofuser'=>$phone]);
+
             
 
             }
@@ -174,14 +178,14 @@ class AccountController extends Controller
             $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
             if($user->role < $role->ofrole){
                 if($role != null){
-                    if($wallet->balance - $role->role_price >=   0){
+                    if($wallet->balance - $role->role_price >= 0){
                         DB::table('users')->where('phone', $user->phone)->update(['role'=> $role->ofrole]);
                         DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=> $wallet->balance - $role->role_price]);
                         $createhistory = new AccountController();
                         $createhistory->createHistory($user->phone, 'Nâng cấp tài khoản lên '.$role->name);
                         return back()->with('success', 'Bạn đã nâng cấp thành công tài khoản lên '.$role->name);
                     }else{
-                        return back()->with('error', 'Số dư không đủ để nâng cấp');
+                        return back()->with('error', 'Số dư không đủ để nâng cấp<br /><a style="color: red" href="'.url('/deposit').'">Click vào đây để nạp tiền</a>');
                     }
                 }else{
                     return back()->with('error', 'Gói vip không tồn tại');
@@ -308,6 +312,26 @@ class AccountController extends Controller
                     return back()->with('error','Bạn đã gửi lệnh nạp tiền thất bại');
 
                 }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function getWithdrawn(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $bank = DB::table('bank')->where('ofuser', $user->phone)->first();
+            return view('withdrawn', ['bank'=> $bank]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function postWithdrawn(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $role = DB::table('role')->where('ofrole', $user->role+1)->first();
+            return back()->with('error', 'Bạn cần nâng cấp lên tài khoản cấp '.$role->name.' để có thể rút tiền');
         }else{
             return redirect('/login');
         }

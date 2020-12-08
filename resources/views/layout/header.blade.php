@@ -685,17 +685,58 @@
         .table-cus td{
             color: #000;
         }
+        .navbar-header .col-6 {
+            vertical-align: middle;
+        }
+        .navbar-header .col-6 b{
+            color: #fff;
+            display: block;
+            margin: 30px 0px 0px 0px;
+        }
+        .navbar-header .col-6 span{
+            color: red;
+        }
+        .outer{
+            position:relative;
+            top:0px;
+            max-height: 300px;
+        }
+        .inner{
+            overflow:hidden !important;
+            position: relative;
+            z-index: -99999;
+            width: 100%;
+
+        }
     </style>
     
     <body style="background-color:  #0e1526">
         <header>
+            <?php
+
+            use Illuminate\Support\Facades\Auth;
+            ?>
                 <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="{{URL::to('/')}}">
-                        <img src="{{asset('/resources/image/like.png')}}"/>
-                    </a>
-                    <a class="btn btn-info" href="{{URL::to('/admin')}}" style="float: right">Admin</a>
-                </div>
+                    <div class="navbar-header row">
+                        <div class="col-6 text-left">
+                            <a class="navbar-brand" href="{{URL::to('/')}}">
+                                <img src="{{asset('/resources/image/like.png')}}"/>
+                            </a>
+                        </div>
+                        <div class="col-6 text-right">
+                            <?php 
+                            if (Auth::guard('users')->check()) {
+                                $user = Auth::guard('users')->user();
+                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                                if($user->role == 99){
+                                    echo '<a class="btn btn-info" href='.url("/admin").' style="">Admin</a>';
+                                }else{
+                                    echo '<b>Số dư: <span>'.number_format($wallet->balance,0,',','.').'</span> vnđ</b>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </header>

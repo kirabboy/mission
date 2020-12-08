@@ -2,6 +2,7 @@
 @section('content')
 <main id="main">
     <div class="container-fluid p-0">
+        <div style="background: #0e1526">
         <div class="row no-gutters">
             <div class="col-12">
                 <!-- Add images to <div class="fotorama"></div> -->
@@ -133,17 +134,19 @@
                 </div>
             </div>
         </div>
+    </div>
+        
         <div class="row no-gutters">
             <div class="col-12">
-                <div class="area-dstv block">
-                    <div class="list-dstv" id="dstv">
+                <div class="outer">
+                    <div class="inner" id="">
 						<div class="row-dstv">
 							<div class="col-dstv-avatar">
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******0246</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 750.000 vnđ!</p>
 							</div>
 						</div>
 						<div class="row-dstv">
@@ -151,8 +154,8 @@
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******4561</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 1.500.000 vnđ!</p>
 							</div>
 						</div>
 						<div class="row-dstv">
@@ -160,8 +163,8 @@
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******4891</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 700.000 vnđ!</p>
 							</div>
 						</div>
 						<div class="row-dstv">
@@ -169,8 +172,8 @@
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******9102</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 350.000 vnđ!</p>
 							</div>
 						</div>
 						<div class="row-dstv">
@@ -178,42 +181,55 @@
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******7193</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 100.000 vnđ!</p>
 							</div>
-						</div>
-						<div class="row-dstv">
+                        </div>
+                        <div class="row-dstv">
 							<div class="col-dstv-avatar">
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******7193</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 100.000 vnđ!</p>
 							</div>
-						</div>
-						<div class="row-dstv">
+                        </div>
+                        <div class="row-dstv">
 							<div class="col-dstv-avatar">
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******7193</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 100.000 vnđ!</p>
 							</div>
-						</div>
-						<div class="row-dstv">
+                        </div>
+                        <div class="row-dstv">
 							<div class="col-dstv-avatar">
 								<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 							</div>
 							<div class="col-dstv-content">
-								<h6 class="dstv-notice-name">Chúc mừng 0123xxxxx</h6>
-								<p>Đã hoàn thành nhiệm vụ và rút thành công 999999 vnđ!</p>
+								<h6 class="dstv-notice-name">Chúc mừng ******7193</h6>
+								<p>Đã hoàn thành nhiệm vụ và rút thành công 100.000 vnđ!</p>
 							</div>
 						</div>
+						
                         
 
                     </div>
                 </div>
-			</div>
+
+            </div>
+            <script>
+              
+                function autoScrollUp(){
+                    $(".inner").css({top:0}) // jump back
+                            .animate({top:-$(".outer").outerHeight()},10000,"linear", autoScrollUp); // and animate
+                }
+                // fix hight of outer:
+                // duplicate content of inner:
+                $('.inner').html($('.inner').html()+$('.inner').html());
+                autoScrollUp();
+            </script>
 			
         </div>
     </div>

@@ -20,38 +20,33 @@
 				</div>
 			</div>
 			<div class="row-vip">
-				<div class="block area-title-page text-center">
-					<h5>Cấp độ hiện tại của bạn</h5>
-				</div>
+				
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
-							<div class="alert alert-dark" role="alert">
+							<div class="alert alert-success" role="alert">
 								<div class="row no-gutter">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
-											<h5 class="vip-price">Cấp độ hiện tại</span></h5>
+										<h5 class="vip-price">Mặc định</span></h5>
 									</div>
 									<div class="col-8 content-vip">
-										<h5>{{$role_cur->name}} <span class="vip-price">{{number_format($role_cur->role_price,0,',','.')}} vnđ</span></h5>
-										<span>Số nhiệm vụ tối đa <b>{{$role_cur->max_mission}}</b></span><br />
-										<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($role_cur->max_price,0,',','.')}} vnđ</b><br />
-										<span>{{$role_cur->description}}</span><br />
-										<span>Thời hạn <b>{{$role_cur->time}}</b></span>
+										<h5>{{$vip[6]->name}} <span class="vip-price">miễn phí</span></h5>
+										<span>Số nhiệm vụ tối đa <b>{{$vip[6]->max_mission}}</b></span><br />
+										<span>Tổng nhiệm vụ có thể kiếm được mỗi ngày <b>{{number_format($vip[6]->max_price,0,',','.')}} vnđ</b><br />
+										<span>{{$vip[6]->description}}</span><br />
+										<span>Thời hạn <b>@if($vip[6]->time == 999) vĩnh viễn @else {{$vip[6]->time}} ngày @endif</b></span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="block area-title-page text-center">
-					<h5>Cấp độ của hệ thống</h5>
-				</div>
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
 							<div class="alert alert-bronze" role="alert">
-								<div class="row no-gutter">
+								<div class="row no-gutter" data-toggle="modal" id="{{$vip[0]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 										<h5 class="vip-price">Nâng cấp</span></h5>
@@ -179,7 +174,7 @@
 							<span aria-hidden="true">&times;</span>
 						  </button>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body title-up">
 						  	Bạn muốn nâng cấp lên gói vip bạc.
 						</div>
 						<div class="modal-footer">
@@ -195,6 +190,12 @@
 					function getidrole(idrole){
 						var link = "{{URL::to('/upgrate-role/')}}/"+idrole;
 						$('#upgrate-role').attr('href', link);
+						if(idrole == 0){
+							var title = 'Bạn muốn nâng cấp lên gói vip đồng';
+						}else{
+							var title = 'Bạn muốn nâng cấp lên gói vip bạc';
+						}
+						$('.title-up').text(title);
 					}
 				</script>
 			</div>

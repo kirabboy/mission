@@ -22,7 +22,7 @@
                     <a href="{{URL::to('admin/duyetlenhnap')}}" class="btn btn-info">Duyệt lệnh nạp</a>
 				</div>
 				<div class="col-6">
-                    <a href="{{URL::to('admin/history-spin')}}" class="btn btn-info">Xem lịch sử vòng quay</a>
+                    <a href="{{URL::to('admin/create-mission')}}" class="btn btn-info">Đăng nhiệm vụ</a>
 				</div>
 			</div>
 		</div>

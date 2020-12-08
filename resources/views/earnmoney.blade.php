@@ -35,7 +35,7 @@
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
 												<div class="col-3" style="padding: 5px">
-													<h5>Còn</h5>
+													<h5>Nhận</h5>
 													<h5 class="mission-count">{{$value->count}}</h5>
 												</div>
 											</div>
@@ -56,7 +56,7 @@
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
 												<div class="col-3" style="padding: 5px">
-													<h5>Còn</h5>
+													<h5>Nhận</h5>
 													<h5 class="mission-count">{{$value->count}}</h5>
 												</div>
 											</div>
@@ -77,7 +77,7 @@
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
 												<div class="col-3" style="padding: 5px">
-													<h5>Còn</h5>
+													<h5>Nhận</h5>
 													<h5 class="mission-count">{{$value->count}}</h5>
 												</div>
 											</div>

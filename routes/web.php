@@ -85,6 +85,11 @@ Route::get('/deposit', [AccountController::class, 'getDeposit']);
 
 Route::post('/deposit', [AccountController::class, 'postDeposit']);
 
+Route::get('/withdrawn', [AccountController::class, 'getWithdrawn']);
+
+Route::post('/withdrawn', [AccountController::class, 'postWithdrawn']);
+
+//admin
 Route::get('/admin',[AdminController::class, 'getHomeAdmin']);
 
 Route::get('/admin/editbanner',[AdminController::class, 'getEditBanner']);
@@ -98,3 +103,12 @@ Route::post('/admin/history-spinofuser',[AdminController::class, 'postHistorySpi
 Route::get('/admin/duyetlenhnap', [AdminController::class, 'getDuyetNap']);
 
 Route::get('/admin/duyetlenhnap/{id}', [AdminController::class, 'duyetlenhnap']);
+
+Route::get('/admin/create-mission', [AdminController::class, 'getCreateMission']);
+
+Route::post('/admin/create-mission', [AdminController::class, 'postCreateMission']);
+
+
+
+
+
