@@ -64,15 +64,15 @@
 										<div class="text-right">
 											@if($value->type == 1)
 												@if($value->status == 0)
-													<span style="color:blue; text-decoration: underline;">Chúng tôi sẽ liên lạc để trao thưởng</a>
+													<span style="color:blue; text-decoration: underline;"><a href="{{URL::to('/contact')}}">Liên lạc với chúng tôi để nhận thưởng</a>
 												@else
-													<span style="color:green; text-decoration: underline;">Đã nhận</a>
+													<span style="color:green; text-decoration: underline;">Đã nhận</span>
 												@endif
 													@else
 												@if($value->status == 0)
 													<a href="{{URL::to('/recei-spin/'.$value->id)}}" style="color: red; text-decoration: underline;">Nhận thưởng</a>
 												@else
-												<span style="color:green; text-decoration: underline;">Đã nhận</a>
+												<span style="color:green; text-decoration: underline;">Đã nhận</span>
 													@endif
 											@endif
 										</div>

@@ -49,7 +49,7 @@
 						  </script>
 						  <input type="hidden" name="role" value="{{$role->ofrole}}"/>
 						<div class="form-group">
-							<label>Số tiền bạn phải nạp để nâng cấp lên Đồng</label>
+							<label>Số tiền bạn phải nạp để nâng cấp lên {{$role->name}}</label>
 							<input id="amount" class="form-control" type="number" min="100000" name="amount" value="{{$role->role_price}}" readonly/>
 						</div>
 						<div class="form-group">

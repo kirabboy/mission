@@ -183,10 +183,12 @@ class AdminController extends Controller
     public function postDuyetVip(Request $request){
         $upvip = DB::table('deposit')->where('id', $request->id)->first();
         $user = DB::table('users')->where('phone', $upvip->ofuser)->first();
+        $role = DB::table('role')->where('ofrole', $upvip->role)->first();
+
         DB::table('users')->where('phone', $upvip->ofuser)->update(['role'=>$upvip->role]);
         DB::table('deposit')->where('id',$request->id)->update(['status'=>1]);
         $createhistory = new AccountController();
-        $createhistory->createHistory($upvip->ofuser, 'Nâng cấp tài khoản lên Đồng');
+        $createhistory->createHistory($upvip->ofuser, 'Nâng cấp tài khoản lên '.$role->name);
 
         if($user->referal_ofuser != null){
             $f1 = DB::table('users')->where('phone', $user->referal_ofuser)->first();
