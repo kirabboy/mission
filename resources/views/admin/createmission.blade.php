@@ -75,17 +75,17 @@
 						</div>
 						<div class="form-group">
 							<label style="color: #fff">Tiền nhận được nhiệm vụ(Hệ thống tự tính theo số tiền tối đa nhận được trong ngày)</label>
-							<input type="number" class="form-control" name="price" id="price" value="" required/>
+							<input type="number" class="form-control" name="price" id="price" value="" required readonly/>
 						</div>
 						<script>
 							$('#role').on('change', function(){
 								var type = $('#role').val();
 								var price;
 								if(type == -1){
-									price = 5000;
+									price = 7000;
 									$('#price').val(price);
 								}else if(type == 0){
-									price = 5000;
+									price = 10000;
 									$('#price').val(price);
 
 								}else{

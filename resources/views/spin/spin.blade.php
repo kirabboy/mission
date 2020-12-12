@@ -45,8 +45,26 @@
     </div>			
   </div>
 </div>
+<div class="khongchoquay" @if($spin_ofuser->count > 0) style="display: none" @endif >
+  <div class="modal show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle" style="color: red">Thông báo</h5>
+        </div>
+        <div class="modal-body">
+          Bạn đã hết lượt quay, vui lòng mua thêm lượt quay và quay lại
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="location.href='{{URL::to('/buy-spin')}}'">Mua thêm lượt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="alert alert-warning text-center" role="alert">
 <b style="color: #000">Số lượt còn lại: <span style="color: red" id="count-spin">{{$spin_ofuser->count}}</span></b>
+
 </div>
       <div class="wheelContainer">
         <svg class="wheelSVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" text-rendering="optimizeSpeed">
@@ -182,7 +200,7 @@
               segmentStrokeWidth = dataObj.segmentStrokeWidth;
               segmentValuesArray = dataObj.segmentValuesArray;
               numSegments = segmentValuesArray.length;
-              numSpins = (dataObj.numSpins == -1) ? 9999999999999999 : dataObj.numSpins;
+              numSpins = "{{$spin_ofuser->count}}";
               minSpinDuration = dataObj.minSpinDuration;
               gameOverText = dataObj.gameOverText;
               invalidSpinText = dataObj.invalidSpinText;
@@ -854,11 +872,15 @@
             function myResult(e) {
             
               
-              console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg + e.resultText );
+              console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg );
               // if you have defined a userData object...
               var type, value, img, content;
               type = $('#btn-spin').data("type");
               value = $('#btn-spin').data("value");
+              $('#count-spin').text($('#count-spin').text()-1);
+              if($('#count-spin').text <= 0){
+                $('.khongchoquay').css('display', 'none');
+              }
               switch(type){
                 case 1:
                   switch(value){
@@ -895,7 +917,7 @@
                       content = 'Chúc mừng bạn đã trúng 20.000 VNĐ';
                       break;
                     case 100000:
-                      img = '{{URL::to("/resources/image/img_spin/100000.png")}}';
+                      img = '{{URL::to("/resources/image/img_spin/100000-rs.png")}}';
                       content = 'Chúc mừng bạn đã trúng 100.000 VNĐ';
                       break;
                     case 1000000:
@@ -928,7 +950,6 @@
                     $('.congra-content p').text(content);
 
                     x.play(); 
-                      $('#count-spin').text($('#count-spin').text()-1);
                       console.log(reponses); // show response from the php script.
                       $('#btn-congra').trigger('click');
 
@@ -983,7 +1004,12 @@
             init();
         </script>
  
-          
+              <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/utils/Draggable.min.js'></script>
+    <script src="{{URL::to('resources/views/spin/js/ThrowPropsPlugin.min.js')}}"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/TextPlugin.min.js'></script>
 @endsection
 
     

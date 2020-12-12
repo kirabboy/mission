@@ -36,7 +36,7 @@
 							<td>{{$value->ofuser}}</td>
 							<td>{{$value->amount}} vnđ</td>
                           <td><img onclick="showimg(this)" id="img{{$value->id}}" data-id="{{$value->id}}" style="width: 50px; height: 50px;" src="{{asset('/resources/image/img_bill/'.$value->bill)}}"/></td>
-							<td><a class="btn btn-primary" href="{{URL::to('/admin/duyetlenhnap/'.$value->id)}}">✓</a><a class="btn btn-danger">✗</a></td>
+							<td><a class="btn btn-primary" href="{{URL::to('/admin/duyetlenhnap/'.$value->id)}}">✓</a><a class="btn btn-danger" href="{{URL::to('/admin/huynap/'.$value->id)}}">✗</a></td>
 
 						  </tr>
                             @endforeach

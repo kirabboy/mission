@@ -29,7 +29,7 @@
 						</div>
 						<div class="form-group">
 							<label><i class='fas fa-lock'></i> Mật khẩu</label>
-							<input type="text" id="password" name="password" class="form-control" required/>
+							<input type="password" id="password" name="password" class="form-control" required/>
 						</div>
 						<div class="form-group text-center">
 							<button class="btn btn-primary">Đăng nhập</button>

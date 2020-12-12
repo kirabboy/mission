@@ -13,7 +13,7 @@
 						@endif
 						@if(Session::has('error'))
 							<div class="alert alert-danger" role="alert">
-								{{Session::get('error')}}
+								{!!Session::get('error')!!}
 							</div>
 						@endif
 					</div>				
@@ -24,7 +24,7 @@
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
-							<div class="alert alert-success" role="alert">
+							<div class="alert alert-green" role="alert">
 								<div class="row no-gutter">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
@@ -67,7 +67,7 @@
 					<div class="col-12">
 						<div class="area-vip-pack">
 							<div class="alert alert-secondary" role="alert">
-								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
+								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-lock">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 										<h5 class="vip-price">Nâng cấp</span></h5>
@@ -188,8 +188,8 @@
 				<script>
 				
 					function getidrole(idrole){
-						var link = "{{URL::to('/upgrate-role/')}}/"+idrole;
-						$('#upgrate-role').attr('href', link);
+						var link = "{{URL::to('/deposit/')}}";
+						$('#upgrate-role').attr('href', link+'/'+idrole);
 						if(idrole == 0){
 							var title = 'Bạn muốn nâng cấp lên gói vip đồng';
 						}else{

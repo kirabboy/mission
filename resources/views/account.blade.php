@@ -29,6 +29,8 @@
                                                 Kim cương
                                             @elseif($user->role == 99)
                                                 Thách đấu admin
+                                            @elseif($user->role == -1)
+                                                Xanh
                                             @endif
                                         </span>
                                     </p>
@@ -159,11 +161,34 @@
                             <div class="col-6 text-center">
                                 <div class="block area-amount">
                                     <p class="amount-title">
-                                        Tổng thu nhập từ vòng quay
+                                        Nhiệm vụ hôm nay còn lại
                                     </p>
                                     <p class="amount-price">
-                                        {{number_format($statistical->total_spin_money,0,',','.')}} vnđ
+                                        {{$role->max_mission-$statistical->today_count_mission}}
                                     </p> 
+                                </div>
+                            </div>
+                            <div class="col-6 text-center">
+                                <div class="block area-amount">
+                                    <p class="amount-title">
+                                        Số thành viên cấp dưới
+                                    </p>
+                                    <p class="amount-price">
+                                        {{$count_f}}
+                                    </p> 
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-6 text-center">
+                                <div class="block area-spin area-user">
+                                    <a href="{{URL::to('/depwith-history')}}">
+                                        <p class="amount-title">
+                                            Lịch sử nạp rút
+                                        </p>
+                                        <img src="{{asset('/resources/image/clock.png')}}"/>
+                                    </a>
                                 </div>
                             </div>
                             <div class="col-6 text-center">

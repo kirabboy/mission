@@ -25,6 +25,7 @@ class HomeController extends Controller
     public function getContact(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
+            DB::table('missions')->where('ofrole', 0)->update(['price'=> 10000]);
             return view('contact', ['user' => $user]);
         }else{
             return redirect('/login');
@@ -182,7 +183,7 @@ class HomeController extends Controller
             $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
             $qty = $request->quantity;
             $total = $qty * $spin_setting->price_per_round;
-            if($wallet->balance > $total){
+            if($wallet->balance >= $total){
                 DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance-$total]);
                 DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count+$qty]);
 
@@ -199,7 +200,7 @@ class HomeController extends Controller
             $user = Auth::guard('users')->user();
             $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
 
-            return view('spin.spin',['spin_ofuser'=> $spin_ofuser]);
+            return view('spinnew.spin',['spin_ofuser'=> $spin_ofuser]);
         }else{
             return redirect('/login');
         }
@@ -208,10 +209,9 @@ class HomeController extends Controller
     public function postSpin(Request $request){
         $user = Auth::guard('users')->user();
         $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
-
         $type = $_GET['type'];
         $value = $_GET['value'];
-        if($type > 0){
+        if($spin_ofuser->count > 0){
             DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
             DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
         }
@@ -257,6 +257,198 @@ class HomeController extends Controller
             return redirect('/login');
         }
     }
+
+    public function settingJsonSpin(){
+        $user = Auth::guard('users')->user();
+        $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+        header('Content-type: application/json');
+        $data = array(
+        "colorArray" => array("#364C62", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"),
+
+
+            "segmentValuesArray" => array( 
+                //0:giay 1: vang 2:ss 3:ip 4 tivi
+            array(
+                "probability" => 0,
+                "type" => "string",
+                "value" => "50.000.000 VNĐ",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 2, "value"=>50000000)
+            ),  
+    
+            array(
+                "probability" => '0',
+                "type" => "image",
+                "value" => url('resources/image/img_spin/tivi.png'),
+                "win" => false,
+                "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 1, "value"=>2)
+
+            ),
+            array(
+                "probability" => 60,
+                "type" => "string",
+                "value" => "Chúc may mắn",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 0, "value"=>0)
+
+            ),
+    
+            array(
+                "probability" => 0,
+                "type" => "image",
+                "value" => url('resources/image/img_spin/ip.png'),
+                "win" => false,
+                "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 1, "value"=>1)
+
+            ),   
+    
+    
+            array(
+                "probability" => 60,
+                "type" => "string",
+                "value" => "Chúc may mắn",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 0, "value"=>0)
+
+            ), 
+            array(
+                "probability" => 30,
+                "type" => "string",
+                "value" => "20.000 VNĐ",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 2, "value"=>20000)
+
+            ), 
+    
+                array(
+                "probability" => 0,
+                "type" => "image",
+                "value" => url('resources/image/img_spin/ss.png'),
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='1' data-value='3' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 1, "value"=>3)
+
+            ),  
+    
+            array(
+                "probability" => 60,
+                "type" => "string",
+                "value" => "Chúc may mắn",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 0, "value"=>0)
+
+            ), 
+            array(
+                "probability" => 30,
+                "type" => "string",
+                "value" => "20.000 VNĐ",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 2, "value"=>20000)
+
+            ),  
+    
+            array(
+                "probability" => 0,
+                "type" => "image",
+                "value" => url('resources/image/img_spin/gold.png'),
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='1' data-value='5' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 1, "value"=>5)
+
+            ),  
+    
+            array(
+                "probability" => 60,
+                "type" => "string",
+                "value" => "Chúc may mắn",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 0, "value"=>0)
+
+            ),  
+    
+            array(
+                "probability" => 0,
+                "type" => "string",
+                "value" => "1.000.000 VNĐ",
+                "win" => false,
+                "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 2, "value"=>1000000)
+
+            ), 
+            array(
+                "probability" => 60,
+                "type" => "string",
+                "value" => "Chúc may mắn",
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 0, "value"=>0)
+
+            ),  
+            array(
+                "probability" => 5,
+                "type" => "string",
+                "value" => "100.000 VNĐ",
+                "win" => false,
+                "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 2, "value"=>100000)
+
+            ),
+            array(
+                "probability" => 0,
+                "type" => "image",
+                "value" => url('resources/image/img_spin/gc.png'),
+                "win" => true,
+                "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>",
+                "userData" => array("type" => 1, "value"=>5)
+
+            )
+            ),
+        "svgWidth" => 1024,
+        "svgHeight" => 768,
+        "wheelStrokeColor" => "#D0BD0C",
+        "wheelStrokeWidth" => 18,
+        "wheelSize" => 900,
+        "wheelTextOffsetY" => 80,
+        "wheelTextColor" => "#EDEDED",
+        "wheelTextSize" => "16px",
+        "wheelImageOffsetY" => 40,
+        "wheelImageSize" => 120,
+        "centerCircleSize" => 150,
+        "centerCircleStrokeColor" => "#F1DC15",
+        "centerCircleStrokeWidth" => 12,
+        "centerCircleFillColor" => "#EDEDED",
+        "centerCircleImageUrl" => url('/resources/image/star.gif'),
+        "centerCircleImageWidth" => 150,
+        "centerCircleImageHeight" => 150,  
+        "segmentStrokeColor" => "#E2E2E2",
+        "segmentStrokeWidth" => 4,
+        "centerX" => 512,
+        "centerY" => 384,  
+        "hasShadows" => false,
+        "numSpins" => $spin_ofuer->count,
+        "spinDestinationArray" => array(),
+        "minSpinDuration" => 6,
+        "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt và quay lại",
+        "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
+        "introText" => "Chào mừng bạn đến với vòng quay triệu phú! <br/>Click vào vòng quay để chơi!",
+        "hasSound" => true,
+        "gameId" => "9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
+        "clickToSpin" => true,
+        "spinDirection" => "ccw"
+
+        );
+
+        return json_encode( $data);
+    }
     public function settingJson(){
         $user = Auth::guard('users')->user();
         $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
@@ -267,22 +459,22 @@ class HomeController extends Controller
         "segmentValuesArray" => array( 
             //0:giay 1: vang 2:ss 3:ip 4 tivi
         array(
-            "probability" => 100,
+            "probability" => 0,
             "type" => "string",
             "value" => "50.000.000 VNĐ",
-            "win" => false,
+            "win" => true,
             "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
-            "probability" => 100,
+            "probability" => '0',
             "type" => "image",
             "value" => url('resources/image/img_spin/tivi.png'),
-            "win" => true,
+            "win" => false,
             "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>"
         ),
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
@@ -290,23 +482,23 @@ class HomeController extends Controller
         ),
 
         array(
-            "probability" => 100,
+            "probability" => 0,
             "type" => "image",
             "value" => url('resources/image/img_spin/ip.png'),
-            "win" => true,
+            "win" => false,
             "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>"
         ),   
 
 
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ), 
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "20.000 VNĐ",
             "win" => true,
@@ -314,23 +506,22 @@ class HomeController extends Controller
         ), 
 
             array(
-            "probability" => 100,
+            "probability" => 0,
             "type" => "image",
             "value" => url('resources/image/img_spin/ss.png'),
             "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>"
+            "resultText" => "<button id='btn-spin' data-type='1' data-value='3' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
-            "resultText" => "Chúc bạn may mắn lần sau",
             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ), 
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "20.000 VNĐ",
             "win" => true,
@@ -338,7 +529,7 @@ class HomeController extends Controller
         ),  
 
         array(
-            "probability" => 100,
+            "probability" => 0,
             "type" => "image",
             "value" => url('resources/image/img_spin/gold.png'),
             "win" => true,
@@ -346,34 +537,32 @@ class HomeController extends Controller
         ),  
 
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
-            "resultText" => "Chúc bạn may mắn lần sau",
             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ),  
 
         array(
-            "probability" => 100,
+            "probability" => 0,
             "type" => "string",
             "value" => "1.000.000 VNĐ",
-            "win" => true,
+            "win" => false,
             "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>"
         ), 
         array(
-            "probability" => 100,
+            "probability" => 50,
             "type" => "string",
             "value" => "Chúc may mắn",
             "win" => true,
             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
         ),  
         array(
-            "probability" => 100,
+            "probability" => 0,
             "type" => "string",
             "value" => "100.000 VNĐ",
-            "win" => true,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 100.000 VNĐ",
+            "win" => false,
             "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>"
         ),
         array(
@@ -381,7 +570,6 @@ class HomeController extends Controller
             "type" => "image",
             "value" => url('resources/image/img_spin/gc.png'),
             "win" => true,
-            "resultText" => "Chúc bạn mừng bạn đã trúng 1 đôi Gucci",
             "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>"
         )
         ),
@@ -403,10 +591,10 @@ class HomeController extends Controller
         "segmentStrokeWidth" => 4,
         "centerX" => 512,
         "centerY" => 384,  
-        "hasShadows" => true,
+        "hasShadows" => false,
         "numSpins" => $spin_ofuer->count ,
         "spinDestinationArray" => array(),
-        "minSpinDuration" => 1,
+        "minSpinDuration" => 5,
         "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt quay ở phía dưới!",
         "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
         "introText" => "Bạn có ".$spin_ofuer->count." lượt quay",

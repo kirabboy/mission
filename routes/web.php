@@ -59,7 +59,7 @@ Route::post('/uploadimgmission', [HomeController::class, 'uploadImgMission']);
 
 Route::get('/donemission/{idmission}', [HomeController::class, 'doneMission']);
 
-Route::get('/getJson', [HomeController::class, 'settingJson']);
+Route::get('/getJson', [HomeController::class, 'settingJsonSpin']);
 
 Route::get('/spin', [HomeController::class,'getSpin']);
 
@@ -85,9 +85,19 @@ Route::get('/deposit', [AccountController::class, 'getDeposit']);
 
 Route::post('/deposit', [AccountController::class, 'postDeposit']);
 
+Route::get('/deposit/{id}', [AccountController::class, 'getDepositUpgrate']);
+
+Route::post('/deposit/{id}', [AccountController::class, 'postDepositUpgrate']);
+
 Route::get('/withdrawn', [AccountController::class, 'getWithdrawn']);
 
 Route::post('/withdrawn', [AccountController::class, 'postWithdrawn']);
+
+Route::get('/withdrawn-history', [AccountController::class, 'lichsurut']);
+
+Route::get('/depwith-history', [AccountController::class, 'depwith_history']);
+
+
 
 //admin
 Route::get('/admin',[AdminController::class, 'getHomeAdmin']);
@@ -107,6 +117,39 @@ Route::get('/admin/duyetlenhnap/{id}', [AdminController::class, 'duyetlenhnap'])
 Route::get('/admin/create-mission', [AdminController::class, 'getCreateMission']);
 
 Route::post('/admin/create-mission', [AdminController::class, 'postCreateMission']);
+
+Route::get('/admin/duyetvip', [AdminController::class, 'getDuyetVip']);
+
+Route::get('/admin/duyetvip/{id}', [AdminController::class, 'postDuyetVip']);
+
+Route::get('/admin/huynap/{id}', [AdminController::class, 'huynap']);
+
+Route::get('/admin/lichsunap', [AdminController::class, 'lichsunap']);
+
+Route::get('/admin/lichsurut', [AdminController::class, 'lichsurut']);
+
+Route::get('/admin/duyetlenhrut', [AdminController::class, 'getduyetrut']);
+
+Route::get('/admin/duyetlenhrut/{id}', [AdminController::class, 'duyetlenhrut']);
+
+Route::get('/admin/huylenhrut/{id}', [AdminController::class, 'huylenhrut']);
+
+Route::get('/admin/quanlythanhvien', [AdminController::class, 'quanlythanhvien']);
+
+Route::get('/admin/quanlythanhvien/{id}', [AdminController::class, 'chitietthanhvien']);
+
+Route::post('/admin/quanlythanhvien/changepass', [AdminController::class, 'changepass']);
+
+Route::post('/admin/quanlythanhvien/{id}', [AdminController::class, 'editthanhvien']);
+
+
+
+
+
+
+
+
+
 
 
 

@@ -14,6 +14,9 @@
         <!-- jQuery 1.8 or later, 33 KB -->
         <script src='https://kit.fontawesome.com/a076d05399.js'></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+
 
         <!-- Fotorama from CDNJS, 19 KB -->
         <link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
@@ -23,6 +26,9 @@
         <title>Like</title>
     </head>
     <style>
+        .form-changepass label{
+            color: #000;
+        }
         .row-spin .alert-dark h5{
             color: #000;
         }
@@ -309,10 +315,10 @@
         }
         .col-dstv-content h6{
             font-weight: 500;
-            font-size: 14px;
+            font-size: 16px;
         }
         .col-dstv-content p{
-            font-size: 12px;
+            font-size: 13px;
             color: darkgray;
             font-weight: 300;
         }
@@ -433,6 +439,11 @@
             background-color: #d29e00;
             border-color: #c6c8ca;
         }
+        .alert-green {
+            color: #1b1e21;
+            background-color: rgb(102, 197, 102);
+            border-color: #c6c8ca;
+        }
         /*.alert-bronze{*/
         /*    -webkit-animation: glowing1 1500ms infinite;*/
         /*    -moz-animation: glowing1 1500ms infinite;*/
@@ -528,8 +539,11 @@
         /*}*/
         .alert-platium{
             color: #1b1e21;
-            background-color: #8fb87d;
+            background-color: #71e240;
             border-color: #c6c8ca;
+        }
+        #img-modal{
+            width: 100%;;
         }
         /*.alert-platium{*/
         /*    -webkit-animation: glowing4 1500ms infinite;*/
@@ -688,10 +702,9 @@
         .navbar-header .col-6 {
             vertical-align: middle;
         }
-        .navbar-header .col-6 b{
+        .navbar-header .amount b{
             color: #fff;
             display: block;
-            margin: 30px 0px 0px 0px;
         }
         .navbar-header .col-6 span{
             color: red;
@@ -702,15 +715,81 @@
             max-height: 300px;
         }
         .inner{
-            overflow:hidden !important;
+            top: 100px;
+            overflow: hidden !important;
             position: relative;
             z-index: -99999;
             width: 100%;
+            bottom: 100px;
+        }
+        
+       
+        .marquee {
+            width: 100%;
+            position: relative;
+            box-sizing: border-box;
+            animation: marquee 60s linear infinite;
+            margin: 0 auto;
+            bottom: 600px;
+            /* text-align: center; */
+            color: #ffffff;
+            z-index: -99999999;
+        }
+        .row-dstv{
+            border-bottom: 1px solid #ccc;
+        }
 
+        @keyframes marquee {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(-150%);
+        }
+        }
+        footer .menu-bottom{
+            z-index: 99999 !important;
+        }
+        /* .area-btn-spin{
+            background-image: url('{{asset('/resources/image/spin-wheel.gif')}}');
+            background-repeat: no-repeat;
+            background-size: cover;
+        } */
+        .area-btn-spin .gif-spin{
+            padding: 10px 50px;
+        }
+        .area-btn-spin .gif-spin img{
+            border-radius: 5%;
+        }
+        .notice-spin{
+            vertical-align: middle;
+
+        }
+        .spin-not{
+            border-right: 1px solid #ccc;
+            padding-right: 5px;
+            color: #fff;
+            
+        }
+        .sdt{
+            color: red;
+            letter-spacing: 1px;
+            font-size: 15px;
+        }
+        .spin-not img{
+            width:5%;
+            
+        }
+        .area-btn-spin{
+            background-image: url('{{asset('/resources/image/spin-wheel.gif')}}');
+            background-size: cover;
+            background-repeat: repeat;
+            height: 210px;
         }
     </style>
     
     <body style="background-color:  #0e1526">
+
         <header>
             <?php
 
@@ -723,7 +802,9 @@
                                 <img src="{{asset('/resources/image/like.png')}}"/>
                             </a>
                         </div>
-                        <div class="col-6 text-right">
+                      
+                        <div class="col-6 text-right amount">
+
                             <?php 
                             if (Auth::guard('users')->check()) {
                                 $user = Auth::guard('users')->user();

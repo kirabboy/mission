@@ -33,15 +33,17 @@
 								@if($mission->type ==1)
 								Chia sẻ lên Facebook(Ấn copy để copy nội dung chia sẻ nhanh hơn):<br/> Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{$mission->link}}
 								<input id="linkhid" type="text"  style="top: -1000px; left:-1000px; position: absolute" value="Chia sẻ lên Facebook: Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{$mission->link}}"/>
+								<span class="btn btn-primary" onclick="copiecode()"> Copy </span>
 								@elseif($mission->type ==2)
 								Truy cập link youtube(Ấn copy để copy link nhanh hơn) <br/>{{$mission->link}}
-								<input id="linkhid" type="text"  style="top: -1000px; left:-1000px; position: absolute"  value="{{$mission->link}}"/>
+								<input id="" type="text"  style="top: -1000px; left:-1000px; position: absolute"  value="{{$mission->link}}"/>
+								<a class="btn btn-primary" href="{{$mission->link}}"> Truy cập </a>
 								@else
 								Chia sẻ lên Zalo(Ấn copy để copy nội dung chia sẻ nhanh hơn): <br/>Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{$mission->link}}
 								<input id="linkhid" type="text" style="top: -1000px; left:-1000px; position: absolute"  value="Chia sẻ lên Facebook: Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{$mission->link}}"/>
+								<span class="btn btn-primary" onclick="copiecode()"> Copy </span>
 								@endif
 								</h5>
-								<span class="btn btn-primary" onclick="copiecode()"> Copy </span>
 								<script>
 									function copiecode() {
 									  var copyText = document.getElementById("linkhid");

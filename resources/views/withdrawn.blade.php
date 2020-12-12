@@ -23,11 +23,7 @@
 				<div class="col-12">
 					<form id="form-info" action="" method="POST" >
 						{{ csrf_field() }}
-						@if(Session::has('success'))
-							<div class="alert alert-success" role="alert">
-								{{Session::get('success')}}
-							</div>
-						@endif
+						
 						<div id="alert-deposit" class="alert alert-primary text-center" role="alert">
 							<h5 style="color: #000">Thông tin tài khoản ngân hàng của bạn</h5>
 							<b>Chủ tài khoản: </b><span>{{$bank->username}}</span><br />
@@ -36,8 +32,8 @@
 						</div>
 						  
 						<div class="form-group">
-							<label>Nhập vào số tiền bạn muốn rút</label>
-							<input id="amount" class="form-control" type="number" name="amount" value="" required/>
+							<label>Nhập vào số tiền bạn muốn rút (ít nhất 100.000 vnđ)</label>
+							<input id="amount" class="form-control" type="number" name="amount" value="" min="100000" required/>
 						</div>
 					
 						<div class="form-group text-center">

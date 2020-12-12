@@ -14,7 +14,16 @@ class AccountController extends Controller
             $user = Auth::guard('users')->user();
             $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
             $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
-            return view('account', ['statistical' => $statistical, 'user' => $user, 'wallet' => $wallet]);
+            $role = DB::table('role')->where('ofrole', $user->role)->first();
+            $count_f = 0;
+            $f1 = $f2 = array();
+            $f1 = DB::table('users')->where('referal_ofuser', $user->phone)->get();
+            foreach($f1 as $val){
+                $f2 = DB::table('users')->where('referal_ofuser', $val->phone)->get();
+                $count_f += count($f2);
+            }
+            $count_f += count($f1);
+            return view('account', ['statistical' => $statistical, 'user' => $user, 'wallet' => $wallet, 'role'=>$role, 'count_f'=>$count_f]);
         }else{
             return redirect('/login');
         }
@@ -92,7 +101,7 @@ class AccountController extends Controller
             if($code_invite != null){
                 $user_invite = DB::table('users')->where('referal_code', $code_invite)->first();
                 if($user_invite != null){
-                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>0, 'referal_code' => $referal_code]);
+                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>-1, 'referal_code' => $referal_code]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
                     DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                     DB::table('info_users')->insert(['ofuser'=> $phone]);
@@ -104,7 +113,7 @@ class AccountController extends Controller
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
                 }
             }else{
-                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code]);
+                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>-1,'referal_code' => $referal_code]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
                 DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
@@ -185,7 +194,7 @@ class AccountController extends Controller
                         $createhistory->createHistory($user->phone, 'Nâng cấp tài khoản lên '.$role->name);
                         return back()->with('success', 'Bạn đã nâng cấp thành công tài khoản lên '.$role->name);
                     }else{
-                        return back()->with('error', 'Số dư không đủ để nâng cấp<br /><a style="color: red" href="'.url('/deposit').'">Click vào đây để nạp tiền</a>');
+                        return redirect('/deposit')->with('error', 'Số dư không đủ để nâng cấp, vui lòng nạp thêm tiền');
                     }
                 }else{
                     return back()->with('error', 'Gói vip không tồn tại');
@@ -305,7 +314,46 @@ class AccountController extends Controller
                     $file = $request->file('bill');
                     $file_name = $file->getClientOriginalName(); 
                     $file->move($destinationPath , $file_name); 
-                    DB::table('deposit')->insert(['ofuser'=>$user->phone, 'amount'=>$request->amount, 'bill'=>$file_name,'status'=>0]);
+                    DB::table('deposit')->insert(['ofuser'=>$user->phone, 'amount'=>$request->amount, 'bill'=>$file_name,'status'=>0, 'type'=>0]);
+                    return back()->with('success','Bạn đã gửi lệnh nạp tiền thành công, chúng tôi sẽ duyệt nhanh nhất có thể');
+
+                }else{
+                    return back()->with('error','Bạn đã gửi lệnh nạp tiền thất bại');
+
+                }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function getDepositUpgrate(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $id_role = $request->id;
+            if($user->role >= $id_role){
+                return back()->with('error', 'Cấp hiện tại của bạn cao hơn');
+            }else{
+                $role = DB::table('role')->where('ofrole', $id_role)->first();
+                return view('deposit_upgrate', ['role'=>$role]); 
+            }
+           
+        }else{
+            return redirect('/login');
+        }
+
+    }
+
+    public function postDepositUpgrate(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+
+            if($request->hasFile('bill'))
+                {
+                    $destinationPath = 'resources/image/img_bill';
+                    $file = $request->file('bill');
+                    $file_name = $file->getClientOriginalName(); 
+                    $file->move($destinationPath , $file_name); 
+                    DB::table('deposit')->insert(['ofuser'=>$user->phone, 'amount'=>$request->amount, 'bill'=>$file_name,'status'=>0, 'type'=>1,'role'=>$request->role]);
                     return back()->with('success','Bạn đã gửi lệnh nạp tiền thành công, chúng tôi sẽ duyệt nhanh nhất có thể');
 
                 }else{
@@ -330,8 +378,41 @@ class AccountController extends Controller
     public function postWithdrawn(Request $request){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            $role = DB::table('role')->where('ofrole', $user->role+1)->first();
-            return back()->with('error', 'Bạn cần nâng cấp lên tài khoản cấp '.$role->name.' để có thể rút tiền');
+            $amount = $request->amount;
+            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+            if($user->role == -1){
+                return back()->with('error', 'Bạn cần nâng cấp lên tài khoản cấp Đồng để có thể rút tiền');
+            }else{
+                if($amount <= $wallet->balance){
+                    DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance-$amount]);
+                    DB::table('withdrawn')->insert(['ofuser'=>$user->phone, 'amount'=>$amount, 'status'=>0]);
+                    return back()->with('success', 'Bạn đã gửi lệnh rút thành công, chúng tôi sẽ duyệt sớm nhất có thể');
+
+                }else{
+                    return back()->with('error', 'Số dư không đủ');
+                }
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function depwith_history(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $lenhrut = DB::table('withdrawn')->where('ofuser', $user->phone)->orderBy('id', 'desc')->get();
+            $lenhnap = DB::table('deposit')->where('ofuser', $user->phone)->orderBy('id', 'desc')->get();
+            return view('depwith_history',['lenhrut'=>$lenhrut, 'lenhnap'=>$lenhnap]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function lichsunap(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $lenhnap = DB::table('deposit')->where('ofuser', $user->phone)->orderBy('id', 'desc')->get();
+            return view('lichsunap',['lenhnap'=>$lenhnap]);
         }else{
             return redirect('/login');
         }
