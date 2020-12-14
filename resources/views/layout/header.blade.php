@@ -647,7 +647,7 @@
             color: black;
         }
         h5.mission-price{
-            font-size: 25px;
+            font-size: 23px;
             color: darkorange;
         }
         h5.mission-name{
@@ -703,6 +703,7 @@
             vertical-align: middle;
         }
         .navbar-header .amount b{
+            padding-top: 30px;
             color: #fff;
             display: block;
         }

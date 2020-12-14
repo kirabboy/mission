@@ -57,8 +57,8 @@
                         <div class="row no-gutters">
                             <div class="col-6">
                                 <div class="block">
-                                    <div class="alert alert-warning text-center" onclick="location.href='{{URL::to('/deposit')}}'" role="alert">
-                                        <h5 style="color:#000;">Nạp tiền</h5>
+                                    <div class="alert alert-warning text-center" onclick="location.href='{{URL::to('/upgrate')}}'" role="alert">
+                                        <h5 style="color:#000;">Nâng cấp</h5>
                                     </div>
                                 </div>
                             </div>

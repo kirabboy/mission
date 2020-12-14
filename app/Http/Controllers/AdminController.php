@@ -12,7 +12,17 @@ class AdminController extends Controller
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
             if($user->role == 99){
-                return view('admin.home');
+                date_default_timezone_set('Asia/Ho_Chi_Minh');
+                $users = DB::table('users')->get();
+                $count = 0;
+                foreach($users as $val){
+                    if($val->dayres == date("Y-m-d")){
+                        $count+= 1;
+                    }
+                }
+
+
+                return view('admin.home', ['users'=>$users, 'count'=>$count]);
 
             }else{
                 return redirect('/');
@@ -21,6 +31,8 @@ class AdminController extends Controller
             return redirect('/login');
         }
     }
+    
+   
 
     public function getEditBanner(){
         if (Auth::guard('users')->check()) {
@@ -183,10 +195,12 @@ class AdminController extends Controller
     public function postDuyetVip(Request $request){
         $upvip = DB::table('deposit')->where('id', $request->id)->first();
         $user = DB::table('users')->where('phone', $upvip->ofuser)->first();
+        $role = DB::table('role')->where('ofrole', $upvip->role)->first();
+
         DB::table('users')->where('phone', $upvip->ofuser)->update(['role'=>$upvip->role]);
         DB::table('deposit')->where('id',$request->id)->update(['status'=>1]);
         $createhistory = new AccountController();
-        $createhistory->createHistory($upvip->ofuser, 'Nâng cấp tài khoản lên Đồng');
+        $createhistory->createHistory($upvip->ofuser, 'Nâng cấp tài khoản lên '.$role->name);
 
         if($user->referal_ofuser != null){
             $f1 = DB::table('users')->where('phone', $user->referal_ofuser)->first();
@@ -203,7 +217,6 @@ class AdminController extends Controller
                 $f0 = DB::table('users')->where('phone', $f1->referal_ofuser)->first();
                 if($f0 != null){
                     $statisticalf0 = DB::table('statistical')->where('ofuser', $f0->phone)->first();
-    
                     $walletf0 = DB::table('wallet')->where('ofuser', $f0->phone)->first();
                     DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf1->balance+intval($upvip->amount*5/100)]);
                     DB::table('statistical')->where('ofuser',$f0->phone)->update([ 'month_total'=> $statisticalf0->month_total+intval($upvip->amount*5/100), 'today_total'=> $statisticalf0->today_total+intval($upvip->amount*5/100),'total'=> $statisticalf0->total+intval($upvip->amount*5/100),'total_referal'=> $statisticalf0->total_referal + intval($upvip->amount*5/100)]);
@@ -380,6 +393,7 @@ class AdminController extends Controller
             if($user->role == 99){
                 $id = $request->id;
                 $member = DB::table('users')->where('id', $id)->first();
+                $role = DB::table('role')->where('ofrole', $member->role)->first();
                 $wallet = DB::table('wallet')->where('ofuser', $member->phone)->first();
                 $spin = DB::table('spin_ofuser')->where('ofuser', $member->phone)->first();
                 $info = DB::table('info_users')->where('ofuser', $member->phone)->first();
@@ -395,7 +409,7 @@ class AdminController extends Controller
 
               
 
-                return view('admin.chitietthanhvien', ['member'=>$member, 'count_f'=>$count_f, 'wallet'=>$wallet, 'spin'=>$spin, 'bank'=>$bank, 'info'=>$info]);
+                return view('admin.chitietthanhvien', ['member'=>$member, 'count_f'=>$count_f, 'wallet'=>$wallet, 'spin'=>$spin, 'bank'=>$bank, 'info'=>$info, 'role'=>$role]);
             }else{
                 return redirect('/');
             }

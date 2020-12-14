@@ -92,6 +92,8 @@ class AccountController extends Controller
     public function postRegister(Request $request){
         $phone = $request->input('phone');
         $password = $request->input('password');
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+
         $date =date("Y-m-d");
         $code_invite = $request->input('codeinvite');
         $hashed = Hash::make($password);
@@ -101,7 +103,7 @@ class AccountController extends Controller
             if($code_invite != null){
                 $user_invite = DB::table('users')->where('referal_code', $code_invite)->first();
                 if($user_invite != null){
-                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>-1, 'referal_code' => $referal_code]);
+                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>-1, 'referal_code' => $referal_code, 'dayres'=>$date]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
                     DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                     DB::table('info_users')->insert(['ofuser'=> $phone]);
@@ -113,7 +115,7 @@ class AccountController extends Controller
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
                 }
             }else{
-                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>-1,'referal_code' => $referal_code]);
+                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>-1,'referal_code' => $referal_code, 'dayres'=>$date]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
                 DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
@@ -333,6 +335,11 @@ class AccountController extends Controller
             if($user->role >= $id_role){
                 return back()->with('error', 'Cấp hiện tại của bạn cao hơn');
             }else{
+                
+                $check = $id_role - $user->role;
+                if($check >1){
+                    return back()->with('error', 'Bạn phải nâng cấp từng cấp');
+                }
                 $role = DB::table('role')->where('ofrole', $id_role)->first();
                 return view('deposit_upgrate', ['role'=>$role]); 
             }

@@ -212,8 +212,10 @@ class HomeController extends Controller
         $type = $_GET['type'];
         $value = $_GET['value'];
         if($spin_ofuser->count > 0){
-            DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
             DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
+        }
+        if($type != 0){
+            DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
         }
         return null;
     }

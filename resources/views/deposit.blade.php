@@ -24,9 +24,9 @@
 						@endif
 						<div id="alert-deposit" style="display: none" class="alert alert-primary text-center" role="alert">
 							<b>Bạn chuyển <span style="color: red" id="amount-alert"></span> vnđ vào tài khoản ngân hàng số tiền muốn nạp và up biên lai lên</b><br />
-							<b>Chủ tài khoản: </b><span>Hoàng Anh Hiếu  </span> <br />
-							<b>Số tài khoản: </b><span><input type="text" style="width: fit-content;" value="37253599987" readonly id="stk" /></span><span style="cursor: pointer; background: green; border: 1px solid #000; border-radius: 5px; padding: 3px 5px; color: #fff;" onclick="copystk()">copy</span><br />
-							<b>Tên ngân hàng: </b><span>SCB Phạm Hùng</span>
+							<b>Chủ tài khoản: </b><span>KIM DUOC  </span> <br />
+							<b>Số tài khoản: </b><span><input type="text" style="width: fit-content;" value="104872467994" readonly id="stk" /></span><span style="cursor: pointer; background: green; border: 1px solid #000; border-radius: 5px; padding: 3px 5px; color: #fff;" onclick="copystk()">copy</span><br />
+							<b>Tên ngân hàng: </b><span>Viettinbank Phạm Hùng, quận 8</span>
 							
 						  </div>
 						  <script>

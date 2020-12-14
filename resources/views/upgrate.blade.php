@@ -67,7 +67,7 @@
 					<div class="col-12">
 						<div class="area-vip-pack">
 							<div class="alert alert-secondary" role="alert">
-								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-lock">
+								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 										<h5 class="vip-price">Nâng cấp</span></h5>
@@ -86,9 +86,9 @@
 				</div>
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
-						<div class="area-vip-pack" data-toggle="modal" data-target="#vip-modal-lock">
+						<div class="area-vip-pack" >
 							<div class="alert alert-gold" role="alert">
-								<div class="row no-gutter">
+								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[2]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 										<h5 class="vip-price">Nâng cấp</span></h5>
@@ -107,9 +107,9 @@
 				</div>
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
-						<div class="area-vip-pack" data-toggle="modal" data-target="#vip-modal-lock">
+						<div class="area-vip-pack" >
 							<div class="alert alert-platium" role="alert">
-								<div class="row no-gutter">
+								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[3]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 										<h5 class="vip-price">Nâng cấp</span></h5>
@@ -128,9 +128,9 @@
 				</div>
 				<div class="row no-gutters container-fluid">
 					<div class="col-12">
-						<div class="area-vip-pack" data-toggle="modal" data-target="#vip-modal-lock">
+						<div class="area-vip-pack" >
 							<div class="alert alert-diamond" role="alert">
-								<div class="row no-gutter">
+								<div class="row no-gutter"  data-toggle="modal" id="{{$vip[4]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 									<div class="col-4 avatar-vip text-center">
 										<img src="{{asset('/resources/image/avatar-default.png')}}"/>
 										<h5 class="vip-price">Nâng cấp</span></h5>
@@ -192,8 +192,14 @@
 						$('#upgrate-role').attr('href', link+'/'+idrole);
 						if(idrole == 0){
 							var title = 'Bạn muốn nâng cấp lên gói vip đồng';
-						}else{
+						}else if(idrole == 1){
 							var title = 'Bạn muốn nâng cấp lên gói vip bạc';
+						}else if(idrole == 2){
+							var title = 'Bạn muốn nâng cấp lên gói vip vàng';
+						}else if(idrole == 3){
+							var title = 'Bạn muốn nâng cấp lên gói vip bạch kim';
+						}else if(idrole == 4){
+							var title = 'Bạn muốn nâng cấp lên gói vip kim cương';
 						}
 						$('.title-up').text(title);
 					}

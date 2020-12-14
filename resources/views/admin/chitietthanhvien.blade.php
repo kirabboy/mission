@@ -74,6 +74,10 @@
 							<input type="text" class="form-control" name="phone" value="{{$info->name}}" readonly/>
 						</div>
 						<div class="form-group">
+							<label>Cấp</label>
+							<input type="text" class="form-control" name="phone" value="{{$role->name}}" readonly/>
+						</div>
+						<div class="form-group">
 							<label>Tên tài khoản ngân hàng</label>
 							<input type="text" class="form-control" name="username" value="{{$bank->username}}" readonly/>
 						</div>

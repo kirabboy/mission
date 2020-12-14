@@ -6,9 +6,9 @@
 				<div class="col-12 text-center">
 					<div class="block area-title-page">
 						<h5>Nâng cấp tài khoản</h5>
-						<div class="alert alert-warning text-center" role="alert">
-							Chỉ dành cho người chơi muốn nâng cấp tài khoản, nếu bạn muốn nạp tiền vào số dư vui lòng bấm vào đây <a href="{{URL::to('/deposit')}}">Nạp tiền</a>
-						</div>
+						<!--<div class="alert alert-warning text-center" role="alert">-->
+						<!--	Chỉ dành cho người chơi muốn nâng cấp tài khoản, nếu bạn muốn nạp tiền vào số dư vui lòng bấm vào đây <a href="{{URL::to('/deposit')}}">Nạp tiền</a>-->
+						<!--</div>-->
 					</div>		
 				</div>
 			</div>
@@ -27,9 +27,9 @@
 						@endif
 						<div id="alert-deposit"  class="alert alert-primary text-center" role="alert">
 							<b>Bạn muốn nâng cấp tài khoản lên vip {{$role->name}} vui lòng chuyển <span style="color: red" id="amount-alert">{{number_format($role->role_price,0,',','.')}} vnđ</span> vào tài khoản ngân hàng của chúng tôi và up biên lai lên</b><br />
-							<b>Chủ tài khoản: </b><span>Hoàng Anh Hiếu  </span> <br />
-							<b>Số tài khoản: </b><span><input type="text" style="width: fit-content;" value="37253599987" readonly id="stk" /></span><span style="cursor: pointer; background: green; border: 1px solid #000; border-radius: 5px; padding: 3px 5px; color: #fff;" onclick="copystk()">copy</span><br />
-							<b>Tên ngân hàng: </b><span>SCB Phạm Hùng</span>
+							<b>Chủ tài khoản: </b><span>KIM DUOC  </span> <br />
+							<b>Số tài khoản: </b><span><input type="text" style="width: fit-content;" value="104872467994" readonly id="stk" /></span><span style="cursor: pointer; background: green; border: 1px solid #000; border-radius: 5px; padding: 3px 5px; color: #fff;" onclick="copystk()">copy</span><br />
+							<b>Tên ngân hàng: </b><span>Viettinbank Phạm Hùng, quận 8</span>
 						  </div>
 						  <script>
 							  function copystk() {
@@ -49,7 +49,7 @@
 						  </script>
 						  <input type="hidden" name="role" value="{{$role->ofrole}}"/>
 						<div class="form-group">
-							<label>Số tiền bạn phải nạp để nâng cấp lên Đồng</label>
+							<label>Số tiền bạn phải nạp để nâng cấp lên {{$role->name}}</label>
 							<input id="amount" class="form-control" type="number" min="100000" name="amount" value="{{$role->role_price}}" readonly/>
 						</div>
 						<div class="form-group">
