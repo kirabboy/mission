@@ -211,7 +211,7 @@ class HomeController extends Controller
         $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
         $type = $_GET['type'];
         $value = $_GET['value'];
-        if($spin_ofuser->count > 0){
+        if($spin_ofuser->count > 0 && $type != 0){
             DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
         }
         if($type != 0){
