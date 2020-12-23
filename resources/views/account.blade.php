@@ -6,239 +6,228 @@
 				<div class="col-12">
                     <div class="area-account-top">
                         <div class="row no-gutters">
-                            <div class="col-3 text-center">
+                            <div class="col-4 text-center">
                                 <div class="account-avatar block">
-                                    <img src="{{asset('/resources/image/avatar-default.png')}}"/>
+                                    <img src="{{asset('/resources/image/img_avatar/'.$user->avatar)}}"/>
+                                    <a class="btn btn-danger" href="{{URL::to('/logout')}}">Đăng xuất</a>
                                 </div>
+                            </div>
+                            <div class="col-8 text-left">
+                                <div class="account-info block">
+                                    <a class="btn btn-primary" data-toggle="modal" data-target="#avatar-modal">Cập nhật ảnh đại diện</a>
+                                    <input class="form-control" value="Cập nhật cảm nghĩ..." data-toggle="modal" data-target="#status-modal">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row no-gutters account-block-name alert alert-name">
+                            <div class="col-6">
+                                <b> Tài khoản: <span>{{$user->phone}}</span></b><br/>
+                                <b> Tên: <span>{{$info->name}}</span></b><br/>
                             </div>
                             <div class="col-6">
-                                <div class="account-info block">
-                                    <p>Tài khoản đăng nhập: <span>{{$user->phone}}</span></p>
-                                    <p>Mã mời: <span>{{$user->referal_code}}</span></p>
-                                    <p>Cấp độ tài khoản: 
-                                        <span> 
-                                            @if($user->role == 0)
-                                                Đồng
-                                            @elseif($user->role == 1)
-                                                Bạc
-                                            @elseif($user->role == 2)
-                                                Vàng
-                                            @elseif($user->role == 3)
-                                                Bạch kim
-                                            @elseif($user->role == 4)
-                                                Kim cương
-                                            @elseif($user->role == 99)
-                                                Thách đấu admin
-                                            @elseif($user->role == -1)
-                                                Xanh
-                                            @endif
-                                        </span>
-                                    </p>
-                                </div>
+                                <b> Cấp độ: <span>{{$role->name}}</span></b><br/>
+                                <a type="button" style="color: red" data-toggle="modal" data-target="#ref-modal">
+                                    Lấy link giới thiệu
+                                </a>
                             </div>
-                            <div class="col-3">
-                                <div class="account-logout text-center block">
-                                    <a href="{{URL::to('/logout')}}">
-                                        <img src="{{asset('/resources/image/exit.png')}}"/>
-                                        <p>Đăng xuất</p>
-                                    </a>
+                        </div>
+                 
+             
+                        </div>
+                        
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <div class="alert alert-info text-center" role="alert">
+                                    <h5 class="text-center" style="color: red; font-weight: 600;text-decoration: underline">Cảm nghĩ</h5>
+                                    {{$user->status}}
                                 </div>
                             </div>
                         </div>
                         <div class="row no-gutters">
                             <div class="col-12">
-                                <div class="area-balance block">
-                                    <div class="alert balance-alert alert-info text-center" role="alert">
-                                        <h4>Số dư ví: <span>{{number_format($wallet->balance,0,',','.')}}</span> vnđ</h4>
-                                    </div>
-                                </div>
+                                <h4 class="block title-block">
+                                    Thông tin tài khoản
+                                </h4>
                             </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-6">
-                                <div class="block">
-                                    <div class="alert alert-warning text-center" onclick="location.href='{{URL::to('/upgrate')}}'" role="alert">
-                                        <h5 style="color:#000;">Nâng cấp</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="block">
-                                    <div class="alert  alert-dark text-center" onclick="location.href='{{URL::to('/withdrawn')}}'" role="alert">
-                                        <h5 style="color:#000;">Rút tiền</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-4 text-center">
-                                <div class="block area-amount">
+                            <div class="col-6 text-center">
+                                <div class="block-g area-amount">
                                     <p class="amount-title">
-                                        Số dư cá nhân
+                                        Số dư
                                     </p>
                                     <p class="amount-price">
                                         {{number_format($wallet->balance,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
-                            <div class="col-4 text-center">
-                                <div class="block area-amount">
+                            <div class="col-6 text-center">
+                                <div class="block-g area-amount">
                                     <p class="amount-title">
-                                        Nhiệm vụ hôm nay
+                                        Điểm VIP
                                     </p>
                                     <p class="amount-price">
-                                        {{number_format($statistical->today_mission_amount,0,',','.')}} vnđ
-                                    </p> 
-                                </div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="block area-amount">
-                                    <p class="amount-title">
-                                        Hoa hồng nhận được
-                                    </p>
-                                    <p class="amount-price">
-                                        {{number_format($statistical->total_referal,0,',','.')}} vnđ
+                                        {{number_format($wallet->point,0,',','.')}} point
                                     </p> 
                                 </div>
                             </div>
                         </div>
                         <div class="row no-gutters">
                             <div class="col-4 text-center">
-                                <div class="block area-amount">
+                                <div class="block-g area-amount">
                                     <p class="amount-title">
-                                        Tổng doanh thu hôm nay
-                                    </p>
-                                    <p class="amount-price">
-                                        {{number_format($statistical->today_total,0,',','.')}} vnđ
-                                    </p> 
-                                </div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="block area-amount">
-                                    <p class="amount-title">
-                                        Tổng doanh thu tháng
-                                    </p>
-                                    <p class="amount-price">
-                                        {{number_format($statistical->month_total,0,',','.')}} vnđ
-                                    </p> 
-                                </div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="block area-amount">
-                                    <p class="amount-title">
-                                        Tổng doanh thu
+                                        Tổng thu nhập
                                     </p>
                                     <p class="amount-price">
                                         {{number_format($statistical->total,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-6 text-center">
-                                <div class="block area-amount">
+                            <div class="col-4 text-center">
+                                <div class="block-g area-amount">
                                     <p class="amount-title">
-                                        Nhiệm vụ hôm nay hoàn thành
+                                        Tổng hoa hồng
                                     </p>
                                     <p class="amount-price">
-                                        {{number_format($statistical->today_count_mission,0,',','.')}}
+                                        {{number_format($statistical->total_referal,0,',','.')}} vnđ
                                     </p> 
                                 </div>
                             </div>
-                            <div class="col-6 text-center">
-                                <div class="block area-amount">
+                            <div class="col-4 text-center">
+                                <div class="block-g area-amount">
                                     <p class="amount-title">
-                                        Nhiệm vụ đã hoàn thành
-                                    </p>
-                                    <p class="amount-price">
-                                        {{number_format($statistical->total_mission,0,',','.')}}
-                                    </p> 
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-6 text-center">
-                                <div class="block area-amount">
-                                    <p class="amount-title">
-                                        Nhiệm vụ hôm nay còn lại
-                                    </p>
-                                    <p class="amount-price">
-                                        {{$role->max_mission-$statistical->today_count_mission}}
-                                    </p> 
-                                </div>
-                            </div>
-                            <div class="col-6 text-center">
-                                <div class="block area-amount">
-                                    <p class="amount-title">
-                                        Số thành viên cấp dưới
+                                        Thành viên
                                     </p>
                                     <p class="amount-price">
                                         {{$count_f}}
                                     </p> 
                                 </div>
                             </div>
-
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-6 text-center">
-                                <div class="block area-spin area-user">
-                                    <a href="{{URL::to('/depwith-history')}}">
-                                        <p class="amount-title">
-                                            Lịch sử nạp rút
-                                        </p>
-                                        <img src="{{asset('/resources/image/clock.png')}}"/>
-                                    </a>
+                            <div class="col-4 text-center">
+                                <div class="block-g area-amount" onclick="location.href='{{URL::to('/my-info')}}'">
+                                    <p class="amount-title">
+                                        Cá nhân
+                                    </p>
+                                    <p class="amount-price">
+                                        <img src="{{asset('/resources/image/img_app/edit.png')}}"/>
+                                    </p> 
                                 </div>
                             </div>
-                            <div class="col-6 text-center">
-                                <div class="block area-spin area-user">
-                                    <a href="{{URL::to('/spin-history')}}">
-                                        <p class="amount-title">
-                                            Lịch sử vòng quay
-                                        </p>
-                                        <img src="{{asset('/resources/image/swift.png')}}"/>
-                                    </a>
+                            <div class="col-4 text-center">
+                                <div class="block-g area-amount" onclick="location.href='{{URL::to('/depwith-history')}}'">
+                                    <p class="amount-title">
+                                        Lịch sử nạp rút
+                                    </p>
+                                    <p class="amount-price">
+                                        <img src="{{asset('/resources/image/img_app/deposit.png')}}"/>
+                                    </p> 
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="block-g area-amount" onclick="location.href='{{URL::to('/bank-info')}}'">
+                                    <p class="amount-title">
+                                        Ngân hàng
+                                    </p>
+                                    <p class="amount-price">
+                                        <img src="{{asset('/resources/image/img_app/bank-building.png')}}"/>
+                                    </p> 
                                 </div>
                             </div>
                         </div>
-                        <div class="row-user row no-gutters">
-                            <div class="col-4 text-center">
-                                <div class="block area-user">
-                                    <a href="{{URL::to('/manager-info')}}">
-                                        <p class="user-title">
-                                            Thông tin cá nhân
-                                        </p>
-                                        <img src="{{asset('/resources/image/edit-info.png')}}"/>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="block area-user">
-                                    <a href="{{URL::to('/my-referal')}}">
-                                        <p class="amount-title">
-                                            Mời bạn bè
-                                        </p>
-                                        <img src="{{asset('/resources/image/affiliate.png')}}"/>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="block area-user">
-                                    <a href="{{URL::to('/helpcenter')}}">
-                                        <p class="amount-title">
-                                            Sổ tay trợ giúp
-                                        </p>
-                                        <img src="{{asset('/resources/image/help.png')}}"/>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
+                  
+                     
+
+  
                         
                     </div>
 				</div>
 			</div>
-		</div>
-	</main>
+        </div>
+        <div class="modal fade" id="ref-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row no-gutters container-fluid ">
+                        <div class="col-12 text-center">                              
+                            <label style="color: #000">Link giới thiệu</label><br/>
+                            <b> Mã giới thiệu: <span>{{$user->referal_code}}</span></b><br/>
+
+                        </div>
+                        <div class="col-9">
+                            <div class="form-group link-ref text-center">
+                                <input class="form-control" id="linkref" value="{{URL::to('/register/'.$user->referal_code)}}"/>
+                            </div>
+                        </div>
+                    <div class="col-3">
+                            <div class="form-group text-center">
+                                <button onclick="copiecode()" class="btn btn-info">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        function copiecode() {
+                          var copyText = document.getElementById("linkref");
+                          copyText.select();
+                          copyText.setSelectionRange(0, 99999)
+                          document.execCommand("copy");
+                          alert("Đã copy link của bạn: " + copyText.value);
+                        }
+                        </script>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="avatar-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                    <form action="{{URL::to('/up-avatar')}}" method="POST" enctype="multipart/form-data">
+						{{ csrf_field() }}
+                        <div class="form-group">
+                            <label>Chọn ảnh đại diện của bạn</label>
+                            <input type="file" class="form-control" name="avatar" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="status-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                    <form action="{{URL::to('/up-status')}}" method="POST">
+						{{ csrf_field() }}
+                        <div class="form-group">
+                            <label>Điền cảm nghĩ của bạn</label>
+                            <textarea style="text-left" name="status" cols="12" class="form-control" rows="5" required>
+
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </main>
+    
 @endsection

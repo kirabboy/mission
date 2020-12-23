@@ -4,9 +4,9 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Chi tiết nhiệm vụ</h5>
-					</div>			
+					<h4 class="block title-block">
+						Chi tiết nhiệm vụ
+					</h4>			
 				</div>
 			</div>
 			@if(Session::has('success'))
@@ -79,10 +79,7 @@
 						@if($checkMission != null)
 							@if($checkMission->status == 2 )
 								<a class="btn btn-success">Đang duyệt</a>
-							@elseif($checkMission->status == 0 )
-								<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-danger">
-									Huỷ
-								</a>
+							
 							@elseif($checkMission->status == 1)
 								<a class="btn btn-danger">Đã huỷ</a>
 							@elseif($checkMission->status == 3)

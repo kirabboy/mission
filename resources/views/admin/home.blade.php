@@ -24,6 +24,13 @@
 			</div>
 			<div class="row no-gutters container-fluid row-home-admin">
 				<div class="col-6">
+                    <a href="{{URL::to('admin/editbalance')}}" class="btn btn-info">Sửa số dư</a>
+				</div>
+				<div class="col-6">
+				</div>
+			</div>
+			<div class="row no-gutters container-fluid row-home-admin">
+				<div class="col-6">
                     <a href="{{URL::to('admin/editbanner')}}" class="btn btn-info">Đổi banner</a>
 				</div>
 				<div class="col-6">

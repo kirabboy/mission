@@ -4,9 +4,9 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Lịch sử tài khoản</h5>
-					</div>			
+					<h4 class="block title-block">
+						Lịch sử
+					</h4>		
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">
@@ -27,7 +27,7 @@
 							  <div class="tab-pane fade in active" id="overview">
 									<div class="container">
 										@foreach ($histories as $history)
-											<div class="alert alert-info" role="alert">
+											<div class="alert alert-warning" role="alert">
 												{{$history->content}}
 											</div>
 										@endforeach
@@ -38,29 +38,25 @@
 								</div>
 							  <div class="tab-pane fade" id="missiondone">
 								@foreach($mission_done as $value)
-									<div class="alert alert-dark" role="alert">
+									<div class="alert alert-warning" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
+											<div class="row row-mission ">
+												<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
 													<img src="
 													@if($value->type== 1)
-													{{asset('/resources/image/facebook.png')}}
+													{{asset('/resources/image/img_app/f.png')}}
 													@elseif($value->type ==2)
-													{{asset('/resources/image/youtube.png')}}
+													{{asset('/resources/image/img_app/video.png')}}
 													@else
-													{{asset('/resources/image/zalo.png')}}
-
+													{{asset('/resources/image/img_app/zalo.png')}}
 													@endif
 													"/>
 												</div>
-												<div class="col-6">
+												<div class="col-9 text-left">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+											
 											</div>
 										</a>
 									</div>
@@ -68,89 +64,78 @@
 							  </div>
 							  <div class="tab-pane fade" id="missionpending">
 								@foreach($mission_pending as $value)
-									<div class="alert alert-dark" role="alert">
-										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="
-													@if($value->type== 1)
-													{{asset('/resources/image/facebook.png')}}
-													@elseif($value->type ==2)
-													{{asset('/resources/image/youtube.png')}}
-													@else
-													{{asset('/resources/image/zalo.png')}}
-
-													@endif
-													"/>
-												</div>
-												<div class="col-6">
-													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
-													<h5 class="mission-name">{{$value->name}}</h5>
-												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+								<div class="alert alert-warning" role="alert">
+									<a href="{{URL::to('/mission-detail/'.$value->id)}}">
+										<div class="row row-mission ">
+											<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
+												<img src="
+												@if($value->type== 1)
+												{{asset('/resources/image/img_app/f.png')}}
+												@elseif($value->type ==2)
+												{{asset('/resources/image/img_app/video.png')}}
+												@else
+												{{asset('/resources/image/img_app/zalo.png')}}
+												@endif
+												"/>
 											</div>
-										</a>
-									</div>
+											<div class="col-9 text-left">
+												<h5 class="mission-price">{{$value->price}} VNĐ</h5>
+												<h5 class="mission-name">{{$value->name}}</h5>
+											</div>
+										
+										</div>
+									</a>
+								</div>
 								@endforeach
 							  </div>
 							  <div class="tab-pane fade" id="missioncancel">
 								@foreach($mission_cancel as $value)
-									<div class="alert alert-dark" role="alert">
-										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="
-													@if($value->type== 1)
-													{{asset('/resources/image/facebook.png')}}
-													@elseif($value->type ==2)
-													{{asset('/resources/image/youtube.png')}}
-													@else
-													{{asset('/resources/image/zalo.png')}}
-
-													@endif
-													"/>
-												</div>
-												<div class="col-6">
-													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
-													<h5 class="mission-name">{{$value->name}}</h5>
-												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+								<div class="alert alert-warning" role="alert">
+									<a href="{{URL::to('/mission-detail/'.$value->id)}}">
+										<div class="row row-mission ">
+											<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
+												<img src="
+												@if($value->type== 1)
+												{{asset('/resources/image/img_app/f.png')}}
+												@elseif($value->type ==2)
+												{{asset('/resources/image/img_app/video.png')}}
+												@else
+												{{asset('/resources/image/img_app/zalo.png')}}
+												@endif
+												"/>
 											</div>
-										</a>
-									</div>
+											<div class="col-9 text-left">
+												<h5 class="mission-price">{{$value->price}} VNĐ</h5>
+												<h5 class="mission-name">{{$value->name}}</h5>
+											</div>
+										
+										</div>
+									</a>
+								</div>
 								@endforeach
 							  </div>
 							  <div class="tab-pane fade" id="missionnew">
 								@foreach($mission_new as $value)
-									<div class="alert alert-dark" role="alert">
+									
+									<div class="alert alert-warning" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
+											<div class="row row-mission ">
+												<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
 													<img src="
 													@if($value->type== 1)
-													{{asset('/resources/image/facebook.png')}}
+													{{asset('/resources/image/img_app/f.png')}}
 													@elseif($value->type ==2)
-													{{asset('/resources/image/youtube.png')}}
+													{{asset('/resources/image/img_app/video.png')}}
 													@else
-													{{asset('/resources/image/zalo.png')}}
-
+													{{asset('/resources/image/img_app/zalo.png')}}
 													@endif
 													"/>
 												</div>
-												<div class="col-6">
+												<div class="col-9 text-left">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+											
 											</div>
 										</a>
 									</div>

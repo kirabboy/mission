@@ -5,7 +5,7 @@
 			<div class="row no-gutters">
 				<div class="col-12">
 					<div class="area-img-login">
-						<img src="{{asset('/resources/image/mmo.jpg')}}"/>
+						<img src="{{asset('/resources/image/img_app/login.png')}}"/>
 					</div>
 				</div>
 			</div>
@@ -32,13 +32,13 @@
 							<input type="password" id="password" name="password" class="form-control" required/>
 						</div>
 						<div class="form-group text-center">
-							<button class="btn btn-primary">Đăng nhập</button>
+							<button class="btn btn-warning">Đăng nhập</button>
 						</div>
 					</form>
 				</div>
 			</div>
-			<div class="row no-gutters">
-				<p>Chưa có tài khoản: <a href="{{URL::to('/register')}}">Đăng ký ngay!</a></p>
+			<div class="row no-gutters text-center">
+				<a href="{{URL::to('/register')}}" class="btn btn-red" style="width: 100%; text-align: center;">Đăng ký tài khoản!</a>	
 			</div>
 		</div>
 	</main>

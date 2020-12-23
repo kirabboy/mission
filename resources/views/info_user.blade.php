@@ -4,9 +4,9 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Thông tin tài khoản</h5>
-					</div>		
+					<h4 class="block title-block">
+						Thông tin tài khoản
+					</h4>	
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">
@@ -25,14 +25,6 @@
 						<div class="form-group">
 							<label>Số điện thoại đăng nhập</label>
 							<input class="form-control" value="{{$user->phone}}" readonly/>
-						</div>
-						<div class="form-group">
-							<label>Email</label>
-							<input class="form-control" name="email" value="{{$info->email}}" />
-						</div>
-						<div class="form-group">
-							<label>Facebook</label>
-							<input class="form-control" name="facebook" value="{{$info->facebook}}" />
 						</div>
 						<div class="form-group">
 							<label>Zalo</label>

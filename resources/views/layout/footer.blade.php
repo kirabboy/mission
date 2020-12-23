@@ -3,51 +3,31 @@
         <div class="row no-gutters menu-bottom">
             <div class="col-2" id="p1">
                 <a class="{{(url()->current() == URL::to('/')) ? 'active' : '' }}" href="{{URL::to('/')}}">
-                    @if(url()->current() != URL::to('/'))
-                        <img src="{{asset('/resources/image/home.png')}}"/>
-                    @else
-                        <img src="{{asset('/resources/image/home_a.png')}}"/>
-                    @endif
+                    <img src="{{asset('/resources/image/img_app/home.png')}}"/>
                     <h6>Trang chủ</h6>
                 </a>
             </div>
             <div class="col-2 col-half-offset" id="p2">
                 <a class="{{(url()->current() == URL::to('/upgrate')) ? 'active' : '' }}" href="{{URL::to('/upgrate')}}">
-                    @if(url()->current() != URL::to('/upgrate'))
-                        <img src="{{asset('/resources/image/diamond.png')}}"/>
-                    @else
-                        <img src="{{asset('/resources/image/diamond_a.png')}}"/>
-                    @endif
+                        <img src="{{asset('/resources/image/img_app/upgrade.png')}}"/>
                     <h6>Nâng cấp</h6>
                 </a>
             </div>
             <div class="col-2 col-half-offset" id="p3">
                 <a class="{{(url()->current() == URL::to('/earn-money')) ? 'active' : '' }}" href="{{URL::to('/earn-money')}}">
-                    @if(url()->current() != URL::to('/earn-money'))
-                        <img src="{{asset('/resources/image/money.png')}}"/>
-                    @else
-                        <img src="{{asset('/resources/image/money_a.png')}}"/>
-                    @endif
-                    <h6>Kiếm tiền</h6>
+                    <img src="{{asset('/resources/image/img_app/target.png')}}"/>
+                    <h6>Nhiệm vụ</h6>
                 </a>
             </div>
             <div class="col-2 col-half-offset" id="p4">
                 <a class="{{(url()->current() == URL::to('/history')) ? 'active' : '' }}" href="{{URL::to('/history')}}">
-                    @if(url()->current() != URL::to('/history'))
-                        <img src="{{asset('/resources/image/history.png')}}"/>
-                    @else
-                        <img src="{{asset('/resources/image/history_a.png')}}"/>
-                    @endif
+                    <img src="{{asset('/resources/image/img_app/history.png')}}"/>
                     <h6>Lịch sử</h6>
                 </a>
             </div>
             <div class="col-2 col-half-offset" id="p5">
                 <a class="{{(url()->current() == URL::to('/my-account')) ? 'active' : '' }}" href="{{URL::to('/my-account')}}">
-                    @if(url()->current() != URL::to('/my-account'))
-                        <img src="{{asset('/resources/image/user.png')}}"/>
-                    @else
-                        <img src="{{asset('/resources/image/user_a.png')}}"/>
-                    @endif
+                    <img src="{{asset('/resources/image/img_app/account.png')}}"/>
                     <h6>Thông tin</h6>
                 </a>
             </div>

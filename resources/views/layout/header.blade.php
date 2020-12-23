@@ -26,6 +26,40 @@
         <title>Like</title>
     </head>
     <style>
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+            background: #efd363;
+            color: #000;
+            font-weight: 600;
+        }
+        .alert-gold{
+            background: #efd363;
+        }
+        .btn{
+            font-weight: 600;
+            color: #000 !important;
+        }
+        .vip-card{
+            margin: 20px 0px 20px 0px !important;
+        }
+        .area-vip-pack{
+            background-repeat: no-repeat !important;
+            background-size: 100% !important;
+            height: 100%;
+            margin-bottom: 10px;
+            -webkit-box-shadow: 0px 9px 5px 9px rgba(255,255,255,1);
+-moz-box-shadow: 0px 9px 5px 9px rgba(255,255,255,1);
+box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
+        }
+        .area-vip-pack .alert{
+            padding-top: 20%;
+        }
+        .content-vip h3, .content-vip p{
+            color: #d2a210;
+        }
+        .btn-red{
+            background-color: #e65726;
+            border-color: #e65726;
+        }
         .form-changepass label{
             color: #000;
         }
@@ -38,23 +72,32 @@
         }
         .menu-bottom .col-2 h6{
             font-size: 10px;
-            color: #fff;
+            color: #000;
+            font-weight: 600;
         }
         .menu-bottom{
             border-top: 1px solid silver;
             margin: 0px !important;
-            background: #151d31;
+            background: #221e1d;
             color: #fff;
             z-index: 2;
             position: fixed;
             left: 0;
             bottom: 0;
             right: 0;
-            height: 50px;
+            height: 60px;
         }
         .menu-bottom .col-2{
+         
             margin: auto;
             text-align: center;
+            padding: 8px 0px;
+            background: #efd363;
+            height: 51px;
+            width: 50px;
+            vertical-align: middle;
+            border-radius: 6px;
+            color: #000;
         }
         .col-half-offset{
             margin-left:4.166666667%
@@ -83,9 +126,24 @@
             color: #fff;
         }
         .block{
-            background-color: #151d31;
+            padding: 10px 5px;
+            background-color: #000;
             height: 100% ;
             margin: 3px;
+        }
+        .block-g{
+            padding: 10px 5px;
+            background-color: rgba(122, 122, 122, 0.493);
+            height: 100% ;
+            border: 1px solid rgb(158, 93, 93);
+
+            margin: 3px;
+        }
+        .title-block{
+            text-decoration: underline;
+            text-transform: uppercase;
+            text-align: center;
+            color: #eed363;
         }
         .row{
             margin: 5px 0px;
@@ -357,8 +415,11 @@
         .area-img-login img{
             width: 100%;
         }
-        .form-login label, .form-register label{
-            color: #fff;
+        .block-g img{
+            border-radius: 5px;
+            padding: 10px;
+            width: 50%;
+            background: rgb(255 204 0);
         }
         .account-avatar img{
             width: 60px;
@@ -379,12 +440,15 @@
             font-size: 13px;
             color: lightskyblue;
         }
+        .btn{
+            color: #000;
+        }
         .amount-title{
             color: lightcyan;
             font-size: 15px;
         }
         .amount-price{
-            color: lightseagreen;
+            color: lightgreen;
             font-size: 14px;
         }
         .area-amount{
@@ -398,15 +462,17 @@
 
         }
         .area-balance{
-            margin: 40px 0px;   
         }
         .balance-alert{
-            --box-shadow-color: lightcyan;
+            --box-shadow-color: #fff100;
             box-shadow: 0 0 30px var(--box-shadow-color);
         }
         .row-user{
             margin: 10px;
             border-top: 1px solid darkgray;
+        }
+        .modal-content{
+            background: #000 !important;
         }
         .area-user {
             padding: 20px 0px 30px;
@@ -504,7 +570,7 @@
         /*}*/
        
         .alert-gold {
-            color: #1b1e21;
+            color: #ab0000  ;
             background-color: #c9c353;
             border-color: #c6c8ca;
         }
@@ -619,7 +685,6 @@
             color: #fff;
             padding: 10px;
             border-radius: 5px;
-            background: #00000066;
         }
         .vip-price{
             border: 1px solid lightskyblue;
@@ -641,14 +706,18 @@
             margin: 30px 0px 0px 0px;
         }
         .img-mission img{
-            width: 100%;
+            border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    background: rgb(255 204 0);
         }
         .area-mission h5, .area-mission span, .area-mission p{
             color: black;
         }
         h5.mission-price{
             font-size: 23px;
-            color: darkorange;
+            color: #000;
+            font-weight: 600;
         }
         h5.mission-name{
             color: lightslategray;
@@ -787,38 +856,196 @@
             background-repeat: repeat;
             height: 210px;
         }
+        .ranking img{
+            width: 100%;
+        }
+        .shopping{
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            color: #efd363;
+            border: 1px solid;
+
+            background: url('{{asset('/resources/image/img_app/background-8.jpg')}}') no-repeat;
+        }
+        .shopping i{
+            background: #efd363;
+            color: #000;
+            border-radius: 50%;
+            padding: 5px;
+            
+        }
+        .gioi-thieu, .giai-dap{
+            color: #efd363;
+            background: url('{{asset('/resources/image/img_app/background-8.jpg')}}') no-repeat;
+            background-size: cover;
+        }
+        .gioi-thieu, .giai-dap{
+            color: #efd363;
+            border: 1px solid;
+
+        }
+        .gioi-thieu img, .giai-dap img{
+            width:  25px;
+        }
+        .hotro{
+            text-align: center;
+            padding: 15px;
+        }
+
+        .upgrade{
+            text-align: center;
+            padding: 15px;
+        }
+        .upgrade img, .hotro img{
+            border-radius: 5px;
+            width:  100%;
+            border: 1px solid;
+            color: #efd363;
+            margin-top:5px; 
+
+
+        }
+        .flashsale{
+            text-align: center;
+        }
+        .flashsale marquee{
+            border: 2px solid;
+            background: linear-gradient(331deg, rgba(191,164,38,1) 0%, rgba(214,189,96,1) 25%, rgba(251,213,121,1) 43%, rgba(253,217,42,1) 100%);
+            border-color: #e65726;
+
+        }
+        .flashsale marquee span{
+      
+      font-style: italic;
+      
+      
+      
+      color:#313131;
+      font-weight: bold;
+      -webkit-animation:colorchange 10s infinite alternate;
+      
+      
+    }
+
+    @-webkit-keyframes colorchange {
+      0% {
+        
+        color: blue;
+      }
+      
+      10% {
+        
+        color: #8e44ad;
+      }
+      
+      20% {
+        
+        color: #1abc9c;
+      }
+      
+      30% {
+        
+        color: #d35400;
+      }
+      
+      40% {
+        
+        color: blue;
+      }
+      
+      50% {
+        
+        color: #000;
+      }
+      
+      60% {
+        
+        color: blue;
+      }
+      
+      70% {
+        
+        color: #2980b9;
+      }
+      80% {
+     
+        color: red;
+      }
+      
+      90% {
+     
+        color: #2980b9;
+      }
+      
+      100% {
+        
+        color: pink;
+      }
+    }
+        .qua{
+            text-align: center;
+            background: url('{{asset('/resources/image/img_app/background-7.jpg')}}') no-repeat;
+            background-color: #efd363;
+            border-color: #efd363;
+
+        }
+        .qua img{
+            width: 50%;
+            background-size: cover;
+
+        }
+          .qua{
+           -webkit-animation: glowing5 1500ms infinite;
+           -moz-animation: glowing5 1500ms infinite;
+           -o-animation: glowing5 1500ms infinite;
+           animation: glowing5 1500ms infinite;
+        }
+        @-webkit-keyframes glowing5 {
+           0% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+           50% { background-color: #efd363; -webkit-box-shadow: 0 0 30px #efd363; }
+           100% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+           }
+
+           @-moz-keyframes glowing5{*/
+               0% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+           50% { background-color: #efd363; -webkit-box-shadow: 0 0 30px #efd363; }
+           100% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+           }
+
+           @-o-keyframes glowing5 {
+               0% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+           50% { background-color: #efd363; -webkit-box-shadow: 0 0 30px #efd363; }
+           100% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+          }
+
+           @keyframes glowing5 {
+               0% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+           50% { background-color: #efd363; -webkit-box-shadow: 0 0 30px #efd363; }
+                100% { background-color: #efd363; -webkit-box-shadow: 0 0 3px #efd363; }
+        }
+        label{
+            color: #efd363;
+        }
+        .alert-name{
+            background: #ffffff24;
+        }
+        .form-control{
+            background: #efd363;
+            border: 2px solid #e65726;
+        }
+        .account-block-name b{
+            font-size: 13px;
+            color: #fff;
+        }
+        .account-block-name span{
+            color: #efd363;
+            font-size: 13px;
+        }
     </style>
     
-    <body style="background-color:  #0e1526">
+    <body style="background-color:  #000">
 
         <header>
-            <?php
-
-            use Illuminate\Support\Facades\Auth;
-            ?>
-                <div class="container-fluid">
-                    <div class="navbar-header row">
-                        <div class="col-6 text-left">
-                            <a class="navbar-brand" href="{{URL::to('/')}}">
-                                <img src="{{asset('/resources/image/like.png')}}"/>
-                            </a>
-                        </div>
-                      
-                        <div class="col-6 text-right amount">
-
-                            <?php 
-                            if (Auth::guard('users')->check()) {
-                                $user = Auth::guard('users')->user();
-                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
-                                if($user->role == 99){
-                                    echo '<a class="btn btn-info" href='.url("/admin").' style="">Admin</a>';
-                                }else{
-                                    echo '<b>Số dư: <span>'.number_format($wallet->balance,0,',','.').'</span> vnđ</b>';
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+          
         </header>

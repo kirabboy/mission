@@ -142,12 +142,18 @@ class HomeController extends Controller
     }
     
     public function uploadImgMission(Request $request){
+        $user = Auth::guard('users')->user();
         $file = $request->file('result');
         $idmission = $request->idmission;
+        $mission = DB::table('missions')->where('id', $idmission)->first();
         $file->move('resources/image/', $file->getClientOriginalName());
-        $idtakingmission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_mission', $idmission)->orderBy('id', 'desc')->first();
+        $idtakingmission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->first();
         Db::table('taking_mission')->where('id', $idtakingmission->id)->update(['result'=>$file->getClientOriginalName()]);
-        return back()->with('success', 'Bạn đã up ảnh thành công, vui lòng xác nhận để hoàn thành nhiệm vụ');
+        DB::table('taking_mission')->where('id', $idtakingmission->id)->update(['status' => 2]);
+        $createhistory = new AccountController();
+        $createhistory->createHistory($user->phone, 'Bạn đã đã xác nhận hoàn thành nhiệm vụ "'.$mission->name.'"');
+        return back()->with('success', 'Bạn đã xác nhận hoàn thành nhiệm vụ');
+        
     }
 
     public function doneMission(Request $request){
@@ -160,452 +166,452 @@ class HomeController extends Controller
             $createhistory->createHistory($user->phone, 'Bạn đã đã xác nhận hoàn thành nhiệm vụ "'.$mission->name.'"');
             return back()->with('success', 'Bạn đã xác nhận hoàn thành nhiệm vụ');
         }else{
-            return back()->with('error', 'Bạn chưa đủ điều kiến xác nhận hoàn thành nhiệm vụ');
+            return back()->with('error', 'Bạn chưa đủ điều kiện xác nhận hoàn thành nhiệm vụ');
         }
     }
-    public function getBuySpin(){
-        if (Auth::guard('users')->check()) {
-            $user = Auth::guard('users')->user();
-            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
-            $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+    // public function getBuySpin(){
+    //     if (Auth::guard('users')->check()) {
+    //         $user = Auth::guard('users')->user();
+    //         $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+    //         $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
 
-            $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
-            return view('buy_spin',['user'=>$user, 'wallet'=>$wallet, 'spin_setting'=>$spin_setting, 'spin_ofuser'=>$spin_ofuser]);
-        }else{
-            return redirect('/login');
-        }
-    }
-    public function postBuySpin(Request $request){
-        if (Auth::guard('users')->check()) {
-            $user = Auth::guard('users')->user();
-            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
-            $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
-            $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
-            $qty = $request->quantity;
-            $total = $qty * $spin_setting->price_per_round;
-            if($wallet->balance >= $total){
-                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance-$total]);
-                DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count+$qty]);
+    //         $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
+    //         return view('buy_spin',['user'=>$user, 'wallet'=>$wallet, 'spin_setting'=>$spin_setting, 'spin_ofuser'=>$spin_ofuser]);
+    //     }else{
+    //         return redirect('/login');
+    //     }
+    // }
+    // public function postBuySpin(Request $request){
+    //     if (Auth::guard('users')->check()) {
+    //         $user = Auth::guard('users')->user();
+    //         $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+    //         $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+    //         $spin_setting = DB::table('spin_setting')->where('id', 1)->first();
+    //         $qty = $request->quantity;
+    //         $total = $qty * $spin_setting->price_per_round;
+    //         if($wallet->balance >= $total){
+    //             DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance-$total]);
+    //             DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count+$qty]);
 
-                return back()->with('success', 'Đã mua lượt quay thành công, quay ngay thôi nào'); 
-            }else{
-                return back()->with('error', 'Số dư của bạn không đủ, vui lòng nạp thêm tiền');
-            }
-        }else{
-            return redirect('/login');
-        }
-    }
-    public function getSpin(){
-        if (Auth::guard('users')->check()) {
-            $user = Auth::guard('users')->user();
-            $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+    //             return back()->with('success', 'Đã mua lượt quay thành công, quay ngay thôi nào'); 
+    //         }else{
+    //             return back()->with('error', 'Số dư của bạn không đủ, vui lòng nạp thêm tiền');
+    //         }
+    //     }else{
+    //         return redirect('/login');
+    //     }
+    // }
+    // public function getSpin(){
+    //     if (Auth::guard('users')->check()) {
+    //         $user = Auth::guard('users')->user();
+    //         $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
 
-            return view('spinnew.spin',['spin_ofuser'=> $spin_ofuser]);
-        }else{
-            return redirect('/login');
-        }
-    }
+    //         return view('spinnew.spin',['spin_ofuser'=> $spin_ofuser]);
+    //     }else{
+    //         return redirect('/login');
+    //     }
+    // }
 
-    public function postSpin(Request $request){
-        $user = Auth::guard('users')->user();
-        $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
-        $type = $_GET['type'];
-        $value = $_GET['value'];
-        if($spin_ofuser->count > 0 ){
-            DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
-        }
-        if($type != 0){
-            DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
-        }
-        return null;
-    }
+    // public function postSpin(Request $request){
+    //     $user = Auth::guard('users')->user();
+    //     $spin_ofuser = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+    //     $type = $_GET['type'];
+    //     $value = $_GET['value'];
+    //     if($spin_ofuser->count > 0 ){
+    //         DB::table('spin_ofuser')->where('ofuser', $user->phone)->update(['count'=>$spin_ofuser->count-1]);
+    //     }
+    //     if($type != 0){
+    //         DB::table('spin_history')->insert(['ofuser'=>$user->phone, 'type'=>$type, 'value'=>$value, 'status'=>0]);
+    //     }
+    //     return null;
+    // }
 
-    public function getSpinHistory(){
-        if (Auth::guard('users')->check()) {
-            $user = Auth::guard('users')->user();
-            $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+    // public function getSpinHistory(){
+    //     if (Auth::guard('users')->check()) {
+    //         $user = Auth::guard('users')->user();
+    //         $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
 
-            $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->orderBy('id', 'desc')->get();
+    //         $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->orderBy('id', 'desc')->get();
 
-            return view('spinhistory',['spin_history'=> $spin_history, 'statistical' => $statistical]);
-        }else{
-            return redirect('/login');
-        }
-    }
+    //         return view('spinhistory',['spin_history'=> $spin_history, 'statistical' => $statistical]);
+    //     }else{
+    //         return redirect('/login');
+    //     }
+    // }
     
-    public function receiSpin(Request $request){
-        if (Auth::guard('users')->check()) {
-            $user = Auth::guard('users')->user();
-            $id_spin = $request->id;
-            $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
-            $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
-            $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->get();
-            $spin = DB::table('spin_history')->where('id',$id_spin)->first();
-            if($spin->type == 2){
-                if($spin->status == 0){
-                    DB::table('spin_history')->where('id',$id_spin)->update(['status'=>1]);
-                    DB::table('wallet')->where('ofuser',$user->phone)->update(['balance'=>$wallet->balance+$spin->value]);
-                    DB::table('statistical')->where('ofuser',$user->phone)->update(['total_spin_money'=> $statistical->total_spin_money+$spin->value, 'month_total'=> $statistical->month_total+$spin->value, 'today_total'=> $statistical->today_total+$spin->value,'total'=> $statistical->total+$spin->value]);
+    // public function receiSpin(Request $request){
+    //     if (Auth::guard('users')->check()) {
+    //         $user = Auth::guard('users')->user();
+    //         $id_spin = $request->id;
+    //         $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+    //         $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+    //         $spin_history = DB::table('spin_history')->where('ofuser', $user->phone)->get();
+    //         $spin = DB::table('spin_history')->where('id',$id_spin)->first();
+    //         if($spin->type == 2){
+    //             if($spin->status == 0){
+    //                 DB::table('spin_history')->where('id',$id_spin)->update(['status'=>1]);
+    //                 DB::table('wallet')->where('ofuser',$user->phone)->update(['balance'=>$wallet->balance+$spin->value]);
+    //                 DB::table('statistical')->where('ofuser',$user->phone)->update(['total_spin_money'=> $statistical->total_spin_money+$spin->value, 'month_total'=> $statistical->month_total+$spin->value, 'today_total'=> $statistical->today_total+$spin->value,'total'=> $statistical->total+$spin->value]);
 
-                    return back()->with('success', 'Nhận thưởng thành công');
+    //                 return back()->with('success', 'Nhận thưởng thành công');
 
-                }else{
-                    return back()->with('error', 'Bạn đã nhận thưởng');
-                }
-            }else{
-                return back()->with('error', 'Chúng tôi sẽ liên lạc để trao thưởng');
-            }
-        }else{
-            return redirect('/login');
-        }
-    }
+    //             }else{
+    //                 return back()->with('error', 'Bạn đã nhận thưởng');
+    //             }
+    //         }else{
+    //             return back()->with('error', 'Chúng tôi sẽ liên lạc để trao thưởng');
+    //         }
+    //     }else{
+    //         return redirect('/login');
+    //     }
+    // }
 
-    public function settingJsonSpin(){
-        $user = Auth::guard('users')->user();
-        $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
-        header('Content-type: application/json');
-        $data = array(
-        "colorArray" => array("#364C62", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"),
+    // public function settingJsonSpin(){
+    //     $user = Auth::guard('users')->user();
+    //     $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+    //     header('Content-type: application/json');
+    //     $data = array(
+    //     "colorArray" => array("#364C62", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"),
 
 
-            "segmentValuesArray" => array( 
-                //0:giay 1: vang 2:ss 3:ip 4 tivi
-            array(
-                "probability" => 0,
-                "type" => "string",
-                "value" => "50.000.000 VNĐ",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 2, "value"=>50000000)
-            ),  
+    //         "segmentValuesArray" => array( 
+    //             //0:giay 1: vang 2:ss 3:ip 4 tivi
+    //         array(
+    //             "probability" => 0,
+    //             "type" => "string",
+    //             "value" => "50.000.000 VNĐ",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 2, "value"=>50000000)
+    //         ),  
     
-            array(
-                "probability" => '0',
-                "type" => "image",
-                "value" => url('resources/image/img_spin/tivi.png'),
-                "win" => false,
-                "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 1, "value"=>2)
+    //         array(
+    //             "probability" => '0',
+    //             "type" => "image",
+    //             "value" => url('resources/image/img_spin/tivi.png'),
+    //             "win" => false,
+    //             "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 1, "value"=>2)
 
-            ),
-            array(
-                "probability" => 60,
-                "type" => "string",
-                "value" => "Chúc may mắn",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 0, "value"=>0)
+    //         ),
+    //         array(
+    //             "probability" => 60,
+    //             "type" => "string",
+    //             "value" => "Chúc may mắn",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 0, "value"=>0)
 
-            ),
+    //         ),
     
-            array(
-                "probability" => 0,
-                "type" => "image",
-                "value" => url('resources/image/img_spin/ip.png'),
-                "win" => false,
-                "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 1, "value"=>1)
+    //         array(
+    //             "probability" => 0,
+    //             "type" => "image",
+    //             "value" => url('resources/image/img_spin/ip.png'),
+    //             "win" => false,
+    //             "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 1, "value"=>1)
 
-            ),   
+    //         ),   
     
     
-            array(
-                "probability" => 60,
-                "type" => "string",
-                "value" => "Chúc may mắn",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 0, "value"=>0)
+    //         array(
+    //             "probability" => 60,
+    //             "type" => "string",
+    //             "value" => "Chúc may mắn",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 0, "value"=>0)
 
-            ), 
-            array(
-                "probability" => 30,
-                "type" => "string",
-                "value" => "20.000 VNĐ",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 2, "value"=>20000)
+    //         ), 
+    //         array(
+    //             "probability" => 30,
+    //             "type" => "string",
+    //             "value" => "20.000 VNĐ",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 2, "value"=>20000)
 
-            ), 
+    //         ), 
     
-                array(
-                "probability" => 0,
-                "type" => "image",
-                "value" => url('resources/image/img_spin/ss.png'),
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='1' data-value='3' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 1, "value"=>3)
+    //             array(
+    //             "probability" => 0,
+    //             "type" => "image",
+    //             "value" => url('resources/image/img_spin/ss.png'),
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='1' data-value='3' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 1, "value"=>3)
 
-            ),  
+    //         ),  
     
-            array(
-                "probability" => 60,
-                "type" => "string",
-                "value" => "Chúc may mắn",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 0, "value"=>0)
+    //         array(
+    //             "probability" => 60,
+    //             "type" => "string",
+    //             "value" => "Chúc may mắn",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 0, "value"=>0)
 
-            ), 
-            array(
-                "probability" => 30,
-                "type" => "string",
-                "value" => "20.000 VNĐ",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 2, "value"=>20000)
+    //         ), 
+    //         array(
+    //             "probability" => 30,
+    //             "type" => "string",
+    //             "value" => "20.000 VNĐ",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 2, "value"=>20000)
 
-            ),  
+    //         ),  
     
-            array(
-                "probability" => 0,
-                "type" => "image",
-                "value" => url('resources/image/img_spin/gold.png'),
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='1' data-value='5' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 1, "value"=>5)
+    //         array(
+    //             "probability" => 0,
+    //             "type" => "image",
+    //             "value" => url('resources/image/img_spin/gold.png'),
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='1' data-value='5' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 1, "value"=>5)
 
-            ),  
+    //         ),  
     
-            array(
-                "probability" => 60,
-                "type" => "string",
-                "value" => "Chúc may mắn",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 0, "value"=>0)
+    //         array(
+    //             "probability" => 60,
+    //             "type" => "string",
+    //             "value" => "Chúc may mắn",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 0, "value"=>0)
 
-            ),  
+    //         ),  
     
-            array(
-                "probability" => 0,
-                "type" => "string",
-                "value" => "1.000.000 VNĐ",
-                "win" => false,
-                "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 2, "value"=>1000000)
+    //         array(
+    //             "probability" => 0,
+    //             "type" => "string",
+    //             "value" => "1.000.000 VNĐ",
+    //             "win" => false,
+    //             "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 2, "value"=>1000000)
 
-            ), 
-            array(
-                "probability" => 60,
-                "type" => "string",
-                "value" => "Chúc may mắn",
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 0, "value"=>0)
+    //         ), 
+    //         array(
+    //             "probability" => 60,
+    //             "type" => "string",
+    //             "value" => "Chúc may mắn",
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 0, "value"=>0)
 
-            ),  
-            array(
-                "probability" => 5,
-                "type" => "string",
-                "value" => "100.000 VNĐ",
-                "win" => false,
-                "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 2, "value"=>100000)
+    //         ),  
+    //         array(
+    //             "probability" => 5,
+    //             "type" => "string",
+    //             "value" => "100.000 VNĐ",
+    //             "win" => false,
+    //             "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 2, "value"=>100000)
 
-            ),
-            array(
-                "probability" => 0,
-                "type" => "image",
-                "value" => url('resources/image/img_spin/gc.png'),
-                "win" => true,
-                "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>",
-                "userData" => array("type" => 1, "value"=>5)
+    //         ),
+    //         array(
+    //             "probability" => 0,
+    //             "type" => "image",
+    //             "value" => url('resources/image/img_spin/gc.png'),
+    //             "win" => true,
+    //             "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>",
+    //             "userData" => array("type" => 1, "value"=>5)
 
-            )
-            ),
-        "svgWidth" => 1024,
-        "svgHeight" => 768,
-        "wheelStrokeColor" => "#D0BD0C",
-        "wheelStrokeWidth" => 18,
-        "wheelSize" => 900,
-        "wheelTextOffsetY" => 80,
-        "wheelTextColor" => "#EDEDED",
-        "wheelTextSize" => "16px",
-        "wheelImageOffsetY" => 40,
-        "wheelImageSize" => 120,
-        "centerCircleSize" => 150,
-        "centerCircleStrokeColor" => "#F1DC15",
-        "centerCircleStrokeWidth" => 12,
-        "centerCircleFillColor" => "#EDEDED",
-        "centerCircleImageUrl" => url('/resources/image/star.gif'),
-        "centerCircleImageWidth" => 150,
-        "centerCircleImageHeight" => 150,  
-        "segmentStrokeColor" => "#E2E2E2",
-        "segmentStrokeWidth" => 4,
-        "centerX" => 512,
-        "centerY" => 384,  
-        "hasShadows" => false,
-        "numSpins" => $spin_ofuer->count,
-        "spinDestinationArray" => array(),
-        "minSpinDuration" => 6,
-        "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt và quay lại",
-        "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
-        "introText" => "Chào mừng bạn đến với vòng quay triệu phú! <br/>Click vào vòng quay để chơi!",
-        "hasSound" => true,
-        "gameId" => "9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
-        "clickToSpin" => true,
-        "spinDirection" => "ccw"
+    //         )
+    //         ),
+    //     "svgWidth" => 1024,
+    //     "svgHeight" => 768,
+    //     "wheelStrokeColor" => "#D0BD0C",
+    //     "wheelStrokeWidth" => 18,
+    //     "wheelSize" => 900,
+    //     "wheelTextOffsetY" => 80,
+    //     "wheelTextColor" => "#EDEDED",
+    //     "wheelTextSize" => "16px",
+    //     "wheelImageOffsetY" => 40,
+    //     "wheelImageSize" => 120,
+    //     "centerCircleSize" => 150,
+    //     "centerCircleStrokeColor" => "#F1DC15",
+    //     "centerCircleStrokeWidth" => 12,
+    //     "centerCircleFillColor" => "#EDEDED",
+    //     "centerCircleImageUrl" => url('/resources/image/star.gif'),
+    //     "centerCircleImageWidth" => 150,
+    //     "centerCircleImageHeight" => 150,  
+    //     "segmentStrokeColor" => "#E2E2E2",
+    //     "segmentStrokeWidth" => 4,
+    //     "centerX" => 512,
+    //     "centerY" => 384,  
+    //     "hasShadows" => false,
+    //     "numSpins" => $spin_ofuer->count,
+    //     "spinDestinationArray" => array(),
+    //     "minSpinDuration" => 6,
+    //     "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt và quay lại",
+    //     "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
+    //     "introText" => "Chào mừng bạn đến với vòng quay triệu phú! <br/>Click vào vòng quay để chơi!",
+    //     "hasSound" => true,
+    //     "gameId" => "9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
+    //     "clickToSpin" => true,
+    //     "spinDirection" => "ccw"
 
-        );
+    //     );
 
-        return json_encode( $data);
-    }
-    public function settingJson(){
-        $user = Auth::guard('users')->user();
-        $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
-        header('Content-type: application/json');
-        $data = array(
-        "colorArray" => array("#364C62", "#F1C40F", "#E74C3C", "#ECF0F1", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B", "#BDC3C7","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"),
+    //     return json_encode( $data);
+    // }
+    // public function settingJson(){
+    //     $user = Auth::guard('users')->user();
+    //     $spin_ofuer = DB::table('spin_ofuser')->where('ofuser', $user->phone)->first();
+    //     header('Content-type: application/json');
+    //     $data = array(
+    //     "colorArray" => array("#364C62", "#F1C40F", "#E74C3C", "#ECF0F1", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B", "#BDC3C7","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"),
 
-        "segmentValuesArray" => array( 
-            //0:giay 1: vang 2:ss 3:ip 4 tivi
-        array(
-            "probability" => 0,
-            "type" => "string",
-            "value" => "50.000.000 VNĐ",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>"
-        ),  
+    //     "segmentValuesArray" => array( 
+    //         //0:giay 1: vang 2:ss 3:ip 4 tivi
+    //     array(
+    //         "probability" => 0,
+    //         "type" => "string",
+    //         "value" => "50.000.000 VNĐ",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='2' data-value='50000000' class='btn btn-warning'>Quay</button>"
+    //     ),  
 
-        array(
-            "probability" => '0',
-            "type" => "image",
-            "value" => url('resources/image/img_spin/tivi.png'),
-            "win" => false,
-            "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>"
-        ),
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "Chúc may mắn",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
-        ),
+    //     array(
+    //         "probability" => '0',
+    //         "type" => "image",
+    //         "value" => url('resources/image/img_spin/tivi.png'),
+    //         "win" => false,
+    //         "resultText" => "<button id='btn-spin' data-type='1' data-value='2' class='btn btn-warning'>Quay</button>"
+    //     ),
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "Chúc may mắn",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
+    //     ),
 
-        array(
-            "probability" => 0,
-            "type" => "image",
-            "value" => url('resources/image/img_spin/ip.png'),
-            "win" => false,
-            "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>"
-        ),   
+    //     array(
+    //         "probability" => 0,
+    //         "type" => "image",
+    //         "value" => url('resources/image/img_spin/ip.png'),
+    //         "win" => false,
+    //         "resultText" => "<button id='btn-spin' data-type='1' data-value='1' class='btn btn-warning'>Quay</button>"
+    //     ),   
 
 
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "Chúc may mắn",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
-        ), 
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "20.000 VNĐ",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>"
-        ), 
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "Chúc may mắn",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
+    //     ), 
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "20.000 VNĐ",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>"
+    //     ), 
 
-            array(
-            "probability" => 0,
-            "type" => "image",
-            "value" => url('resources/image/img_spin/ss.png'),
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='1' data-value='3' class='btn btn-warning'>Quay</button>"
-        ),  
+    //         array(
+    //         "probability" => 0,
+    //         "type" => "image",
+    //         "value" => url('resources/image/img_spin/ss.png'),
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='1' data-value='3' class='btn btn-warning'>Quay</button>"
+    //     ),  
 
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "Chúc may mắn",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
-        ), 
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "20.000 VNĐ",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>"
-        ),  
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "Chúc may mắn",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
+    //     ), 
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "20.000 VNĐ",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='2' data-value='20000' class='btn btn-warning'>Quay</button>"
+    //     ),  
 
-        array(
-            "probability" => 0,
-            "type" => "image",
-            "value" => url('resources/image/img_spin/gold.png'),
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='1' data-value='5' class='btn btn-warning'>Quay</button>"
-        ),  
+    //     array(
+    //         "probability" => 0,
+    //         "type" => "image",
+    //         "value" => url('resources/image/img_spin/gold.png'),
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='1' data-value='5' class='btn btn-warning'>Quay</button>"
+    //     ),  
 
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "Chúc may mắn",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
-        ),  
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "Chúc may mắn",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
+    //     ),  
 
-        array(
-            "probability" => 0,
-            "type" => "string",
-            "value" => "1.000.000 VNĐ",
-            "win" => false,
-            "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>"
-        ), 
-        array(
-            "probability" => 50,
-            "type" => "string",
-            "value" => "Chúc may mắn",
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
-        ),  
-        array(
-            "probability" => 0,
-            "type" => "string",
-            "value" => "100.000 VNĐ",
-            "win" => false,
-            "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>"
-        ),
-        array(
-            "probability" => 100,
-            "type" => "image",
-            "value" => url('resources/image/img_spin/gc.png'),
-            "win" => true,
-            "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>"
-        )
-        ),
-        "svgWidth" => 1024,
-        "svgHeight" => 768,
-        "wheelStrokeColor" => "#D0BD0C",
-        "wheelStrokeWidth" => 18,
-        "wheelSize" => 950,
-        "wheelTextOffsetY" => 90,
-        "wheelTextColor" => "#EDEDED",
-        "wheelTextSize" => "1.5em",
-        "wheelImageOffsetY" => 10,
-        "wheelImageSize" => 150,
-        "centerCircleSize" => 50,
-        "centerCircleStrokeColor" => "#F1DC15",
-        "centerCircleStrokeWidth" => 12,
-        "centerCircleFillColor" => "#EDEDED",
-        "segmentStrokeColor" => "#E2E2E2",
-        "segmentStrokeWidth" => 4,
-        "centerX" => 512,
-        "centerY" => 384,  
-        "hasShadows" => false,
-        "numSpins" => $spin_ofuer->count ,
-        "spinDestinationArray" => array(),
-        "minSpinDuration" => 5,
-        "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt quay ở phía dưới!",
-        "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
-        "introText" => "Bạn có ".$spin_ofuer->count." lượt quay",
-        "hasSound" => true,
-        "gameId" => "9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
-        "clickToSpin" => true
+    //     array(
+    //         "probability" => 0,
+    //         "type" => "string",
+    //         "value" => "1.000.000 VNĐ",
+    //         "win" => false,
+    //         "resultText" => "<button id='btn-spin' data-type='2' data-value='1000000' class='btn btn-warning'>Quay</button>"
+    //     ), 
+    //     array(
+    //         "probability" => 50,
+    //         "type" => "string",
+    //         "value" => "Chúc may mắn",
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='0' data-value='0' class='btn btn-warning'>Quay</button>"
+    //     ),  
+    //     array(
+    //         "probability" => 0,
+    //         "type" => "string",
+    //         "value" => "100.000 VNĐ",
+    //         "win" => false,
+    //         "resultText" => "<button id='btn-spin' data-type='2' data-value='100000' class='btn btn-warning'>Quay</button>"
+    //     ),
+    //     array(
+    //         "probability" => 100,
+    //         "type" => "image",
+    //         "value" => url('resources/image/img_spin/gc.png'),
+    //         "win" => true,
+    //         "resultText" => "<button id='btn-spin' data-type='1' data-value='4' class='btn btn-warning'>Quay</button>"
+    //     )
+    //     ),
+    //     "svgWidth" => 1024,
+    //     "svgHeight" => 768,
+    //     "wheelStrokeColor" => "#D0BD0C",
+    //     "wheelStrokeWidth" => 18,
+    //     "wheelSize" => 950,
+    //     "wheelTextOffsetY" => 90,
+    //     "wheelTextColor" => "#EDEDED",
+    //     "wheelTextSize" => "1.5em",
+    //     "wheelImageOffsetY" => 10,
+    //     "wheelImageSize" => 150,
+    //     "centerCircleSize" => 50,
+    //     "centerCircleStrokeColor" => "#F1DC15",
+    //     "centerCircleStrokeWidth" => 12,
+    //     "centerCircleFillColor" => "#EDEDED",
+    //     "segmentStrokeColor" => "#E2E2E2",
+    //     "segmentStrokeWidth" => 4,
+    //     "centerX" => 512,
+    //     "centerY" => 384,  
+    //     "hasShadows" => false,
+    //     "numSpins" => $spin_ofuer->count ,
+    //     "spinDestinationArray" => array(),
+    //     "minSpinDuration" => 5,
+    //     "gameOverText" => "Bạn đã hết lượt quay, vui lòng mua thêm lượt quay ở phía dưới!",
+    //     "invalidSpinText" =>"INVALID SPIN. PLEASE SPIN AGAIN.",
+    //     "introText" => "Bạn có ".$spin_ofuer->count." lượt quay",
+    //     "hasSound" => true,
+    //     "gameId" => "9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
+    //     "clickToSpin" => true
 
-        );
+    //     );
 
-        return json_encode( $data);
-    }
+    //     return json_encode( $data);
+    // }
 }

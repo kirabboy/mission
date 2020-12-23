@@ -5,7 +5,7 @@
 			<div class="row no-gutters">
 				<div class="col-12">
 					<div class="area-img-login">
-						<img src="{{asset('/resources/image/join.jpeg')}}"/>
+						<img src="{{asset('/resources/image/img_app/register.png')}}"/>
 					</div>
 				</div>
 			</div>
@@ -36,13 +36,13 @@
 							<input type="text" id="refphone" name="codeinvite" class="form-control" value="{{$codeinvite}}" @if($codeinvite != null) readonly @endif/>
 						</div>
 						<div class="form-group text-center">
-							<button class="btn btn-primary">Đăng ký</button>
+							<button class="btn btn-warning">Đăng ký</button>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div class="row no-gutters">
-				<p>Đã có tài khoản: <a href="{{URL::to('/login')}}">Đăng nhập ngay!</a></p>
+				<a href="{{URL::to('/login')}}" class="btn btn-red" style="width: 100%; text-align: center;">Đăng nhập</a>	
 			</div>
 		</div>
 	</main>

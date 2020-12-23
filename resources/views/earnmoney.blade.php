@@ -4,9 +4,10 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Danh sách nhiệm vụ</h5>
-					</div>			
+					<h4 class="block title-block">
+						Tất cả nhiệm vụ
+					</h4>			
+					
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">
@@ -16,7 +17,7 @@
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
 							  <li class="active"><a href="#facebook" data-toggle="tab">Facebook</a></li>
-							  <li><a class="" href="#youtube" data-toggle="tab">Youtube</a></li>
+							  <li><a class="" href="#youtube" data-toggle="tab">Xem Video</a></li>
 							  <li><a class="" href="#zalo" data-toggle="tab">Zalo</a></li>
 							</ul>
 					  
@@ -24,20 +25,17 @@
 							<div class="tab-content clearfix">
 								<div  class="tab-pane fade in active" id="facebook">
 								@foreach($mission_f as $value)
-									<div class="alert alert-dark" role="alert">
+									<div class="alert alert-warning" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/facebook.png')}}"/>
+											<div class="row row-mission ">
+												<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
+													<img src="{{asset('/resources/image/img_app/f.png')}}"/>
 												</div>
-												<div class="col-6">
+												<div class="col-9 text-left">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+											
 											</div>
 										</a>
 									</div>
@@ -45,20 +43,17 @@
 								</div>
 							  <div  class="tab-pane fade" id="youtube">
 								@foreach($mission_y as $value)
-									<div class="alert alert-dark" role="alert">
+									<div class="alert alert-warning" role="alert">
 										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/youtube.png')}}"/>
+											<div class="row row-mission ">
+												<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
+													<img src="{{asset('/resources/image/img_app/video.png')}}"/>
 												</div>
-												<div class="col-6">
+												<div class="col-9 text-left">
 													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
 													<h5 class="mission-name">{{$value->name}}</h5>
 												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+											
 											</div>
 										</a>
 									</div>
@@ -66,23 +61,20 @@
 							  </div>
 							  <div  class="tab-pane fade" id="zalo">
 								@foreach($mission_z as $value)
-									<div class="alert alert-dark" role="alert">
-										<a href="{{URL::to('/mission-detail/'.$value->id)}}">
-											<div class="row row-mission text-center">
-												<div class="col-3 img-mission" style="border-right: 1px dashed gray;">
-													<img src="{{asset('/resources/image/zalo.png')}}"/>
-												</div>
-												<div class="col-6">
-													<h5 class="mission-price">{{$value->price}} VNĐ</h5>
-													<h5 class="mission-name">{{$value->name}}</h5>
-												</div>
-												<div class="col-3" style="padding: 5px">
-													<h5>Nhận</h5>
-													<h5 class="mission-count">{{$value->count}}</h5>
-												</div>
+								<div class="alert alert-warning" role="alert">
+									<a href="{{URL::to('/mission-detail/'.$value->id)}}">
+										<div class="row row-mission ">
+											<div class="col-3 img-mission text-center" style="border-right: 1px dashed gray;">
+												<img src="{{asset('/resources/image/img_app/zalo.png')}}"/>
 											</div>
-										</a>
-									</div>
+											<div class="col-9 text-left">
+												<h5 class="mission-price">{{$value->price}} VNĐ</h5>
+												<h5 class="mission-name">{{$value->name}}</h5>
+											</div>
+										
+										</div>
+									</a>
+								</div>
 								@endforeach
 							  </div>
 							</div>

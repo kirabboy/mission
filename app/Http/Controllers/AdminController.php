@@ -32,6 +32,51 @@ class AdminController extends Controller
         }
     }
     
+    public function getEditBalance(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                
+                return view('admin.editbalance');
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function  posteditbalance(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                $wallet = DB::table('wallet')->where('ofuser', $request->phone)->first();
+
+                return view('admin.editbalanceuser', ['wallet'=>$wallet]);
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function  posteditbalanceuser(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                $newbalance = $request->newbalance;
+                $phone = $request->phone;
+                DB::table('wallet')->where('ofuser', $phone)->update(['balance'=>$newbalance]);
+                $wallet = DB::table('wallet')->where('ofuser', $phone)->first();
+                return view('admin.editbalanceuser', ['wallet'=>$wallet])->with('success', 'Cập nhật thành công');
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
    
 
     public function getEditBanner(){
@@ -102,6 +147,8 @@ class AdminController extends Controller
 
     public function autoduyetnv(){
         $nvchuaduyet = DB::table('taking_mission')->where('status', 2)->get();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+
         $min = date("i");
         $createhistory = new AccountController();
 
@@ -116,7 +163,7 @@ class AdminController extends Controller
                 $wallet = DB::table('wallet')->where('ofuser', $user_m->phone)->first();
                 DB::table('missions')->where('id',$mission->id)->update(['count'=> $mission->count-1]);
                 DB::table('wallet')->where('ofuser', $user_m->phone)->update(['balance'=>$wallet->balance+$mission->price]);
-                DB::table('statistical')->where('ofuser', $user_m->phone)->update(['today_mission_amount'=> $statistical->today_mission_amount +$mission->price, 'today_total'=>$statistical->today_total+$mission->price, 'month_total'=>$statistical->month_total+$mission->price, 'total'=>$statistical->total+$mission->price, 'today_count_mission'=>$statistical->today_count_mission+1, 'total_mission'=>$statistical->total_mission+1]);
+                DB::table('statistical')->where('ofuser', $user_m->phone)->update([ 'total'=>$statistical->total+$mission->price]);
             }
         }
         return null;

@@ -15,6 +15,7 @@ class AccountController extends Controller
             $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
             $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
             $role = DB::table('role')->where('ofrole', $user->role)->first();
+            $info = DB::table('info_users')->where('ofuser', $user->phone)->first();
             $count_f = 0;
             $f1 = $f2 = array();
             $f1 = DB::table('users')->where('referal_ofuser', $user->phone)->get();
@@ -23,7 +24,7 @@ class AccountController extends Controller
                 $count_f += count($f2);
             }
             $count_f += count($f1);
-            return view('account', ['statistical' => $statistical, 'user' => $user, 'wallet' => $wallet, 'role'=>$role, 'count_f'=>$count_f]);
+            return view('account', ['info'=>$info,'statistical' => $statistical, 'user' => $user, 'wallet' => $wallet, 'role'=>$role, 'count_f'=>$count_f]);
         }else{
             return redirect('/login');
         }
@@ -43,21 +44,13 @@ class AccountController extends Controller
     public function postLogin(Request $request){
         $phone = $request->input('phone');
         $password = $request->input('password');
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         if (Auth::guard('users')->attempt(['phone' => $phone, 'password' => $password])) {
             $user = Auth::guard('users')->user();
             $date =date("Y-m-d");
             $month =date("m");
             $statistical = DB::table('statistical')->where('ofuser', $phone)->first();
             $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
-            if(strtotime($date) != strtotime($statistical->today)){
-                
-                DB::table('statistical')->where('ofuser', $phone)->update(['today'=>$date, 'today_total'=>0, 'today_mission_amount'=>0,'today_count_mission'=>0 ]);
-            }
-            if(date("m", strtotime($statistical->today)) != $month){
-                DB::table('statistical')->where('ofuser', $phone)->update(['month_total'=>0]);
-            }
-
-
 
             foreach($taking_missions as $taking_mission){
 
@@ -103,9 +96,9 @@ class AccountController extends Controller
             if($code_invite != null){
                 $user_invite = DB::table('users')->where('referal_code', $code_invite)->first();
                 if($user_invite != null){
-                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>-1, 'referal_code' => $referal_code, 'dayres'=>$date]);
+                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>0, 'referal_code' => $referal_code, 'dayres'=>$date]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
-                    DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
+                    DB::table('statistical')->insert(['ofuser'=> $phone]);
                     DB::table('info_users')->insert(['ofuser'=> $phone]);
                     DB::table('spin_ofuser')->insert(['ofuser'=>$phone,'count'=>1]);
                     DB::table('bank')->insert(['ofuser'=>$phone]);
@@ -115,9 +108,9 @@ class AccountController extends Controller
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
                 }
             }else{
-                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>-1,'referal_code' => $referal_code, 'dayres'=>$date]);
+                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code, 'dayres'=>$date]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
-                DB::table('statistical')->insert(['ofuser'=> $phone,'today'=>$date]);
+                DB::table('statistical')->insert(['ofuser'=> $phone]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
                 DB::table('spin_ofuser')->insert(['ofuser'=>$phone,'count'=>1]);
                 DB::table('bank')->insert(['ofuser'=>$phone]);
@@ -155,10 +148,8 @@ class AccountController extends Controller
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
             $name = $request->name;
-            $email = $request->email;
-            $facebook = $request->facebook;
             $zalo = $request->zalo;
-            DB::table('info_users')->update(['name'=>$name, 'email'=>$email, 'facebook'=>$facebook, 'zalo'=>$zalo]);
+            DB::table('info_users')->where('ofuser', $user->phone)->update(['name'=>$name, 'zalo'=>$zalo]);
             $createhistory = new AccountController();
             $createhistory->createHistory($user->phone, 'Cập nhật thông tin cá nhân');
             return back()->with('success','Cập nhật thông tin cá nhân thành công');
@@ -424,10 +415,28 @@ class AccountController extends Controller
             return redirect('/login');
         }
     }
+    public function postAvatar(Request $request){
+        $user = Auth::guard('users')->user();
+
+        $file = $request->file('avatar');
+        $file->move('resources/image/img_avatar', $file->getClientOriginalName());
+        Db::table('users')->where('phone', $user->phone)->update(['avatar'=>$file->getClientOriginalName()]);
+        return back()->with('success', 'Cập nhật ảnh đại diện thành công');
+    }
+    
+    public function postStatus(Request $request){
+        $user = Auth::guard('users')->user();
+
+        $status = $request->status;
+        Db::table('users')->where('phone', $user->phone)->update(['status'=>$status]);
+        return back()->with('success', 'Cập nhật ảnh cảm nghĩ thành công');
+    }
 
     public function logout(){
         Auth::guard('users')->logout();
         return redirect('/');
     }
+
+   
 
 }

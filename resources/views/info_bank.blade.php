@@ -4,9 +4,9 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Thông tin tài khoản ngân hàng</h5>
-					</div>		
+					<h4 class="block title-block">
+						Tài khoản ngân hàng
+					</h4>		
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">

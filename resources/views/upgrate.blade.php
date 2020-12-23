@@ -5,7 +5,9 @@
 			<div class="row no-gutter">
 				<div class="col-12 text-center">
 					<div class="block area-title-page">
-						<h5>Nâng cấp tài khoản</h5>
+						<h4 class="block title-block">
+							Nâng cấp tài khoản
+						</h4>
 						@if(Session::has('success'))
 							<div class="alert alert-success" role="alert">
 								{{Session::get('success')}}
@@ -20,8 +22,49 @@
 				</div>
 			</div>
 			<div class="row-vip">
-				
-				<div class="row no-gutters container-fluid">
+				<div class="row no-gutters container-fluid vip-card">
+					<div class="col-12">
+						<div class="area-vip-pack" style="background: url('{{asset('/resources/image/img_app/vipcard.png')}}')">
+							<div class="alert" role="alert">
+								<div class="row no-gutter">
+									<div class="col-12 content-vip text-center">
+										<h3>Cấp: Vip 1</h3>
+										<p>Bạn có thể kiếm được 100.000 vnđ mỗi ngày</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row no-gutters container-fluid vip-card">
+					<div class="col-12">
+						<div class="area-vip-pack" style="background: url('{{asset('/resources/image/img_app/vipcard.png')}}')">
+							<div class="alert" role="alert">
+								<div class="row no-gutter">
+									<div class="col-12 content-vip text-center">
+										<h3>Cấp: Vip 2</h3>
+										<p>Bạn có thể kiếm được 100.000 vnđ mỗi ngày</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row no-gutters container-fluid vip-card">
+					<div class="col-12">
+						<div class="area-vip-pack" style="background: url('{{asset('/resources/image/img_app/vipcard.png')}}')">
+							<div class="alert" role="alert">
+								<div class="row no-gutter">
+									<div class="col-12 content-vip text-center">
+										<h3>Cấp: Vip 3</h3>
+										<p>Bạn có thể kiếm được 100.000 vnđ mỗi ngày</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{-- <div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
 							<div class="alert alert-green" role="alert">
@@ -183,7 +226,7 @@
 						</div>
 					  </div>
 					</div>
-				</div>
+				</div> --}}
 				
 				<script>
 				
