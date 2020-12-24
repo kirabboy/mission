@@ -19,120 +19,169 @@
 								{{Session::get('error')}}
 							</div>
 						@endif
-			<div class="row no-gutters container-fluid">
-				<div class="col-12">
-					<div class="area-mission-detail">
-						<div class="form-group">
-							<h5>Tên: {{$mission->name}}</h5>
-						</div>
-						<div class="form-group">
-							<h5>Tiền nhận được: {{$mission->price}} vnđ</h5>
-						</div>
-						<div class="form-group">
-							<h5>
-								@if($mission->type ==1)
-								Chia sẻ lên Facebook(Ấn copy để copy nội dung chia sẻ nhanh hơn):<br/> Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{URL::to('/')}}
-								<input id="linkhid" type="text"  style="top: -1000px; left:-1000px; position: absolute" value="Chia sẻ lên Facebook: Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{URL::to('/')}}"/>
-								<span class="btn btn-primary" onclick="copiecode()"> Copy </span>
-								@elseif($mission->type ==2)
-								Truy cập link youtube(Ấn copy để copy link nhanh hơn) <br/>{{$mission->link}}
-								<input id="" type="text"  style="top: -1000px; left:-1000px; position: absolute"  value="{{$mission->link}}"/>
-								<a class="btn btn-primary" href="{{$mission->link}}"> Truy cập </a>
-								@else
-								Chia sẻ lên Zalo(Ấn copy để copy nội dung chia sẻ nhanh hơn): <br/>Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{URL::to('/')}}
-								<input id="linkhid" type="text" style="top: -1000px; left:-1000px; position: absolute"  value="Chia sẻ lên Facebook: Không cần một xu vốn vẫn kiếm được mấy chục ngàn chỉ 5 phút với app uy tín này mọi người ơi {{URL::to('/')}}"/>
-								<span class="btn btn-primary" onclick="copiecode()"> Copy </span>
-								@endif
-								</h5>
-								<script>
-									function copiecode() {
-									  var copyText = document.getElementById("linkhid");
-									  copyText.select();
-									  copyText.setSelectionRange(0, 99999)
-									  document.execCommand("copy");
-									  alert("Đã copy: " + copyText.value);
-									}
-								</script>
-						</div>
-						<h5>
-						<div class="form-group">
-							<h5>Số lượt còn lại: {{$mission->count}}</h5>
-						</div>
-						<div class="form-group">
-							<h5>Mô tả: </h5>
-							<p>
-								{!! $mission->description !!}
-							</p>
-						</div>
-					
-				
-				<div class="form-group text-center">
-					<h5>Thao tác nhiệm vụ: </h5>
-					@if($checkMission != null)
-						@if($checkMission->result != null && $checkMission->status == 0)
-							<div class="form-group text-center">
-								<a class="btn btn-success" href="{{URL::to('/donemission/'.$mission->id)}}">Xác nhận</a>
+			<div class="page-mission">
+
+				@if($mission->type == 2)
+					<div class="row no-gutters container-fluid">
+						<div class="col-12">
+							<h4 class="title-block">Xem video</h4>
+							<div class="row no-gutters container-fluid">
+								<div class="col-12">
+									<p class="description-mission">
+										Xem video 15s và nhận thưởng nhé
+									</p>
+								</div>
 							</div>
-						@endif
-					@endif
-					<p class="text-center">
-						@if($checkMission != null)
-							@if($checkMission->status == 2 )
-								<a class="btn btn-success">Đang duyệt</a>
 							
-							@elseif($checkMission->status == 1)
-								<a class="btn btn-danger">Đã huỷ</a>
-							@elseif($checkMission->status == 3)
-								<a class="btn btn-danger">Đã duyệt</a>
-							@endif
-						@else
-							<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-primary">
-								Nhận
-							</a>
-						@endif
-					</p>
-				</div>
-				<div class="form-group img-mission-detail text-center">
-					@if($checkMission != null && $checkMission->status != 1)
-					<h5>Up ảnh chụp màn hình của bạn lên đây: </h5>
-					@endif	
-					@if($checkMission != null)
-						@if($checkMission->status == 0 )
-						<p>
-							<form action="{{URL::to("/uploadimgmission")}}" method="POST" enctype="multipart/form-data" >
-								{{ csrf_field() }}
-								<input type="hidden" name="idmission" value="{{$mission->id}}"/>
-								<input  class="form-control" type="file" name="result" multiple required/>
-								<button id="upimg" class="btn btn-info" type="submit">
-									@if($checkMission->result != null)
-									Đổi ảnh	
-									@else
-									Đăng ảnh
-									@endif
-								</button>
-							</form>
-						</p>
-						@endif
-					@endif
-					@if($checkMission != null && $checkMission->status != 1)
-						@if($checkMission->result != null && $checkMission->status != 1 )
-							<div class="img-result">
-								<img src="{{asset('/resources/image/'.$checkMission->result)}}"/>
-							</div>
-						@endif
-					@endif
-				</div>
-						<div class="form-group img-mission-detail">
-							<h5>Mẫu: </h5>
-							<p>
-								<img src="{{asset('/resources/image/'.$mission->example)}}"/>
-							</p>
+							<video width="100%" height="240" controls muted autoplay>
+								<source src="{{asset('/resources/video/'.$mission->example)}}" type="video/mp4">
+							</video>
 						</div>
-						
-							
-						
 					</div>
-				</div>
+					@if($checkMission != null)
+						<div class="text-center">
+							<a class="btn btn-danger">Đã xong</a>
+						</div>
+					@else
+						<div class="row no-gutters container-fluid">
+							<div class="col-12 text-center">
+								<form action="{{URL::to('/done-video')}}" method="POST">
+									{{ csrf_field() }}
+
+									<input type="hidden" name="id_user" value="{{$user->id}}"/>
+									<input type="hidden" name="id_mission" value="{{$mission->id}}"/>
+
+									<button class="btn btn-warning" id="btn-skip">Chờ <span class="time-count">15</span>s</button>
+								</form>
+							</div>
+						</div>		
+					@endif
+					
+					<script>
+						var n = 15;
+							setTimeout(countDown,1000);
+
+							function countDown(){
+							n--;
+							if(n > 0){
+								$('.time-count').html(n);
+
+								setTimeout(countDown,1000);
+							}else{
+								$('#btn-skip').html('Nhận thưởng');
+								$('#btn-skip').removeClass('btn-warning');
+								$('#btn-skip').addClass('btn-success');
+
+							}
+							}			
+					</script>	
+				@else
+					<div class="row no-gutters container-fluid">
+						<div class="col-12">
+							<div class="area-mission-detail">
+								<div class="form-group">
+									<h5>Tên: {{$mission->name}}</h5>
+								</div>
+								<div class="form-group">
+									<h5>Tiền nhận được: {{number_format($mision->price,0,',','.')}}</h5>
+								</div>
+								<div class="form-group">
+									<h5>
+										@if($mission->type ==1)
+										<p>Chia sẽ app lên Facebook sau đó chụp màn hình đăng lên nhận thưởng<span style="color:red" onclick="copiecode()"> Copy link app</span></p>
+										
+
+										<input id="linkhid" type="text" style="top: -1000px; left:-1000px; position: absolute"  value="{{URL::to('/')}}"/>
+										@elseif($mission->type ==1)
+										<p>Chia sẽ app lên Zalo sau đó chụp màn hình đăng lên nhận thưởng <span style="color:red" onclick="copiecode()"> Copy link app</span></p>
+										<span style="color:red" onclick="copiecode()"> Copy link app</span>
+										<input id="linkhid" type="text" style="top: -1000px; left:-1000px; position: absolute"  value="{{URL::to('/')}}"/>
+										@endif
+										</h5>
+										<script>
+											function copiecode() {
+											var copyText = document.getElementById("linkhid");
+											copyText.select();
+											copyText.setSelectionRange(0, 99999)
+											document.execCommand("copy");
+											alert("Đã copy: " + copyText.value);
+											}
+										</script>
+								</div>						
+						
+							
+						
+						<div class="form-group text-center">
+							<h5>Thao tác nhiệm vụ: </h5>
+							@if($checkMission != null)
+								@if($checkMission->result != null && $checkMission->status == 0)
+									<div class="form-group text-center">
+										<a class="btn btn-success" href="{{URL::to('/donemission/'.$mission->id)}}">Xác nhận</a>
+									</div>
+								@endif
+							@endif
+							<p class="text-center">
+								@if($checkMission != null)
+									@if($checkMission->status == 2 )
+										<a class="btn btn-success">Đang duyệt</a>
+									
+									@elseif($checkMission->status == 1)
+										<a class="btn btn-danger">Đã huỷ</a>
+									@elseif($checkMission->status == 3)
+										<a class="btn btn-danger">Đã duyệt</a>
+									@endif
+								@else
+									<a href="{{URL::to('/take-mission/'.$mission->id)}}" class="btn btn-primary">
+										Nhận
+									</a>
+								@endif
+							</p>
+						</div>
+						<div class="form-group img-mission-detail text-center">
+							@if($checkMission != null && $checkMission->status != 1)
+							<h5>Up ảnh chụp màn hình của bạn lên đây: </h5>
+							@endif	
+							@if($checkMission != null)
+								@if($checkMission->status == 0 )
+								<p>
+									<form action="{{URL::to("/uploadimgmission")}}" method="POST" enctype="multipart/form-data" >
+										{{ csrf_field() }}
+										<input type="hidden" name="idmission" value="{{$mission->id}}"/>
+										<input  class="form-control" type="file" name="result" multiple required/>
+										<button id="upimg" class="btn btn-info" type="submit">
+											@if($checkMission->result != null)
+											Đổi ảnh	
+											@else
+											Đăng ảnh
+											@endif
+										</button>
+									</form>
+								</p>
+								@endif
+							@endif
+							@if($checkMission != null && $checkMission->status != 1)
+								@if($checkMission->result != null && $checkMission->status != 1 )
+									<div class="img-result">
+										<img src="{{asset('/resources/image/img_mission/'.$checkMission->result)}}"/>
+									</div>
+								@endif
+							@endif
+						</div>
+								<div class="form-group img-mission-detail">
+									<h5>Mẫu: </h5>
+									<p>
+										<img src="{{asset('/resources/image/img_app/'.$mission->example)}}"/>
+									</p>
+								</div>
+								
+									
+								
+							</div>
+						</div>
+					</div>
+				
+					
+				@endif
 			</div>
 		</div>
 	</main>

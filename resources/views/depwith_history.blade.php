@@ -4,9 +4,7 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Lịch sử nạp rút</h5>
-					</div>		
+					<h4 class="title-block">Lịch sử nạp rút tiền</h4>	
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">
@@ -46,9 +44,8 @@
                                 <table class="table table-bordered table-cus" style="background: #fff;">
                                     <thead>
                                       <tr>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Tiền</th>
-                                        <th scope="col">Bill</th>
+                                        <th scope="col">SĐT</th>
+                                        <th scope="col">Số tiền</th>
                                         <th scope="col">Trạng thái</th>
                                       </tr>
                                     </thead>
@@ -56,18 +53,14 @@
                                         @foreach($lenhnap as $value)
                                       <tr>
                                         <td>{{$value->ofuser}}</td>
-                                        <td>{{$value->amount}} vnđ
-                                             @if($value->type =1)
-                                            để nâng cấp
-                                            @endif</td>
-                                      <td><img onclick="showimg(this)" id="img{{$value->id}}" data-id="{{$value->id}}" style="width: 50px; height: 50px;" src="{{asset('/resources/image/img_bill/'.$value->bill)}}"/></td>
+                                        <td>{{number_format($value->amount,0,',','.')}} vnđ</td>
                                         <td>
                                             @if($value->status == 0)
-                                            Chưa Duyệt
+                                            <a > Chưa Duyệt</a>
                                             @elseif($value->status==1)
-                                            Đã Duyệt
+                                            <a style="color: green"> Đã Duyệt</a>
                                             @else
-                                            Đã Huỷ
+                                            <a style="color: red;"> Huỷ</a>
                                             @endif
                                         </td>
             
@@ -82,8 +75,8 @@
                                 <table class="table table-bordered table-cus" style="background: #fff;">
                                     <thead>
                                       <tr>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Tiền</th>
+                                        <th scope="col">SĐT</th>
+                                        <th scope="col">Số tiền</th>
                                         <th scope="col">Trạng thái</th>
                                       </tr>
                                     </thead>
@@ -91,14 +84,14 @@
                                         @foreach($lenhrut as $value)
                                       <tr>
                                         <td>{{$value->ofuser}}</td>
-                                        <td>{{$value->amount}} vnđ</td>
+                                        <td>{{number_format($value->amount,0,',','.')}} vnđ</td>
                                         <td>
                                             @if($value->status == 0)
-                                            Chưa Duyệt
+                                           <a > Chưa Duyệt</a>
                                             @elseif($value->status==1)
-                                            Đã Duyệt
+                                            <a style="color: green">Đã Duyệt</a>
                                             @elseif($value->status==2)
-                                            Đã huỷ
+                                            <a style="color: red;"> Đã huỷ</a>
                                             @endif
                                         </td>
             

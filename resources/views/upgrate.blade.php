@@ -22,48 +22,146 @@
 				</div>
 			</div>
 			<div class="row-vip">
-				<div class="row no-gutters container-fluid vip-card">
+				<div class="row no-gutters container-fluid vip-card vip">
 					<div class="col-12">
-						<div class="area-vip-pack" style="background: url('{{asset('/resources/image/img_app/vipcard.png')}}')">
-							<div class="alert" role="alert">
-								<div class="row no-gutter">
-									<div class="col-12 content-vip text-center">
-										<h3>Cấp: Vip 1</h3>
-										<p>Bạn có thể kiếm được 100.000 vnđ mỗi ngày</p>
-									</div>
+						<div class="area-vip-pack" >
+							<div class="top-vip text-center">
+							</div>
+							<div class="row no-gutter">
+								<div class="col-12 content-vip text-center">
+									<h3>Cấp: Thường</h3>
+									<p>
+										<b class="price">miễn phí</b><br/>
+										<b>Tổng nhiệm vụ: </b> <span>3</span><br/> 
+										<b>Tổng thu nhập 1 ngày: </b><span>15.000 vnđ</span><br/>
+										<b>Thời hạn hết hiệu lực:  </b><span>5 ngày</span><br/>
+									</p>
 								</div>
+							</div>
+							<div class="foot-vip">
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row no-gutters container-fluid vip-card">
+				<div class="row no-gutters container-fluid vip-card vip" data-toggle="modal" id="{{$vip[0]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 					<div class="col-12">
-						<div class="area-vip-pack" style="background: url('{{asset('/resources/image/img_app/vipcard.png')}}')">
-							<div class="alert" role="alert">
-								<div class="row no-gutter">
-									<div class="col-12 content-vip text-center">
-										<h3>Cấp: Vip 2</h3>
-										<p>Bạn có thể kiếm được 100.000 vnđ mỗi ngày</p>
-									</div>
+						<div class="area-vip-pack" >
+							<div class="top-vip text-center">
+							</div>
+							<div class="row no-gutter">
+								<div class="col-12 content-vip text-center">
+									<h3>Cấp: Vip 1</h3>
+									<p>
+										<b class="price">300.000 vnđ</b><br/>
+										<b>Tổng nhiệm vụ: </b> <span>5</span><br/> 
+										<b>Tổng thu nhập 1 ngày: </b><span>20.000 vnđ</span><br/>
+										<b>Thời hạn hết hiệu lực:  </b><span>30 ngày</span><br/>
+									</p>
 								</div>
+							</div>
+							<div class="foot-vip">
+								<img src="{{asset('/resources/image/img_app/foot-vip1.png')}}"/>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row no-gutters container-fluid vip-card">
+				<div class="row no-gutters container-fluid vip-card vip" data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 					<div class="col-12">
-						<div class="area-vip-pack" style="background: url('{{asset('/resources/image/img_app/vipcard.png')}}')">
-							<div class="alert" role="alert">
-								<div class="row no-gutter">
-									<div class="col-12 content-vip text-center">
-										<h3>Cấp: Vip 3</h3>
-										<p>Bạn có thể kiếm được 100.000 vnđ mỗi ngày</p>
-									</div>
+						<div class="area-vip-pack" >
+							<div class="top-vip text-center">
+							</div>
+							<div class="row no-gutter">
+								<div class="col-12 content-vip text-center">
+									<h3>Cấp: Vip 2</h3>
+									<p>
+										<b class="price">1.000.000 vnđ</b><br/>
+										<b>Tính năng: </b> <span>Đổi được tên nick name, thay được ảnh đại diện</span><br/> 
+										<b>Tổng nhiệm vụ: </b> <span>10</span><br/> 
+										<b>Tổng thu nhập 1 ngày: </b><span>40.000 vnđ</span><br/>
+										<b>Thời hạn hết hiệu lực:  </b><span>60 ngày</span><br/>
+									</p>
 								</div>
+							</div>
+							<div class="foot-vip">
+								<img src="{{asset('/resources/image/img_app/foot-vip2.png')}}"/>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="row no-gutters container-fluid vip-card vip-3" data-toggle="modal" id="{{$vip[2]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
+					<div class="col-12">
+						<div class="area-vip-pack" >
+							<div class="top-vip text-center">
+								<img src="{{asset('/resources/image/img_app/vip3-up.png')}}"/>
+							</div>
+							<div class="row no-gutter">
+								<div class="col-12 content-vip text-center">
+									<h3>Cấp: Vip 3</h3>
+									<p>
+										<b class="price">2.500.000 vnđ</b><br/>
+										<b>Tính năng: </b> <span>Đổi tên nickname, thay ảnh đại diện, cập nhật cảm nghĩ.</span><br/> 
+										<b>Tổng nhiệm vụ: </b> <span>20</span><br/> 
+										<b>Tổng thu nhập 1 ngày: </b><span>100.000 vnđ</span><br/>
+										<b>Thời hạn hết hiệu lực:  </b><span>90 ngày</span><br/>
+									</p>
+								</div>
+							</div>
+							<div class="foot-vip">
+								<img src="{{asset('/resources/image/img_app/foot-vip.png')}}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row no-gutters container-fluid vip-card vip-4" data-toggle="modal" id="{{$vip[3]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
+					<div class="col-12">
+						<div class="area-vip-pack" >
+							<div class="top-vip text-center">
+								<img src="{{asset('/resources/image/img_app/vip4-up.png')}}"/>
+							</div>
+							<div class="row no-gutter">
+								<div class="col-12 content-vip text-center">
+									<h3>Cấp: Vip 4</h3>
+									<p>
+										<b class="price">6.000.000 vnđ</b><br/>
+										<b>Tính năng: </b> <span>Đổi tên nickname, thay ảnh đại diện, cập nhật cảm nghĩ, thư ký riêng hỗ trợ</span><br/> 
+										<b>Tổng nhiệm vụ: </b> <span>3</span><br/> 
+										<b>Tổng thu nhập 1 ngày: </b><span>15.000 vnđ</span><br/>
+										<b>Thời hạn hết hiệu lực:  </b><span>5 ngày</span><br/>
+									</p>
+								</div>
+							</div>
+							<div class="foot-vip">
+								<img src="{{asset('/resources/image/img_app/foot-vip4.png')}}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row no-gutters container-fluid vip-card vip-5" data-toggle="modal" id="{{$vip[4]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
+					<div class="col-12">
+						<div class="area-vip-pack" >
+							<div class="top-vip text-center">
+								<img src="{{asset('/resources/image/img_app/vip5-up.png')}}"/>
+							</div>
+							<div class="row no-gutter">
+								<div class="col-12 content-vip text-center">
+									<h3>Cấp: Vip 5</h3>
+									<p>
+										<b class="price">10.000.000 vnđ</b><br/>
+										<b>Tính năng: </b> <span>Đổi tên nickname, thay ảnh đại diện, cập nhật cảm nghĩ, thư ký riêng hỗ trợ,mở được gian hàng riêng trên app để buôn bán, có rô bốt làm nhiệm vụ hằng ngày</span><br/> 
+										<b>Tổng nhiệm vụ: </b> <span>3</span><br/> 
+										<b>Tổng thu nhập 1 ngày: </b><span>15.000 vnđ</span><br/>
+										<b>Thời hạn hết hiệu lực:  </b><span>5 ngày</span><br/>
+									</p>
+								</div>
+							</div>
+							<div class="foot-vip">
+								<img src="{{asset('/resources/image/img_app/foot-vip5.png')}}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 				{{-- <div class="row no-gutters container-fluid">
 					<div class="col-12">
 						<div class="area-vip-pack">
@@ -208,16 +306,17 @@
 					  </div>
 					</div>
 				</div>
-				<div class="modal fade in" id="vip-modal-unlock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered" role="document">
+				 --}}
+				 <div class="modal fade in" id="vip-modal-unlock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document" >
 					<div class="modal-content">
 						<div class="modal-header">
-						  <h5 class="modal-title" id="exampleModalLabel" style="color: blue;">Thông báo</h5>
+						  <h5 class="modal-title" id="exampleModalLabel" style="color: yellow;">Thông báo</h5>
 						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						  </button>
 						</div>
-						<div class="modal-body title-up">
+						<div class="modal-body title-up" style="color: #fff">
 						  	Bạn muốn nâng cấp lên gói vip bạc.
 						</div>
 						<div class="modal-footer">
@@ -226,23 +325,22 @@
 						</div>
 					  </div>
 					</div>
-				</div> --}}
-				
+				</div>
 				<script>
 				
 					function getidrole(idrole){
 						var link = "{{URL::to('/deposit/')}}";
 						$('#upgrate-role').attr('href', link+'/'+idrole);
 						if(idrole == 0){
-							var title = 'Bạn muốn nâng cấp lên gói vip đồng';
+							var title = 'Bạn muốn nâng cấp lên gói vip 1';
 						}else if(idrole == 1){
-							var title = 'Bạn muốn nâng cấp lên gói vip bạc';
+							var title = 'Bạn muốn nâng cấp lên gói vip 2';
 						}else if(idrole == 2){
-							var title = 'Bạn muốn nâng cấp lên gói vip vàng';
+							var title = 'Bạn muốn nâng cấp lên gói vip 3';
 						}else if(idrole == 3){
-							var title = 'Bạn muốn nâng cấp lên gói vip bạch kim';
+							var title = 'Bạn muốn nâng cấp lên gói vip 4';
 						}else if(idrole == 4){
-							var title = 'Bạn muốn nâng cấp lên gói vip kim cương';
+							var title = 'Bạn muốn nâng cấp lên gói vip 5';
 						}
 						$('.title-up').text(title);
 					}

@@ -12,6 +12,11 @@ class HomeController extends Controller
         $banners = DB::table('banner')->get();
         return view('homepage',['banners'=>$banners]);
     }
+
+    public function getRank(){
+        $rank = DB::table('wallet')->orderBy('coin', 'desc')->paginate(20);
+        return view('rank', ['rank' => $rank]);
+    }
     
     public function getHelpCenter(){
         if (Auth::guard('users')->check()) {
@@ -22,11 +27,30 @@ class HomeController extends Controller
         }
     }
 
+    public function getIntroduce(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            return view('introduce', ['user' => $user]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+
     public function getContact(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
             DB::table('missions')->where('ofrole', 0)->update(['price'=> 10000]);
             return view('contact', ['user' => $user]);
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function getBuyCoin(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            return view('buycoin', ['user' => $user]);
         }else{
             return redirect('/login');
         }
@@ -126,15 +150,11 @@ class HomeController extends Controller
     public function takeMission(Request $request){
         if (Auth::guard('users')->check()){
             $user = Auth::guard('users')->user();
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $date =date("Y-m-d");
-            $checkMission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->first();
-            if($checkMission == null || $checkMission->status != 0 ){ 
-                DB::table('taking_mission')->insert(['id_mission'=>$request->idmission, 'id_user'=>$user->id, 'today'=>$date, 'status' => 0, 'status_day' => 0 ]);
-                return back()->with('success','Nhận nhiệm vụ thành công');
-            }else{
-                DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->update(['status' => 1]);
-                return back()->with('error','Đã huỷ nhiệm vụ này');
-            }
+            DB::table('taking_mission')->insert(['id_mission'=>$request->idmission, 'id_user'=>$user->id, 'today'=>$date, 'status' => 0, 'status_day' => 0 ]);
+            return back()->with('success','Nhận nhiệm vụ thành công');
+         
             
         }else{
             return redirect('/login');
@@ -146,14 +166,43 @@ class HomeController extends Controller
         $file = $request->file('result');
         $idmission = $request->idmission;
         $mission = DB::table('missions')->where('id', $idmission)->first();
-        $file->move('resources/image/', $file->getClientOriginalName());
+        $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+        $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+
+        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price]);
+        $file->move('resources/image/img_mission/', $file->getClientOriginalName());
         $idtakingmission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->first();
         Db::table('taking_mission')->where('id', $idtakingmission->id)->update(['result'=>$file->getClientOriginalName()]);
-        DB::table('taking_mission')->where('id', $idtakingmission->id)->update(['status' => 2]);
+        DB::table('taking_mission')->where('id', $idtakingmission->id)->update(['status' => 3]);
+        DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
         $createhistory = new AccountController();
-        $createhistory->createHistory($user->phone, 'Bạn đã đã xác nhận hoàn thành nhiệm vụ "'.$mission->name.'"');
-        return back()->with('success', 'Bạn đã xác nhận hoàn thành nhiệm vụ');
+        $createhistory->createHistory($user->phone, 'Bạn đã đã hoàn thành nhiệm vụ và  nhận được '.$mission->price.'vnđ');
+        return back()->with('success', 'Bạn đã hoàn thành nhiệm vụ');
         
+    }
+
+    public function doneVideo(Request $request){
+        $id_user = $request->id_user;
+        $id_mission = $request->id_mission;
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+        $date =date("Y-m-d");
+        DB::table('taking_mission')->insert(['id_mission'=>$request->id_mission, 'id_user'=>$id_user, 'today'=>$date, 'status' => 0, 'status_day' => 0 ]);
+        $taking_mission = DB::table('taking_mission')->where('id_user', $id_user)->where('id_mission', $id_mission)->first();
+        $mission = DB::table('missions')->where('id', $id_mission)->first();
+        $user = DB::table('users')->where('id', $id_user)->first();
+        $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+        $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+
+        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price]);
+        DB::table('taking_mission')->where('id', $taking_mission->id)->update(['status' => 3]);
+        DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+
+
+        $createhistory = new AccountController();
+        $createhistory->createHistory($user->phone, 'Bạn đã đã hoàn thành nhiệm vụ xem video và  nhận được '.$mission->price.'vnđ');
+        return back()->with('success', 'Bạn đã hoàn thành nhiệm vụ');
+
     }
 
     public function doneMission(Request $request){

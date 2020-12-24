@@ -15,7 +15,7 @@
             </div>
             <div class="row no-gutters">
                 <div class="col-12">
-                    <div class="ranking block">
+                    <div class="ranking block"  onclick="location.href='{{URL::to('/rank')}}'">
                         <h4 class="title-block">Bảng xếp hạng</h4>
                         <img src="{{asset('/resources/image/img_app/ranking_vip.png')}}"/>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="giai-dap text-center block">
+                    <div class="giai-dap text-center block"  onclick="location.href='{{URL::to('/helpcenter')}}'">
                         <i class="fa fa-question-circle"></i><span> Giải đáp</span>
                     </div>
                 </div>
@@ -72,13 +72,13 @@
                 <div class="col-6">
                     <div class="hotro block">
                         <h4 class="title-block">Hỗ trợ 24/7</h4>
-                        <img  src="{{asset("/resources/image/img_app/tuvan.png")}}"/>
+                        <img  src="{{asset("/resources/image/img_app/tuvan.png")}}" onclick="location.href='{{URL::to('/contact')}}'"/>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="hotro block">
-                        <h4 class="title-block">Nâng cấp</h4>
-                        <img  src="{{asset("/resources/image/img_app/vip-upgrade.png")}}"/>
+                        <h4 class="title-block">Mua điểm VIP</h4>
+                        <img  src="{{asset("/resources/image/img_app/vip-upgrade.png")}}" onclick="location.href='{{URL::to('/buycoin')}}'"/>
                     </div>
                 </div>
             </div>

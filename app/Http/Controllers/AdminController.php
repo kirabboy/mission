@@ -145,29 +145,29 @@ class AdminController extends Controller
         }
     }
 
-    public function autoduyetnv(){
-        $nvchuaduyet = DB::table('taking_mission')->where('status', 2)->get();
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
+    // public function autoduyetnv(){
+    //     $nvchuaduyet = DB::table('taking_mission')->where('status', 2)->get();
+    //     date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-        $min = date("i");
-        $createhistory = new AccountController();
+    //     $min = date("i");
+    //     $createhistory = new AccountController();
 
-        foreach($nvchuaduyet as $value){
-            $val_min = date("i",strtotime($value->updated_at));
-            if(($min - $val_min)>4){
-                DB::table('taking_mission')->where('id', $value->id)->update(['status'=>3]);
-                $user_m = DB::table('users')->where('id', $value->id_user)->first();
-                $mission = DB::table('missions')->where('id', $value->id_mission)->first();
-                $createhistory->createHistory($user_m->phone, 'Bạn đã được duyệt hoàn thành nhiệm vụ '.$mission->name.' và được cộng '.$mission->price.' vnđ vào tài khoản');
-                $statistical = DB::table('statistical')->where('ofuser', $user_m->phone)->first();
-                $wallet = DB::table('wallet')->where('ofuser', $user_m->phone)->first();
-                DB::table('missions')->where('id',$mission->id)->update(['count'=> $mission->count-1]);
-                DB::table('wallet')->where('ofuser', $user_m->phone)->update(['balance'=>$wallet->balance+$mission->price]);
-                DB::table('statistical')->where('ofuser', $user_m->phone)->update([ 'total'=>$statistical->total+$mission->price]);
-            }
-        }
-        return null;
-    }
+    //     foreach($nvchuaduyet as $value){
+    //         $val_min = date("i",strtotime($value->updated_at));
+    //         if(($min - $val_min)>4){
+    //             DB::table('taking_mission')->where('id', $value->id)->update(['status'=>3]);
+    //             $user_m = DB::table('users')->where('id', $value->id_user)->first();
+    //             $mission = DB::table('missions')->where('id', $value->id_mission)->first();
+    //             $createhistory->createHistory($user_m->phone, 'Bạn đã được duyệt hoàn thành nhiệm vụ '.$mission->name.' và được cộng '.$mission->price.' vnđ vào tài khoản');
+    //             $statistical = DB::table('statistical')->where('ofuser', $user_m->phone)->first();
+    //             $wallet = DB::table('wallet')->where('ofuser', $user_m->phone)->first();
+    //             DB::table('missions')->where('id',$mission->id)->update(['count'=> $mission->count-1]);
+    //             DB::table('wallet')->where('ofuser', $user_m->phone)->update(['balance'=>$wallet->balance+$mission->price]);
+    //             DB::table('statistical')->where('ofuser', $user_m->phone)->update([ 'total'=>$statistical->total+$mission->price]);
+    //         }
+    //     }
+    //     return null;
+    // }
 
     public function getDuyetNap(){
         if (Auth::guard('users')->check()) {

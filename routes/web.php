@@ -48,6 +48,8 @@ Route::get('/earn-money', [HomeController::class, 'getEarnMoney']);
 
 Route::get('/helpcenter', [HomeController::class, 'getHelpCenter']);
 
+Route::get('/introduce', [HomeController::class, 'getIntroduce']);
+
 Route::get('/my-info', [AccountController::class, 'getInfo']);
 
 Route::post('/post-editinfo', [AccountController::class, 'postEditInfo']);
@@ -60,12 +62,17 @@ Route::get('/take-mission/{idmission}',[HomeController::class, 'takeMission']);
 
 Route::post('/uploadimgmission', [HomeController::class, 'uploadImgMission']);
 
-Route::get('/donemission/{idmission}', [HomeController::class, 'doneMission']);
+Route::post('/done-video', [HomeController::class, 'doneVideo']);
 
 Route::post('/up-avatar', [AccountController::class,'postAvatar']);
 
 Route::post('/up-status', [AccountController::class,'postStatus']);
 
+Route::post('/up-nickname', [AccountController::class,'postNickname']);
+
+Route::get('/buycoin', [HomeController::class,'getBuyCoin']);
+
+Route::get('/rank', [HomeController::class,'getRank']);
 
 // Route::get('/getJson', [HomeController::class, 'settingJsonSpin']);
 

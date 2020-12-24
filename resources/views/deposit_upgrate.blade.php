@@ -4,12 +4,8 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Nâng cấp tài khoản</h5>
-						<!--<div class="alert alert-warning text-center" role="alert">-->
-						<!--	Chỉ dành cho người chơi muốn nâng cấp tài khoản, nếu bạn muốn nạp tiền vào số dư vui lòng bấm vào đây <a href="{{URL::to('/deposit')}}">Nạp tiền</a>-->
-						<!--</div>-->
-					</div>		
+						<h4 class="title-block">Nâng cấp VIP</h4>
+					
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">
@@ -25,7 +21,7 @@
 								{!!Session::get('error')!!}
 							</div>
 						@endif
-						<div id="alert-deposit"  class="alert alert-primary text-center" role="alert">
+						<div id="alert-deposit"  class="alert alert-warning text-center" role="alert">
 							<b>Bạn muốn nâng cấp tài khoản lên vip {{$role->name}} vui lòng chuyển <span style="color: red" id="amount-alert">{{number_format($role->role_price,0,',','.')}} vnđ</span> vào tài khoản ngân hàng của chúng tôi và up biên lai lên</b><br />
 							<b>Chủ tài khoản: </b><span>KIM DUOC  </span> <br />
 							<b>Số tài khoản: </b><span><input type="text" style="width: fit-content;" value="104872467994" readonly id="stk" /></span><span style="cursor: pointer; background: green; border: 1px solid #000; border-radius: 5px; padding: 3px 5px; color: #fff;" onclick="copystk()">copy</span><br />
@@ -49,15 +45,16 @@
 						  </script>
 						  <input type="hidden" name="role" value="{{$role->ofrole}}"/>
 						<div class="form-group">
-							<label>Số tiền bạn phải nạp để nâng cấp lên {{$role->name}}</label>
-							<input id="amount" class="form-control" type="number" min="100000" name="amount" value="{{$role->role_price}}" readonly/>
+							<label>Số tiền cần chuyển: </label><br/>
+							<h3 class="text-center" ><span style="padding: 3px;border: 2px solid #eee; color: yellow">{{number_format($role->role_price,0,',','.')}} vnđ</span></h3>
+							<input id="amount" class="form-control" type="hidden" min="100000" name="amount" value="{{$role->role_price}}" readonly/>
 						</div>
 						<div class="form-group">
 							<label>Biên lai chuyển tiền</label>
 							<input class="form-control" type="file" name="bill" value="" required/>
 						</div>
 						<div class="form-group text-center">
-							<button class="btn btn-primary">Nạp</button>
+							<button class="btn btn-warning">Xác nhận</button>
 						</div>
 					</form>
 					<script>

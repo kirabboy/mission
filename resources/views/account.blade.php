@@ -5,45 +5,56 @@
 			<div class="row no-gutters">
 				<div class="col-12">
                     <div class="area-account-top">
+                        <div class="khung-{{$role->ofrole}}">
                         <div class="row no-gutters">
-                            <div class="col-4 text-center">
+                            <div class="col-6 text-center">
                                 <div class="account-avatar block">
-                                    <img src="{{asset('/resources/image/img_avatar/'.$user->avatar)}}"/>
-                                    <a class="btn btn-danger" href="{{URL::to('/logout')}}">Đăng xuất</a>
+                                    <div class="khung-avatar-{{$role->ofrole}}" >
+                                        <img src="{{asset('/resources/image/img_avatar/'.$user->avatar)}}"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-8 text-left">
+                            <div class="col-6 text-left">
                                 <div class="account-info block">
-                                    <a class="btn btn-primary" data-toggle="modal" data-target="#avatar-modal">Cập nhật ảnh đại diện</a>
-                                    <input class="form-control" value="Cập nhật cảm nghĩ..." data-toggle="modal" data-target="#status-modal">
+                                    <a class="btn btn-warning" data-toggle="modal" data-target="#avatar-modal">Đổi Avatar</a>
+                                    <a class="btn btn-info" data-toggle="modal" data-target="#nickname-modal">Đổi nickname</a>
+                                    <a class="btn btn-success" data-toggle="modal" data-target="#status-modal">Đổi cảm nghĩ</a>
+                                    <a class="btn btn-danger" href="{{URL::to('/logout')}}">Đăng xuất</a>
+
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="row no-gutters account-block-name alert alert-name">
                             <div class="col-6">
                                 <b> Tài khoản: <span>{{$user->phone}}</span></b><br/>
-                                <b> Tên: <span>{{$info->name}}</span></b><br/>
+                                <b> Nickname: <span>{{$info->nickname}}</span></b><br/>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6" style="border-left: 1px dotted #eee;padding-left: 10px">
                                 <b> Cấp độ: <span>{{$role->name}}</span></b><br/>
                                 <a type="button" style="color: red" data-toggle="modal" data-target="#ref-modal">
                                     Lấy link giới thiệu
                                 </a>
                             </div>
                         </div>
-                 
-             
-                        </div>
-                        
                         <div class="row no-gutters">
                             <div class="col-12">
-                                <div class="alert alert-info text-center" role="alert">
+                                <div class="alert alert-warning text-center" role="alert">
                                     <h5 class="text-center" style="color: red; font-weight: 600;text-decoration: underline">Cảm nghĩ</h5>
                                     {{$user->status}}
                                 </div>
                             </div>
                         </div>
+                        @if($role->ofrole > 0)
+                        <div class="foot-vip">
+                            <img src="{{asset('/resources/image/img_app/'.$role->img_bot)}}"/>
+                        </div>
+                        @endif
+                        </div>
+                 
+             
+                        </div>
+                        
+                    
                         <div class="row no-gutters">
                             <div class="col-12">
                                 <h4 class="block title-block">
@@ -68,7 +79,7 @@
                                         Điểm VIP
                                     </p>
                                     <p class="amount-price">
-                                        {{number_format($wallet->point,0,',','.')}} point
+                                        {{number_format($wallet->coin,0,',','.')}} coin
                                     </p> 
                                 </div>
                             </div>
@@ -216,6 +227,27 @@
                             <textarea style="text-left" name="status" cols="12" class="form-control" rows="5" required>
 
                             </textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="nickname-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                    <form action="{{URL::to('/up-nickname')}}" method="POST">
+						{{ csrf_field() }}
+                        <div class="form-group">
+                            <label>Điền nickname của bạn</label>
+                            <input type="text" class="form-control" name="nickname" >
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>

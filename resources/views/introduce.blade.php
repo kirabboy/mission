@@ -4,7 +4,7 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<h4 class="title-block">Giải đáp</h4>
+					<h4 class="title-block">Giới thiệu</h4>
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid">

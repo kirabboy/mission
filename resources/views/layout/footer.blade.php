@@ -34,11 +34,11 @@
         </div>
     </div>
 
-    <?php
+    {{-- <?php
         use App\Http\Controllers\AdminController;
         $adminController = new AdminController();
         $adminController->autoduyetnv();
-    ?>
+    ?> --}}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     {{-- <script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js'></script>

@@ -32,9 +32,7 @@
 											</div>
 										@endforeach
 									</div>
-									<div class="text-center">
-										{{ $histories->links() }}
-									</div>
+								
 								</div>
 							  <div class="tab-pane fade" id="missiondone">
 								@foreach($mission_done as $value)

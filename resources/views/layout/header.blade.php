@@ -46,9 +46,7 @@
             background-size: 100% !important;
             height: 100%;
             margin-bottom: 10px;
-            -webkit-box-shadow: 0px 9px 5px 9px rgba(255,255,255,1);
--moz-box-shadow: 0px 9px 5px 9px rgba(255,255,255,1);
-box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
+           
         }
         .area-vip-pack .alert{
             padding-top: 20%;
@@ -146,7 +144,7 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
             color: #eed363;
         }
         .row{
-            margin: 5px 0px;
+            margin: 0px 0px;
         }
         .row .col-6:last-child{
         }
@@ -421,12 +419,7 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
             width: 50%;
             background: rgb(255 204 0);
         }
-        .account-avatar img{
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid lightskyblue;
-        }
+        
         .account-logout img{
             width: 50%;
             border-radius: 50%;
@@ -793,7 +786,9 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
             bottom: 100px;
         }
         
-       
+       .title-block{
+           padding: 20px 0px;
+       }
         .marquee {
             width: 100%;
             position: relative;
@@ -875,6 +870,78 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
             padding: 5px;
             
         }
+        .page-mission{
+            background: #4747475d;
+            border: 1px solid #eee;
+        }
+        .vip-coin{
+            padding: 20px 0px 20px 0px;
+        }
+        .vip-coin{
+            background: rgba(68, 51, 3, 0.548);
+            border: 1px solid rgb(112, 4, 4);
+        }
+        .vip-coin h5{
+            text-transform: uppercase;
+            color: red;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .vip-5 .content-vip h4,.vip-5  .content-vip p,.vip-5 .content-vip h3,.vip-5 {
+            color: #01eff8;
+        }
+        .content-vip span {
+            color: white !important;
+        }
+       
+   
+        .vip-4 .content-vip h4,.vip-4  .content-vip p,.vip-4 .content-vip h3,.vip-4 .content-vip span {
+            color: #2ed793;
+        }
+       
+    
+
+        .vip-3 .content-vip h4,.vip-3  .content-vip p,.vip-3 .content-vip h3,.vip-3 .content-vip span {
+            color: #ddcf74;
+        }
+        .vip-card{
+            margin-bottom: 30px !important;
+        }
+       
+      
+        .vip .content-vip h4,.vip  .content-vip p,.vip .content-vip h3,.vip .content-vip span {
+            color: #fff;
+        }
+        .modal-content{
+            border: 1px solid rgb(134, 5, 5);
+            
+        }
+         .area-vip-pack{
+            border: 3px solid #efd363;
+            -webkit-box-shadow: 0px 9px 5px 9px rgba(255,255,255,1);
+            -moz-box-shadow: 0px 9px 5px 9px rgba(255,255,255,1);
+            box-shadow: 0px 1px 4px 1px #efd363;
+        }
+        
+        .foot-vip img{
+            width: 100%;
+        }
+        .top-vip img{
+            width: 25%;
+        }
+        .card-zalo{
+            background: rgba(255, 225, 128, 0.767);
+            border: 1px solid rgb(112, 4, 4);
+            padding: 5px;
+        }
+        .vip-coin img{
+            width: 90%;
+        }
+        .description-mission{
+            background: rgba(255, 255, 255, 0.363);
+            border: 1px solid rgb(112, 4, 4);
+            padding: 5px;
+        }
         .gioi-thieu, .giai-dap{
             color: #efd363;
             background: url('{{asset('/resources/image/img_app/background-8.jpg')}}') no-repeat;
@@ -885,6 +952,129 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
             border: 1px solid;
 
         }
+       
+        .account-avatar img{
+            border: 1px solid #efd363;
+        }
+        .account-info{
+            padding-top: 35px;
+            border-left: 1px dotted solid #eee !important;
+        }
+        .account-info .btn{
+            width: 100%;
+        }
+        .khung-avatar-5{
+            background: url('{{asset("/resources/image/img_app/khung-vip5.png")}}');
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+        .khung-avatar-4{
+            background: url('{{asset("/resources/image/img_app/khung-vip4.png")}}');
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+        .khung-avatar-3{
+            background: url('{{asset("/resources/image/img_app/khung-vip3.png")}}');
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+        .khung-avatar-2{
+            background: url('{{asset("/resources/image/img_app/khung-vip2.png")}}');
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+        .khung-avatar-1{
+            background: url('{{asset("/resources/image/img_app/khung-vip1.png")}}');
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+        .khung-avatar-0{
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+        .rank-content{
+            padding: 10px ;
+            margin: 10px;
+        }
+        .account-avatar img{
+            width: 100%;
+    /* height: 60px; */
+    border-radius: 50%;
+    padding: 47px;
+        }
+        .rank-1 {
+            border: 5px solid #01eff8 !important;
+            /* background: #01f0f8ad !important; */
+            
+        }
+        .rank-2 {
+            border: 3px solid #89ff00 !important;
+            /* backgrounrgba(120, 124, 116, 0.706)0b4 !important; */
+        }
+        .rank-3 {
+            border: 2px solid #efd363 !important;
+           /* background: #efd363d0 !important; */
+
+        }
+        
+        .rank{
+            padding: 10px 5px;
+            border: 1px solid silver;
+            margin-bottom: 10px;
+            /* background: rgba(192, 192, 192, 0.795); */
+
+        }
+        .rank-1 .top-rank span{
+            border: 2px solid #01eff8  !important;
+            font-size: 20px !important;
+            color: #01eff8  !important;
+        }
+        .rank-2  .top-rank span{
+            border: 2px solid #89ff00  !important;
+            font-size: 18px  !important;
+            color: #89ff00 !important;
+        }
+        .rank-3  .top-rank span{
+            border: 2px solid #efd363 !important;
+            font-size: 16px !important;
+            color: #efd363 !important;
+        }
+        .top-rank {
+            margin: 10px 0px 5px;
+            }
+            .rank-avatar .khung{
+                border: 2px solid silver;
+
+        }
+        .top-rank span{
+            border: 2px solid silver;
+            padding: 3px 5px;
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.747);
+            color: silver;
+        }
+        .rank-avatar img{
+            width: 100%;
+    /* height: 60px; */
+    border-radius: 50%;
+    padding: 30px;
+        }
+        .khung-1{
+            border: 2px solid rgb(102, 104, 2);
+        }
+        .khung-2{
+            border: 2px solid silver;
+        }
+        .khung-3{
+            border: 2px solid #ddcf74;
+        }
+        .khung-4{
+            border: 2px solid #2ed793;
+        }
+        .khung-5{
+            border: 2px solid #01eff8;
+        }
+
         .gioi-thieu img, .giai-dap img{
             width:  25px;
         }
@@ -906,6 +1096,26 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
 
 
         }
+        .rank-content p{
+            padding: 5px; 
+            font-style: italic;
+            color: #eee;
+            background: rgba(128, 128, 128, 0.301);
+            border: 1px dotted #eee;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+
+        .rank-content b{
+            color: #efd363;
+            font-size: 14px;
+
+        }
+        .rank-content span{
+            color: #fff;
+
+        }
+
         .flashsale{
             text-align: center;
         }
@@ -1031,7 +1241,7 @@ box-shadow: 0px 1px 5px 1px rgba(255,255,255,1);
             background: #ffffff24;
         }
         .form-control{
-            background: #efd363;
+            background: #fff2bc;
             border: 2px solid #e65726;
         }
         .account-block-name b{

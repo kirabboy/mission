@@ -48,7 +48,6 @@ class AccountController extends Controller
         if (Auth::guard('users')->attempt(['phone' => $phone, 'password' => $password])) {
             $user = Auth::guard('users')->user();
             $date =date("Y-m-d");
-            $month =date("m");
             $statistical = DB::table('statistical')->where('ofuser', $phone)->first();
             $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
 
@@ -96,7 +95,7 @@ class AccountController extends Controller
             if($code_invite != null){
                 $user_invite = DB::table('users')->where('referal_code', $code_invite)->first();
                 if($user_invite != null){
-                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>0, 'referal_code' => $referal_code, 'dayres'=>$date]);
+                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>-1, 'referal_code' => $referal_code,'status'=>'Chào mừng đến với app Golden', 'dayres'=>$date]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
                     DB::table('statistical')->insert(['ofuser'=> $phone]);
                     DB::table('info_users')->insert(['ofuser'=> $phone]);
@@ -108,7 +107,7 @@ class AccountController extends Controller
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
                 }
             }else{
-                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code, 'dayres'=>$date]);
+                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>-1,'referal_code' => $referal_code,'status'=>'Chào mừng đến với app Golden', 'dayres'=>$date]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
                 DB::table('statistical')->insert(['ofuser'=> $phone]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
@@ -203,7 +202,7 @@ class AccountController extends Controller
     public function getHistory(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            $histories = DB::table('history')->where('ofuser', $user->phone) ->orderBy('id', 'desc')->paginate(5);
+            $histories = DB::table('history')->where('ofuser', $user->phone) ->orderBy('id', 'desc')->get();
             $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
 
             $arr_mission_done=$arr_mission_pending=$arr_mission_new=$arr_mission_cancel = array();
@@ -430,6 +429,14 @@ class AccountController extends Controller
         $status = $request->status;
         Db::table('users')->where('phone', $user->phone)->update(['status'=>$status]);
         return back()->with('success', 'Cập nhật ảnh cảm nghĩ thành công');
+    }
+
+    public function postNickname(Request $request){
+        $user = Auth::guard('users')->user();
+
+        $nickname = $request->nickname;
+        Db::table('info_users')->where('ofuser', $user->phone)->update(['nickname'=>$nickname]);
+        return back()->with('success', 'Cập nhật ảnh nickname thành công');
     }
 
     public function logout(){
