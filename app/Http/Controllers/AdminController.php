@@ -15,15 +15,57 @@ class AdminController extends Controller
                 date_default_timezone_set('Asia/Ho_Chi_Minh');
                 $users = DB::table('users')->get();
                 $count = 0;
-                foreach($users as $val){
-                    if($val->dayres == date("Y-m-d")){
-                        $count+= 1;
-                    }
-                }
-
+                
 
                 return view('admin.home', ['users'=>$users, 'count'=>$count]);
 
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+    
+    public function getEditCoin(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                
+                return view('admin.editcoin');
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+    public function  postEditCoin(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                $wallet = DB::table('wallet')->where('ofuser', $request->phone)->first();
+
+                return view('admin.editcoinuser', ['wallet'=>$wallet]);
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+    
+
+    public function  posteditcoinuser(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                $coinadd = $request->coinadd;
+                $phone = $request->phone;
+                $wallet = DB::table('wallet')->where('ofuser', $phone)->first();
+                DB::table('wallet')->where('ofuser', $phone)->update(['coin'=>($wallet->coin + $coinadd)]);
+                $wallet = DB::table('wallet')->where('ofuser', $phone)->first();
+                return redirect('/admin/editcoin')->with('success', 'Cập nhật thành công');
             }else{
                 return redirect('/');
             }
@@ -99,7 +141,7 @@ class AdminController extends Controller
             if($user->role == 99){
                 if($request->hasFile('photos'))
                 {
-                    $destinationPath = 'resources/image/';
+                    $destinationPath = 'resources/image/img_app';
                     DB::table('banner')->truncate();
                     $files = $request->file('photos');
                     foreach ($files as $file) {
@@ -169,62 +211,9 @@ class AdminController extends Controller
     //     return null;
     // }
 
-    public function getDuyetNap(){
-        if (Auth::guard('users')->check()) {
-            $user = Auth::guard('users')->user();
-            if($user->role == 99){
-                $lenhnap = DB::table('deposit')->where('status', 0)->where('type',0)->orderBy('id', 'desc')->get();
-                return view('admin.duyetlenhnap',['lenhnap'=>$lenhnap]);
-            }else{
-                return redirect('/');
-            }
-        }else{
-            return redirect('/login');
-        }
-    }
 
-    public function duyetlenhnap(Request $request){
-        $id = $request->id;
-        
-        $deposit = DB::table('deposit')->where('id', $id)->first();
-        $user = DB::table('users')->where('phone', $deposit->ofuser)->first();
 
-        $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
-        
-        
-        $createhistory = new AccountController();
-        if($user->referal_ofuser != null){
-            $f1 = DB::table('users')->where('phone', $user->referal_ofuser)->first();
-            if($f1 != null){
-                $statisticalf1 = DB::table('statistical')->where('ofuser', $f1->phone)->first();
-
-                $walletf1 = DB::table('wallet')->where('ofuser', $f1->phone)->first();
-                
-                DB::table('wallet')->where('ofuser', $f1->phone)->update(['balance'=> $walletf1->balance+intval($deposit->amount*20/100)]);
-                DB::table('statistical')->where('ofuser',$f1->phone)->update([ 'month_total'=> $statisticalf1->month_total+intval($deposit->amount*20/100), 'today_total'=> $statisticalf1->today_total+intval($deposit->amount*20/100),'total'=> $statisticalf1->total+intval($deposit->amount*20/100),'total_referal'=> $statisticalf1->total_referal + intval($deposit->amount*20/100)]);
-                $createhistory->createHistory($f1->phone, 'Bạn đã nhận được hoa hồng 20% từ '.$user->phone.' là: '.number_format(intval($deposit->amount*20/100),0,',','.').' vnđ');
-            }
-            if($f1->referal_ofuser != null){
-                $f0 = DB::table('users')->where('phone', $f1->referal_ofuser)->first();
-                if($f0 != null){
-                    $statisticalf0 = DB::table('statistical')->where('ofuser', $f0->phone)->first();
-    
-                    $walletf0 = DB::table('wallet')->where('ofuser', $f0->phone)->first();
-                    DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf1->balance+intval($deposit->amount*5/100)]);
-                    DB::table('statistical')->where('ofuser',$f0->phone)->update([ 'month_total'=> $statisticalf0->month_total+intval($deposit->amount*5/100), 'today_total'=> $statisticalf0->today_total+intval($deposit->amount*5/100),'total'=> $statisticalf0->total+intval($deposit->amount*5/100),'total_referal'=> $statisticalf0->total_referal + intval($deposit->amount*5/100)]);
-                    $createhistory->createHistory($f0->phone, 'Bạn đã nhận được hoa hồng 5% từ '.$user->phone.' là: '.number_format(intval($deposit->amount*5/100),0,',','.').' vnđ');
-    
-                }
-            }
-        }
-        $createhistory->createHistory($user->phone, 'Lệnh nạp được duyệt, bạn được cộng '.number_format($deposit->amount,0,',','.').' vnđ vào tài khoản');
-        $wallet = DB::table('wallet')->where('ofuser', $deposit->ofuser)->first();
-        DB::table('statistical')->where('ofuser',$user->phone)->update([ 'month_total'=> $statistical->month_total+$deposit->amount, 'today_total'=> $statistical->today_total+$deposit->amount,'total'=> $statistical->total+$deposit->amount]);
-        DB::table('wallet')->where('ofuser', $deposit->ofuser)->update(['balance'=> $wallet->balance+$deposit->amount]);
-        DB::table('deposit')->where('id', $id)->update(['status'=>1]);
-        return back()->with('success', 'Duyệt thành công');
-    }
-
+   
     public function getDuyetVip(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
@@ -243,11 +232,13 @@ class AdminController extends Controller
         $upvip = DB::table('deposit')->where('id', $request->id)->first();
         $user = DB::table('users')->where('phone', $upvip->ofuser)->first();
         $role = DB::table('role')->where('ofrole', $upvip->role)->first();
-
+        $wallet = DB::table('wallet')->where('ofuser', $upvip->ofuser)->first();
         DB::table('users')->where('phone', $upvip->ofuser)->update(['role'=>$upvip->role]);
+        DB::table('wallet')->where('ofuser', $upvip->ofuser)->update(['coin'=>($wallet->coin+($upvip->amount/1000)),'role'=>$upvip->role]);
         DB::table('deposit')->where('id',$request->id)->update(['status'=>1]);
         $createhistory = new AccountController();
-        $createhistory->createHistory($upvip->ofuser, 'Nâng cấp tài khoản lên '.$role->name);
+        $createhistory->createHistory($upvip->ofuser, 'Tài khoản được nâng cấp lên '.$role->name);
+        $createhistory->createHistory($upvip->ofuser, 'Tài khoản được cộng '.number_format(intval($upvip->amount/1000),0,',','.').'coin');
 
         if($user->referal_ofuser != null){
             $f1 = DB::table('users')->where('phone', $user->referal_ofuser)->first();
@@ -257,8 +248,8 @@ class AdminController extends Controller
                 $walletf1 = DB::table('wallet')->where('ofuser', $f1->phone)->first();
                 
                 DB::table('wallet')->where('ofuser', $f1->phone)->update(['balance'=> $walletf1->balance+intval($upvip->amount*20/100)]);
-                DB::table('statistical')->where('ofuser',$f1->phone)->update([ 'month_total'=> $statisticalf1->month_total+intval($upvip->amount*20/100), 'today_total'=> $statisticalf1->today_total+intval($upvip->amount*20/100),'total'=> $statisticalf1->total+intval($upvip->amount*20/100),'total_referal'=> $statisticalf1->total_referal + intval($upvip->amount*20/100)]);
-                $createhistory->createHistory($f1->phone, 'Bạn đã nhận được hoa hồng 20% từ '.$user->phone.' là: '.number_format(intval($upvip->amount*20/100),0,',','.'));
+                DB::table('statistical')->where('ofuser',$f1->phone)->update(['total'=> $statisticalf1->total+intval($upvip->amount*20/100),'total_referal'=> $statisticalf1->total_referal + intval($upvip->amount*20/100)]);
+                $createhistory->createHistory($f1->phone, 'Bạn đã nhận được hoa hồng 20% từ '.$user->phone.' là: '.number_format(intval($upvip->amount*20/100),0,',','.').'vnđ');
             }
             if($f1->referal_ofuser != null){
                 $f0 = DB::table('users')->where('phone', $f1->referal_ofuser)->first();
@@ -266,8 +257,8 @@ class AdminController extends Controller
                     $statisticalf0 = DB::table('statistical')->where('ofuser', $f0->phone)->first();
                     $walletf0 = DB::table('wallet')->where('ofuser', $f0->phone)->first();
                     DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf1->balance+intval($upvip->amount*5/100)]);
-                    DB::table('statistical')->where('ofuser',$f0->phone)->update([ 'month_total'=> $statisticalf0->month_total+intval($upvip->amount*5/100), 'today_total'=> $statisticalf0->today_total+intval($upvip->amount*5/100),'total'=> $statisticalf0->total+intval($upvip->amount*5/100),'total_referal'=> $statisticalf0->total_referal + intval($upvip->amount*5/100)]);
-                    $createhistory->createHistory($f0->phone, 'Bạn đã nhận được hoa hồng 5% từ '.$user->phone.' là: '.number_format(intval($upvip->amount*5/100),0,',','.'));
+                    DB::table('statistical')->where('ofuser',$f0->phone)->update([ 'total'=> $statisticalf0->total+intval($upvip->amount*5/100),'total_referal'=> $statisticalf0->total_referal + intval($upvip->amount*5/100)]);
+                    $createhistory->createHistory($f0->phone, 'Bạn đã nhận được hoa hồng 5% từ '.$user->phone.' là: '.number_format(intval($upvip->amount*5/100),0,',','.').'vnđ');
     
                 }
             }

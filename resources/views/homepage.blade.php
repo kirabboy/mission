@@ -6,10 +6,10 @@
             <div class="row no-gutters">
                 <div class="col-12">
                     <!-- Add images to <div class="fotorama"></div> -->
-                    <div class="fotorama"
-                            data-autoplay="true">
-                        <img src="https://ak.picdn.net/shutterstock/videos/1043598982/thumb/1.jpg">
-                
+                    <div class="fotorama" data-autoplay="true">
+                        @foreach($banners as $val)
+                            <img src="{{asset("/resources/image/img_app/".$val->name)}}">
+                        @endforeach
                     </div>
                 </div>
             </div>

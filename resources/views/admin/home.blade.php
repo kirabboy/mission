@@ -27,27 +27,20 @@
                     <a href="{{URL::to('admin/editbalance')}}" class="btn btn-info">Sửa số dư</a>
 				</div>
 				<div class="col-6">
+					<a href="{{URL::to('admin/editbanner')}}" class="btn btn-info">Đổi banner</a>
+
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid row-home-admin">
 				<div class="col-6">
-                    <a href="{{URL::to('admin/editbanner')}}" class="btn btn-info">Đổi banner</a>
+					<a href="{{URL::to('admin/editcoin')}}" class="btn btn-info">Cộng Coin VIP</a>
 				</div>
 				<div class="col-6">
-                    <a href="{{URL::to('admin/history-spin')}}" class="btn btn-info">Xem lịch sử vòng quay</a>
-				</div>
-			</div>
-			<div class="row no-gutters container-fluid row-home-admin">
-				<!--<div class="col-6">-->
-    <!--                <a href="{{URL::to('admin/duyetlenhnap')}}" class="btn btn-info">Duyệt lệnh nạp</a>-->
-				<!--</div>-->
-				<div class="col-12">
-                    <a href="{{URL::to('admin/create-mission')}}" class="btn btn-info">Đăng nhiệm vụ</a>
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid row-home-admin">
 				<div class="col-6">
-                    <a href="{{URL::to('admin/duyetvip')}}" class="btn btn-info">Duyệt nâng cấp vip</a>
+                    <a href="{{URL::to('admin/duyetvip')}}" class="btn btn-info">Duyệt nâng cấp </a>
 				</div>
 				<div class="col-6">
                     <a href="{{URL::to('admin/lichsunap')}}" class="btn btn-info">Lịch sử nạp</a>

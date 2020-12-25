@@ -14,8 +14,13 @@ class HomeController extends Controller
     }
 
     public function getRank(){
-        $rank = DB::table('wallet')->orderBy('coin', 'desc')->paginate(20);
-        return view('rank', ['rank' => $rank]);
+        $rank1 = DB::table('wallet')->orderBy('coin', 'desc')->where('coin','>',0)->where('role',1)->paginate(20);
+        $rank2 = DB::table('wallet')->orderBy('coin', 'desc')->where('coin','>',0)->where('role',2)->paginate(20);
+        $rank3 = DB::table('wallet')->orderBy('coin', 'desc')->where('coin','>',0)->where('role',3)->paginate(20);
+        $rank4 = DB::table('wallet')->orderBy('coin', 'desc')->where('coin','>',0)->where('role',4)->paginate(20);
+        $rank5 = DB::table('wallet')->orderBy('coin', 'desc')->where('coin','>',0)->where('role',5)->paginate(20);
+
+        return view('rank', ['rank1' => $rank1,'rank2' => $rank2,'rank3' => $rank3,'rank4' => $rank4,'rank5' => $rank5]);
     }
     
     public function getHelpCenter(){

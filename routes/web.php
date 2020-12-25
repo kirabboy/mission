@@ -163,6 +163,16 @@ Route::post('/admin/editbalance', [AdminController::class, 'posteditbalance']);
 
 Route::post('/admin/editbalanceuser', [AdminController::class, 'posteditbalanceuser']);
 
+Route::get('/admin/editcoin', [AdminController::class, 'getEditCoin']);
+
+Route::post('/admin/editcoin', [AdminController::class, 'postEditcoin']);
+
+Route::get('/admin/editcoinuser', [AdminController::class, 'geteditcoinuser']);
+
+Route::post('/admin/editcoinuser', [AdminController::class, 'posteditcoinuser']);
+
+
+
 
 
 

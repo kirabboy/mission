@@ -331,15 +331,15 @@
 					function getidrole(idrole){
 						var link = "{{URL::to('/deposit/')}}";
 						$('#upgrate-role').attr('href', link+'/'+idrole);
-						if(idrole == 0){
+						if(idrole == 1){
 							var title = 'Bạn muốn nâng cấp lên gói vip 1';
-						}else if(idrole == 1){
-							var title = 'Bạn muốn nâng cấp lên gói vip 2';
 						}else if(idrole == 2){
-							var title = 'Bạn muốn nâng cấp lên gói vip 3';
+							var title = 'Bạn muốn nâng cấp lên gói vip 2';
 						}else if(idrole == 3){
-							var title = 'Bạn muốn nâng cấp lên gói vip 4';
+							var title = 'Bạn muốn nâng cấp lên gói vip 3';
 						}else if(idrole == 4){
+							var title = 'Bạn muốn nâng cấp lên gói vip 4';
+						}else if(idrole == 5){
 							var title = 'Bạn muốn nâng cấp lên gói vip 5';
 						}
 						$('.title-up').text(title);

@@ -9,17 +9,32 @@
                         <div class="row no-gutters">
                             <div class="col-6 text-center">
                                 <div class="account-avatar block">
-                                    <div class="khung-avatar-{{$role->ofrole}}" >
-                                        <img src="{{asset('/resources/image/img_avatar/'.$user->avatar)}}"/>
+                                    <div class="khung-avatar khung-avatar-{{$role->ofrole}}" style="background-image: url('{{asset('/resources/image/img_avatar/'.$user->avatar)}}')">
+                                        <div class="avatar" ></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6 text-left">
                                 <div class="account-info block">
-                                    <a class="btn btn-warning" data-toggle="modal" data-target="#avatar-modal">Đổi Avatar</a>
-                                    <a class="btn btn-info" data-toggle="modal" data-target="#nickname-modal">Đổi nickname</a>
-                                    <a class="btn btn-success" data-toggle="modal" data-target="#status-modal">Đổi cảm nghĩ</a>
-                                    <a class="btn btn-danger" href="{{URL::to('/logout')}}">Đăng xuất</a>
+                                    @if($user->role >=2)
+                                        <a class="btn btn-warning" data-toggle="modal" data-target="#avatar-modal"><i class="fa fa-id-badge"></i> Đổi Avatar</a>
+                                        <a class="btn btn-info" data-toggle="modal" data-target="#nickname-modal">Đổi nickname</a>
+                                    @else
+                                        <a class="btn btn-warning" href="{{URL::to('/upgrate')}}"><i class="fa fa-id-badge"></i>  Đổi avatar</a>
+                                        <a class="btn btn-info" href="{{URL::to('/upgrate')}}">Đổi nickname</a>
+                                    @endif
+                                    @if($user->role >=3)
+                                        <a class="btn btn-success" data-toggle="modal" data-target="#status-modal">Đổi cảm nghĩ</a>
+                                    @else
+                                        <a class="btn btn-success" href="{{URL::to('/upgrate')}}">Đổi cảm nghĩ</a>
+                                    @endif
+                                    @if($user->role >=4)
+                                        <a class="btn btn-light" href="https://zalo.me/0928581585">Thư ký riêng</a>
+                                    @else
+                                        <a class="btn btn-success" href="{{URL::to('/upgrate')}}">Thư ký riêng</a>
+                                    @endif
+
+                                    <a class="btn btn-danger" href="{{URL::to('/logout')}}"><i class="fa fa-share-square"></i> Đăng xuất</a>
 
                                 </div>
                             </div>
@@ -40,7 +55,7 @@
                             <div class="col-12">
                                 <div class="alert alert-warning text-center" role="alert">
                                     <h5 class="text-center" style="color: red; font-weight: 600;text-decoration: underline">Cảm nghĩ</h5>
-                                    {{$user->status}}
+                                    <marquee> {{$user->status}}</marquee>
                                 </div>
                             </div>
                         </div>

@@ -23,7 +23,7 @@
 				<div class="col-12">
 					<div class="fotorama"  data-width="100%" data-nav="false"  data-autoplay="true">
 						@foreach($banners as $val)
-							<img src="{{asset('/resources/image/'.$val->name)}}" width="100%">
+							<img src="{{asset('/resources/image/img_app/'.$val->name)}}" width="100%">
 						@endforeach
 					</div>
 				</div>

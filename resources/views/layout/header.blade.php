@@ -951,9 +951,72 @@
             color: #efd363;
             border: 1px solid;
 
+        } 
+        .account-info{
+            padding-top: 35px;
+            border-left: 1px dotted solid #eee !important;
         }
-       
-        .account-avatar img{
+        .account-info .btn{
+            width: 100%;
+        }  
+        .bot-avatar{
+            margin-top: -65px;
+        } 
+        .khung-avatar-5 {
+          
+        }
+        .khung-avatar-5 .avatar{
+            background: url('{{asset("/resources/image/img_app/vip-5.png")}}');
+
+        }
+        .khung-avatar-4  .avatar{
+            background: url('{{asset("/resources/image/img_app/vip-4.png")}}');
+
+        }
+        .khung-avatar-3 .avatar{
+            background: url('{{asset("/resources/image/img_app/vip-3.png")}}');
+
+        }
+        .khung-avatar-2  .avatar{
+            background: url('{{asset("/resources/image/img_app/vip-2.png")}}');
+
+        }
+     
+        .khung-avatar-1  .avatar{
+            background: url('{{asset("/resources/image/img_app/vip-1.png")}}');
+
+        }
+        .khung-avatar{
+            border-radius: 50%;
+            width: 100%;
+            background-position-x: 50%;
+            background-position-y: 50%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: 75%;
+        }
+        .khung-avatar  .avatar{
+            height: 100%;
+            width: 100%;
+            background-position-x: 50%;
+            background-position-y: 50%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+
+        }
+        .rank-content span.stt-top{
+            font-size: 20px;
+            color: red;
+        }
+        .rank-content{
+            padding: 20px 10px
+        }
+        .rank .bot-avatar{
+            margin-top: -45px;
+        } 
+      
+        
+        /* .account-avatar img{
             border: 1px solid #efd363;
         }
         .account-info{
@@ -963,66 +1026,43 @@
         .account-info .btn{
             width: 100%;
         }
-        .khung-avatar-5{
-            background: url('{{asset("/resources/image/img_app/khung-vip5.png")}}');
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-        }
-        .khung-avatar-4{
-            background: url('{{asset("/resources/image/img_app/khung-vip4.png")}}');
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-        }
-        .khung-avatar-3{
-            background: url('{{asset("/resources/image/img_app/khung-vip3.png")}}');
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-        }
-        .khung-avatar-2{
-            background: url('{{asset("/resources/image/img_app/khung-vip2.png")}}');
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-        }
-        .khung-avatar-1{
-            background: url('{{asset("/resources/image/img_app/khung-vip1.png")}}');
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-        }
-        .khung-avatar-0{
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-        }
+       
         .rank-content{
             padding: 10px ;
             margin: 10px;
         }
-        .account-avatar img{
+        /* .account-avatar img{
             width: 100%;
     /* height: 60px; */
-    border-radius: 50%;
+    /* border-radius: 50%;
     padding: 47px;
+        } */ 
+        .ranking{
+            background-size: cover;
+            background: url('{{asset('/resources/image/img_app/background-8.jpg')}}') no-repeat;
+            
+            border: 1px solid #efd363 !important;
         }
         .rank-1 {
             border: 5px solid #01eff8 !important;
-            /* background: #01f0f8ad !important; */
             
         }
         .rank-2 {
             border: 3px solid #89ff00 !important;
-            /* backgrounrgba(120, 124, 116, 0.706)0b4 !important; */
         }
         .rank-3 {
             border: 2px solid #efd363 !important;
-           /* background: #efd363d0 !important; */
 
         }
         
         .rank{
-            padding: 10px 5px;
-            border: 1px solid silver;
+            border: 1px solid #c0c0c0;
             margin-bottom: 10px;
             /* background: rgba(192, 192, 192, 0.795); */
 
+        }
+        .account-avatar img{
+            width: 100%;
         }
         .rank-1 .top-rank span{
             border: 2px solid #01eff8  !important;
@@ -1045,6 +1085,9 @@
             .rank-avatar .khung{
                 border: 2px solid silver;
 
+        }
+        .rank-content marquee{
+            vertical-align: middle;
         }
         .top-rank span{
             border: 2px solid silver;
@@ -1257,5 +1300,11 @@
     <body style="background-color:  #000">
 
         <header>
-          
+            <?php
+                 if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                echo  '<div class="text-center"><a style="width: 100%" class="btn btn-danger" href="'.url('/admin').'">Quản trị</a></div>';
+            }}
+            ?>
         </header>
