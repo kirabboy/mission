@@ -4,9 +4,7 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Liên hệ với chúng tôi</h5>
-					</div>			
+					<h4 class="title-block">Liên hệ</h4>
 				</div>
 			</div>
 			<div class="row  container-fluid">

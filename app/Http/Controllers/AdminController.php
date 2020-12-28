@@ -233,11 +233,14 @@ class AdminController extends Controller
         $user = DB::table('users')->where('phone', $upvip->ofuser)->first();
         $role = DB::table('role')->where('ofrole', $upvip->role)->first();
         $wallet = DB::table('wallet')->where('ofuser', $upvip->ofuser)->first();
-        DB::table('users')->where('phone', $upvip->ofuser)->update(['role'=>$upvip->role]);
         DB::table('wallet')->where('ofuser', $upvip->ofuser)->update(['coin'=>($wallet->coin+($upvip->amount/1000)),'role'=>$upvip->role]);
         DB::table('deposit')->where('id',$request->id)->update(['status'=>1]);
-        $createhistory = new AccountController();
-        $createhistory->createHistory($upvip->ofuser, 'Tài khoản được nâng cấp lên '.$role->name);
+        if($user->role < $upvip->role){
+            $createhistory = new AccountController();
+            DB::table('users')->where('phone', $upvip->ofuser)->update(['role'=>$upvip->role]);
+            $createhistory->createHistory($upvip->ofuser, 'Tài khoản được nâng cấp lên '.$role->name);
+        }
+       
         $createhistory->createHistory($upvip->ofuser, 'Tài khoản được cộng '.number_format(intval($upvip->amount/1000),0,',','.').'coin');
 
         if($user->referal_ofuser != null){
@@ -247,19 +250,22 @@ class AdminController extends Controller
 
                 $walletf1 = DB::table('wallet')->where('ofuser', $f1->phone)->first();
                 
-                DB::table('wallet')->where('ofuser', $f1->phone)->update(['balance'=> $walletf1->balance+intval($upvip->amount*20/100)]);
-                DB::table('statistical')->where('ofuser',$f1->phone)->update(['total'=> $statisticalf1->total+intval($upvip->amount*20/100),'total_referal'=> $statisticalf1->total_referal + intval($upvip->amount*20/100)]);
-                $createhistory->createHistory($f1->phone, 'Bạn đã nhận được hoa hồng 20% từ '.$user->phone.' là: '.number_format(intval($upvip->amount*20/100),0,',','.').'vnđ');
+                DB::table('wallet')->where('ofuser', $f1->phone)->update(['balance'=> $walletf1->balance+intval($upvip->amount*10/100),'coin'=> $walletf1->coin+intval($upvip->amount*10/100000)]);
+                DB::table('statistical')->where('ofuser',$f1->phone)->update(['total'=> $statisticalf1->total+intval($upvip->amount*10/100),'total_referal'=> $statisticalf1->total_referal + intval($upvip->amount*10/100)]);
+                $createhistory->createHistory($f1->phone, 'Bạn đã nhận được tiền hoa hồng 10% từ '.$user->phone.' : '.number_format(intval($upvip->amount*10/100),0,',','.').'vnđ');
+                $createhistory->createHistory($f1->phone, 'Bạn đã nhận được coin hoa hồng 10% từ '.$user->phone.' : '.number_format(intval($upvip->amount*10/100000),0,',','.').'coin');
+
             }
             if($f1->referal_ofuser != null){
                 $f0 = DB::table('users')->where('phone', $f1->referal_ofuser)->first();
                 if($f0 != null){
                     $statisticalf0 = DB::table('statistical')->where('ofuser', $f0->phone)->first();
                     $walletf0 = DB::table('wallet')->where('ofuser', $f0->phone)->first();
-                    DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf1->balance+intval($upvip->amount*5/100)]);
+                    DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf0->balance+intval($upvip->amount*5/100),'coin'=> $wallet2->coin+intval($upvip->amount*5/100000)]);
                     DB::table('statistical')->where('ofuser',$f0->phone)->update([ 'total'=> $statisticalf0->total+intval($upvip->amount*5/100),'total_referal'=> $statisticalf0->total_referal + intval($upvip->amount*5/100)]);
-                    $createhistory->createHistory($f0->phone, 'Bạn đã nhận được hoa hồng 5% từ '.$user->phone.' là: '.number_format(intval($upvip->amount*5/100),0,',','.').'vnđ');
-    
+                    $createhistory->createHistory($f0->phone, 'Bạn đã nhận được tiền hoa hồng 5% từ '.$user->phone.' : '.number_format(intval($upvip->amount*5/100),0,',','.').'vnđ');
+                    $createhistory->createHistory($f0->phone, 'Bạn đã nhận được coin hoa hồng 5% từ '.$user->phone.' : '.number_format(intval($upvip->amount*5/100000),0,',','.').'coin');
+
                 }
             }
         }
@@ -410,13 +416,50 @@ class AdminController extends Controller
         }
     }
 
+    public function editflashsale(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                
+                return view('admin.editflashsale');
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+
+    }
+
+    public function posteditflashsale(Request $request){
+        DB::table('notice')->truncate();
+        $flashsale = $request->flashsale;
+        DB::table('notice')->insert(['content'=>$flashsale]);
+        return back()->with('success', 'Cập nhật thành công');
+    }
+
     public function quanlythanhvien(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
             if($user->role == 99){
-                $users = DB::table('users')->orderBy('id', 'desc')->get();
+                $users = DB::table('users')->orderBy('id', 'desc')->paginate(10);
                 
                 return view('admin.quanlythanhvien', ['users'=>$users]);
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function viewchitiet(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                $phone = $request->phone;
+                $iduser = DB::table('users')->where('phone', $phone)->value('id');
+                return redirect('admin/quanlythanhvien/'.$iduser);
             }else{
                 return redirect('/');
             }
@@ -433,7 +476,6 @@ class AdminController extends Controller
                 $member = DB::table('users')->where('id', $id)->first();
                 $role = DB::table('role')->where('ofrole', $member->role)->first();
                 $wallet = DB::table('wallet')->where('ofuser', $member->phone)->first();
-                $spin = DB::table('spin_ofuser')->where('ofuser', $member->phone)->first();
                 $info = DB::table('info_users')->where('ofuser', $member->phone)->first();
                 $bank = DB::table('bank')->where('ofuser', $member->phone)->first();
                 $count_f = 0;
@@ -447,7 +489,7 @@ class AdminController extends Controller
 
               
 
-                return view('admin.chitietthanhvien', ['member'=>$member, 'count_f'=>$count_f, 'wallet'=>$wallet, 'spin'=>$spin, 'bank'=>$bank, 'info'=>$info, 'role'=>$role]);
+                return view('admin.chitietthanhvien', ['member'=>$member, 'count_f'=>$count_f, 'wallet'=>$wallet,  'bank'=>$bank, 'info'=>$info, 'role'=>$role]);
             }else{
                 return redirect('/');
             }
@@ -459,10 +501,8 @@ class AdminController extends Controller
     public function editthanhvien(Request $request){
         $phone = $request->phone;
         $balance = $request->balance;
-        $count_spin = $request->count_spin;       
-
-        DB::table('wallet')->where('ofuser', $phone)->update(['balance'=>$balance]);
-        DB::table('spin_ofuser')->where('ofuser', $phone)->update(['count'=>$count_spin]);
+        $coin = $request->coin;
+        DB::table('wallet')->where('ofuser', $phone)->update(['balance'=>$balance, 'coin'=>$coin]);
        
         return back()->with('success', 'Cập nhật thành công');
     }

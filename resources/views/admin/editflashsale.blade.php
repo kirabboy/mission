@@ -5,7 +5,7 @@
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
 					<div class="block area-title-page">
-						<h5>Thay đổi banner</h5>
+						<h5>Thay đổi flash sale</h5>
 					</div>	
 				</div>
 			</div>
@@ -21,15 +21,15 @@
 			@endif
 			<div class="row no-gutters container-fluid">
 				<div class="col-12">
-                    <form action="{{URL::to('/admin/history-spinofuser')}}" method="POST">
+                    <form action="{{URL::to('/admin/editflashsale')}}" method="POST">
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label style="color: #fff">Nhập số điện thoại người cần xem</label>
-                            <input class="form-controll" name="phone" type="text" required/>
+                            <label style="color: #fff">Nhập dòng flash sale</label>
+                            <input class="form-control" name="flashsale" type="text" required/>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Xem</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
                         </div>
                     </form>
 				</div>

@@ -17,7 +17,7 @@
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
 							  <li class="active"><a href="#facebook" data-toggle="tab">Facebook</a></li>
-							  <li><a class="" href="#youtube" data-toggle="tab">Xem Video</a></li>
+							  <li><a class="" href="#youtube" data-toggle="tab">Cày view</a></li>
 							  <li><a class="" href="#zalo" data-toggle="tab">Zalo</a></li>
 							</ul>
 					  

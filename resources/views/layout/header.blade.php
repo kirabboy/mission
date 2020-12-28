@@ -891,7 +891,6 @@
             color: #01eff8;
         }
         .content-vip span {
-            color: white !important;
         }
        
    
@@ -904,14 +903,21 @@
         .vip-3 .content-vip h4,.vip-3  .content-vip p,.vip-3 .content-vip h3,.vip-3 .content-vip span {
             color: #ddcf74;
         }
+        .vip-2 .content-vip h4,.vip-2  .content-vip p,.vip-2 .content-vip h3,.vip-2 .content-vip span {
+            color: #cacaca;
+        }
+        .vip-1 .content-vip h4,.vip-1  .content-vip p,.vip-1 .content-vip h3,.vip-1 .content-vip span {
+            color: #d19871;
+        }
+        .vip .content-vip h4,.vip  .content-vip p,.vip .content-vip h3,.vip .content-vip span {
+            color: #8f1600;
+        }
         .vip-card{
             margin-bottom: 30px !important;
         }
        
       
-        .vip .content-vip h4,.vip  .content-vip p,.vip .content-vip h3,.vip .content-vip span {
-            color: #fff;
-        }
+       
         .modal-content{
             border: 1px solid rgb(134, 5, 5);
             
@@ -1294,6 +1300,64 @@
         .account-block-name span{
             color: #efd363;
             font-size: 13px;
+        }
+        .rank-tab{
+            padding: unset;
+            list-style: none;
+        }
+        .row-tab-rank{
+            margin: 10px 0px;
+        }
+        .row-tab-rank img{
+            width: 100%;
+        }
+        .rt1{
+            border: 2px solid rgb(155, 127, 4);
+        }
+        .rt2{
+            border: 3px solid rgb(196, 196, 196);
+        }
+        .rt3{
+            border: 4px solid rgb(255, 249, 164);
+        }
+        .rt4{
+            border: 5px solid rgb(175, 255, 199);
+        }
+        .rt5{
+            border: 6px solid rgb(194, 251, 255);
+        }
+        .name-top{
+            vertical-align: middle;
+            padding: 10px 0px;
+
+        }
+        .name-top h1{
+            color: #efd363;
+            font-weight: 900;
+        }
+        .rank{
+            padding: unset;
+        }
+      
+        .progress{
+            height: 30px;
+            font-weight: 600;
+            background: #000;
+            margin-bottom: unset;
+        }
+        .row-shopping img{
+            width: 100%;
+        }
+        .row-shopping {
+            padding: unset !important;
+        }
+        #cttv label{
+            color: #000;
+        }
+        .tab-depwith .nav li{
+            width: 50%;
+            text-align: center;
+
         }
     </style>
     

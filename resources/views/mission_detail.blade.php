@@ -24,7 +24,7 @@
 				@if($mission->type == 2)
 					<div class="row no-gutters container-fluid">
 						<div class="col-12">
-							<h4 class="title-block">Xem video</h4>
+							<h4 class="title-block">Cày View</h4>
 							<div class="row no-gutters container-fluid">
 								<div class="col-12">
 									<p class="description-mission">

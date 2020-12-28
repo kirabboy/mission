@@ -43,7 +43,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row no-gutters container-fluid vip-card vip" data-toggle="modal" id="{{$vip[0]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
+				<div class="row no-gutters container-fluid vip-card vip-1" data-toggle="modal" id="{{$vip[0]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 					<div class="col-12">
 						<div class="area-vip-pack" >
 							<div class="top-vip text-center">
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row no-gutters container-fluid vip-card vip" data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
+				<div class="row no-gutters container-fluid vip-card vip-2" data-toggle="modal" id="{{$vip[1]->ofrole}}" onclick="getidrole(this.id)" data-target="#vip-modal-unlock">
 					<div class="col-12">
 						<div class="area-vip-pack" >
 							<div class="top-vip text-center">

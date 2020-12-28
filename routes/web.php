@@ -112,6 +112,9 @@ Route::get('/withdrawn-history', [AccountController::class, 'lichsurut']);
 
 Route::get('/depwith-history', [AccountController::class, 'depwith_history']);
 
+Route::get('/shopping', [HomeController::class, 'getshopping']);
+
+
 
 
 //admin
@@ -151,6 +154,8 @@ Route::get('/admin/huylenhrut/{id}', [AdminController::class, 'huylenhrut']);
 
 Route::get('/admin/quanlythanhvien', [AdminController::class, 'quanlythanhvien']);
 
+Route::post('/admin/viewchitiet', [AdminController::class, 'viewchitiet']);
+
 Route::get('/admin/quanlythanhvien/{id}', [AdminController::class, 'chitietthanhvien']);
 
 Route::post('/admin/quanlythanhvien/changepass', [AdminController::class, 'changepass']);
@@ -170,6 +175,11 @@ Route::post('/admin/editcoin', [AdminController::class, 'postEditcoin']);
 Route::get('/admin/editcoinuser', [AdminController::class, 'geteditcoinuser']);
 
 Route::post('/admin/editcoinuser', [AdminController::class, 'posteditcoinuser']);
+
+Route::get('/admin/editflashsale', [AdminController::class, 'editflashsale']);
+
+Route::post('/admin/editflashsale', [AdminController::class, 'posteditflashsale']);
+
 
 
 

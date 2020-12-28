@@ -10,7 +10,12 @@ class HomeController extends Controller
 {
     public function getHome(){
         $banners = DB::table('banner')->get();
-        return view('homepage',['banners'=>$banners]);
+        $notice =DB::table('notice')->first();
+        return view('homepage',['banners'=>$banners, 'notice'=>$notice]);
+    }
+
+    public function getshopping(){
+       return view('shopping');
     }
 
     public function getRank(){

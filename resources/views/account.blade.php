@@ -52,6 +52,16 @@
                             </div>
                         </div>
                         <div class="row no-gutters">
+                            <div class="col-6 text-center">
+                                <button onclick="location.href='{{URL::to('/upgrate')}}'" style="width: 100% ;color:white !important;" class="btn btn-warning">
+                                    <img style="width: 30px; " src="{{asset('/resources/image/img_app/deposit-a.png')}}" /> Nạp tiền</button>
+                            </div>
+                            <div class="col-6 text-center">
+                                <button onclick="location.href='{{URL::to('/withdrawn')}}'" style="width: 100% ;color:white !important;" class="btn btn-danger">
+                                    <img style="width: 30px; " src="{{asset('/resources/image/img_app/withd-a.png')}}" /> Rút tiền</button>
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
                             <div class="col-12">
                                 <div class="alert alert-warning text-center" role="alert">
                                     <h5 class="text-center" style="color: red; font-weight: 600;text-decoration: underline">Cảm nghĩ</h5>

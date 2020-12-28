@@ -36,6 +36,8 @@
 					<a href="{{URL::to('admin/editcoin')}}" class="btn btn-info">Cộng Coin VIP</a>
 				</div>
 				<div class="col-6">
+					<a href="{{URL::to('admin/editflashsale')}}" class="btn btn-info">Sửa flash sale</a>
+
 				</div>
 			</div>
 			<div class="row no-gutters container-fluid row-home-admin">

@@ -31,7 +31,7 @@
                       // When the user clicks on <span> (x), close the modal
                    
                       </script>
-					<div class="group-tabs tab-earn">
+					<div class="group-tabs tab-depwith">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
                           <li class="active"><a href="#nap" data-toggle="tab">Lịch sử nạp</a></li>

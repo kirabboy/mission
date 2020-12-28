@@ -5,7 +5,7 @@
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
 					<div class="block area-title-page">
-						<h5>Thay đổi banner</h5>
+						<h5>Chi tiết thành viên</h5>
 					</div>	
 				</div>
 			</div>
@@ -62,7 +62,7 @@
 						</div>
 						</div>
 					</div>
-                    <form action="{{URL::to('admin/quanlythanhvien/'.$member->id)}}" method="POST">
+                    <form action="{{URL::to('admin/quanlythanhvien/'.$member->id)}}" id="cttv" method="POST">
                         {{ csrf_field() }}
 
 						<div class="form-group">
@@ -89,18 +89,7 @@
 							<label>Tên ngân hàng</label>
 							<input type="text" class="form-control" name="bankname" value="{{$bank->bankname}}" readonly/>
 						</div>
-						<div class="form-group">
-							<label>Số thành viên</label>
-							<input type="number" class="form-control" name="count_f" value="{{$count_f}}" readonly/>
-						</div>
-						<div class="form-group">
-							<label>Email</label>
-							<input type="text" class="form-control" name="email" value="{{$info->email}}" readonly/>
-						</div>
-						<div class="form-group">
-							<label>Facebook</label>
-							<input type="text" class="form-control" name="facebook" value="{{$info->facebook}}" readonly/>
-						</div>
+
 						<div class="form-group">
 							<label>Zalo</label>
 							<input type="text" class="form-control" name="zalo" value="{{$info->zalo}}" readonly/>
@@ -110,14 +99,14 @@
 							<input type="number" class="form-control" name="balance" value="{{$wallet->balance}}"/>
 						</div>
 						<div class="form-group">
+							<label>Số coin</label>
+							<input type="number" class="form-control" name="coin" value="{{$wallet->coin}}"/>
+						</div>
+						<div class="form-group">
 							<label>Số thành viên</label>
 							<input type="number" class="form-control" name="count_f" value="{{$count_f}}" readonly/>
 						</div>
-						<div class="form-group">
-							<label>Số vòng quay</label>
-							<input type="number" class="form-control" name="count_spin" value="{{$spin->count}}"/>
-						</div>
-						
+		
 						
 						<div class="form-group">
 							<button class="btn btn-primary" type="submit">Cập nhật</button>
@@ -127,6 +116,7 @@
 					<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#doimatkhau">
 						Đổi mật khẩu
 					</button>
+					<br/><br/><br/>
 				</div>
 			</div>
 		</div>

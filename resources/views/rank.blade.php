@@ -7,24 +7,76 @@
 					<h4 class="title-block">Bảng xếp hạng</h4>
 				</div>
 			</div>
-			
+
 			<div class="row no-gutters container-fluid">
 				<div class="col-12">
 					<div class="area-mission">
 						<div class="group-tabs">
 							<!-- Nav tabs -->
-							<ul class="nav nav-tabs">
-							  <li class="active "><a href="#top1" class="" data-toggle="tab">VIP 1</a></li>
-							  <li><a class="" href="#top2" data-toggle="tab">VIP 2</a></li>
-							  <li><a class="" href="#top3" data-toggle="tab">VIP 3</a></li>
-							  <li><a class="" href="#top4" data-toggle="tab">VIP 4</a></li>
-							  <li><a class="" href="#top5" data-toggle="tab">VIP 5</a></li>
-
+							<ul class="rank-tab">
+							  	<li class="active">
+										<div class="row row-tab-rank rt1">
+											<div class="col-12">
+												<a href="#top1" class="" data-toggle="tab">
+													<img src="{{asset("/resources/image/img_app/t1.png")}}"/>
+												</a>
+											</div>
+										
+										</div>
+									</a>
+								</li>
+								<li class="active">
+									  <div class="row row-tab-rank rt2">
+										  <div class="col-12">
+											<a href="#top2" class="" data-toggle="tab">
+												  <img src="{{asset("/resources/image/img_app/t2.png")}}"/>
+											</a>
+										  </div>
+									
+									  </div>
+								  </a>
+							  </li>
+							  <li class="active">
+										<div class="row row-tab-rank rt3">
+											<div class="col-12">
+												<a href="#top3" class="" data-toggle="tab">
+												<img src="{{asset("/resources/image/img_app/t3.png")}}"/>
+												</a>
+											</div>
+											
+										</div>
+									</a>
+								</li>
+								<li class="active">
+											<div class="row row-tab-rank rt4">
+												<div class="col-12">
+													<a href="#top4" class="" data-toggle="tab">
+														<img src="{{asset("/resources/image/img_app/t4.png")}}"/>
+													</a>
+												</div>
+												
+											</div>
+										</a>
+									</li>
+									<li class="active">
+										  	<div class="row row-tab-rank rt5">
+												<div class="col-12">
+													<a href="#top5" class="" data-toggle="tab">
+														<img src="{{asset("/resources/image/img_app/t5.png")}}"/>
+													</a>
+												</div>
+												
+										  	</div>
+									  	</a>
+								 	</li>
+							
 							</ul>
 					  
 							<!-- Tab panes -->
 							<div class="tab-content clearfix">
 								<div  class="tab-pane fade in active" id="top1">
+									<h4 class="title-block">BHX TOP 1</h4>
+
 									<?php 
 									$count = 0;
 								?>
@@ -38,7 +90,9 @@
 			
 								?>
 									<div class="row no-gutters container-fluid rank rank-{{$count}}" >
-									
+										<div class="col-1 text-center">
+											<h1 style="color: red;font-size: 24px;margin: 20px 0px; text-decoration:underline">{{$count}}</h1>
+										</div>
 										<div class="col-2 text-center">
 											<div class="account-avatar" style="height: 100%">
 												<div class="khung-avatar khung-avatar-{{$role->ofrole}}" style="background-image: url('{{asset('/resources/image/img_avatar/'.$user->avatar)}}')">
@@ -47,28 +101,27 @@
 											</div>
 			
 										</div>
-										<div class="col-6">
+										<div class="col-2">
 											<div class="rank-content">
-												<b><span style="color: red;font-size: 14px;margin: 20px 0px;">{{$count}}</span> 
-													Nickname: <span>{{$info->nickname}}</span></b><br/>
-												<b>{{number_format($wallet->coin,0,',','.')}} <span style="color:white">coin</span></span></b><br/>
-											
-			
-			
+													<b><span>{{$info->nickname}}</span></b>
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="rank-content">
-												<b><span>Cảm nghĩ: </span><marquee>{{$user->status}}</marquee></b><br/>
-											
-			
-			
+												<b><marquee>{{$user->status}}</marquee></b>	
+											</div>		
+										</div>
+										<div class="col-3">
+											<div class="rank-content">
+												<b style="color:#fff">{{number_format($wallet->coin,0,',','.')}} <i style="color: yellow" class="fa fa-star" aria-hidden="true"></i></span></b>
 											</div>
 										</div>
 									</div>
 								@endforeach
 								</div>
 								<div  class="tab-pane fade  active" id="top2">
+									<h4 class="title-block">BHX TOP 2</h4>
+
 									<?php 
 									$count = 0;
 								?>
@@ -82,7 +135,9 @@
 			
 								?>
 									<div class="row no-gutters container-fluid rank rank-{{$count}}" >
-									
+										<div class="col-1 text-center">
+											<h1 style="color: red;font-size: 24px;margin: 20px 0px; text-decoration:underline">{{$count}}</h1>
+										</div>
 										<div class="col-2 text-center">
 											<div class="account-avatar" style="height: 100%">
 												<div class="khung-avatar khung-avatar-{{$role->ofrole}}" style="background-image: url('{{asset('/resources/image/img_avatar/'.$user->avatar)}}')">
@@ -91,28 +146,27 @@
 											</div>
 			
 										</div>
-										<div class="col-6">
+										<div class="col-2">
 											<div class="rank-content">
-												<b><span style="color: red;font-size: 14px;margin: 20px 0px;">{{$count}}</span> 
-													Nickname: <span>{{$info->nickname}}</span></b><br/>
-												<b>{{number_format($wallet->coin,0,',','.')}} <span style="color:white">coin</span></span></b><br/>
-											
-			
-			
+													<b><span>{{$info->nickname}}</span></b>
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="rank-content">
-												<b><span>Cảm nghĩ: </span><marquee>{{$user->status}}</marquee></b><br/>
-											
-			
-			
+												<b><marquee>{{$user->status}}</marquee></b>	
+											</div>		
+										</div>
+										<div class="col-3">
+											<div class="rank-content">
+												<b style="color:#fff">{{number_format($wallet->coin,0,',','.')}} <i style="color: yellow" class="fa fa-star" aria-hidden="true"></i></span></b>
 											</div>
 										</div>
 									</div>
 								@endforeach
 								</div>
 								<div  class="tab-pane fade  active" id="top3">
+									<h4 class="title-block">BHX TOP 3</h4>
+
 									<?php 
 									$count = 0;
 								?>
@@ -126,7 +180,9 @@
 			
 								?>
 									<div class="row no-gutters container-fluid rank rank-{{$count}}" >
-									
+										<div class="col-1 text-center">
+											<h1 style="color: red;font-size: 24px;margin: 20px 0px; text-decoration:underline">{{$count}}</h1>
+										</div>
 										<div class="col-2 text-center">
 											<div class="account-avatar" style="height: 100%">
 												<div class="khung-avatar khung-avatar-{{$role->ofrole}}" style="background-image: url('{{asset('/resources/image/img_avatar/'.$user->avatar)}}')">
@@ -135,22 +191,19 @@
 											</div>
 			
 										</div>
-										<div class="col-6">
+										<div class="col-2">
 											<div class="rank-content">
-												<b><span style="color: red;font-size: 14px;margin: 20px 0px;">{{$count}}</span> 
-													Nickname: <span>{{$info->nickname}}</span></b><br/>
-												<b>{{number_format($wallet->coin,0,',','.')}} <span style="color:white">coin</span></span></b><br/>
-											
-			
-			
+													<b><span>{{$info->nickname}}</span></b>
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="rank-content">
-												<b><span>Cảm nghĩ: </span><marquee>{{$user->status}}</marquee></b><br/>
-											
-			
-			
+												<b><marquee>{{$user->status}}</marquee></b>	
+											</div>		
+										</div>
+										<div class="col-3">
+											<div class="rank-content">
+												<b style="color:#fff">{{number_format($wallet->coin,0,',','.')}} <i style="color: yellow" class="fa fa-star" aria-hidden="true"></i></span></b>
 											</div>
 										</div>
 									</div>
@@ -161,6 +214,8 @@
 									$count = 0;
 								?>
 								@foreach($rank4 as $val)
+								<h4 class="title-block">BHX TOP 4</h4>
+
 								<?php 
 									$count++;
 									$user= DB::table('users')->where('phone', $val->ofuser)->first();
@@ -170,7 +225,9 @@
 			
 								?>
 									<div class="row no-gutters container-fluid rank rank-{{$count}}" >
-									
+										<div class="col-1 text-center">
+											<h1 style="color: red;font-size: 24px;margin: 20px 0px; text-decoration:underline">{{$count}}</h1>
+										</div>
 										<div class="col-2 text-center">
 											<div class="account-avatar" style="height: 100%">
 												<div class="khung-avatar khung-avatar-{{$role->ofrole}}" style="background-image: url('{{asset('/resources/image/img_avatar/'.$user->avatar)}}')">
@@ -179,28 +236,27 @@
 											</div>
 			
 										</div>
-										<div class="col-6">
+										<div class="col-2">
 											<div class="rank-content">
-												<b><span style="color: red;font-size: 14px;margin: 20px 0px;">{{$count}}</span> 
-													Nickname: <span>{{$info->nickname}}</span></b><br/>
-												<b>{{number_format($wallet->coin,0,',','.')}} <span style="color:white">coin</span></span></b><br/>
-											
-			
-			
+													<b><span>{{$info->nickname}}</span></b>
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="rank-content">
-												<b><span>Cảm nghĩ: </span><marquee>{{$user->status}}</marquee></b><br/>
-											
-			
-			
+												<b><marquee>{{$user->status}}</marquee></b>	
+											</div>		
+										</div>
+										<div class="col-3">
+											<div class="rank-content">
+												<b style="color:#fff">{{number_format($wallet->coin,0,',','.')}} <i style="color: yellow" class="fa fa-star" aria-hidden="true"></i></span></b>
 											</div>
 										</div>
 									</div>
 								@endforeach
 								</div>
 								<div  class="tab-pane fade  active" id="top5">
+									<h4 class="title-block">BHX TOP 5</h4>
+
 									<?php 
 									$count = 0;
 								?>
@@ -214,7 +270,9 @@
 			
 								?>
 									<div class="row no-gutters container-fluid rank rank-{{$count}}" >
-									
+										<div class="col-1 text-center">
+											<h1 style="color: red;font-size: 24px;margin: 20px 0px; text-decoration:underline">{{$count}}</h1>
+										</div>
 										<div class="col-2 text-center">
 											<div class="account-avatar" style="height: 100%">
 												<div class="khung-avatar khung-avatar-{{$role->ofrole}}" style="background-image: url('{{asset('/resources/image/img_avatar/'.$user->avatar)}}')">
@@ -223,22 +281,19 @@
 											</div>
 			
 										</div>
-										<div class="col-6">
+										<div class="col-2">
 											<div class="rank-content">
-												<b><span style="color: red;font-size: 14px;margin: 20px 0px;">{{$count}}</span> 
-													Nickname: <span>{{$info->nickname}}</span></b><br/>
-												<b>{{number_format($wallet->coin,0,',','.')}} <span style="color:white">coin</span></span></b><br/>
-											
-			
-			
+													<b><span>{{$info->nickname}}</span></b>
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="rank-content">
-												<b><span>Cảm nghĩ: </span><marquee>{{$user->status}}</marquee></b><br/>
-											
-			
-			
+												<b><marquee>{{$user->status}}</marquee></b>	
+											</div>		
+										</div>
+										<div class="col-3">
+											<div class="rank-content">
+												<b style="color:#fff">{{number_format($wallet->coin,0,',','.')}} <i style="color: yellow" class="fa fa-star" aria-hidden="true"></i></span></b>
 											</div>
 										</div>
 									</div>

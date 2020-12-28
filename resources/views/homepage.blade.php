@@ -37,8 +37,28 @@
             </marquee>
             <div class="row no-gutters">
                 <div class="col-12">
-                    <div class="shopping block">
+                    <div class="shopping block" onclick="location.href='{{URL::to('/shopping')}}'">
                         <i class="fa fa-shopping-cart"></i> <span class="shopping-text">Mua sắm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters block">
+                <div class="col-6">
+                    <div class="text-center ">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                <i style=" color: #89ff89"class="fa fa-shopping-basket"><span style=" color: #fff"> <?php echo(number_format(rand(1000,2000),0,',','.')); ?> đơn hàng đã được mua</span></i> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center" >
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                <i style=" color:#89ff89" class="fa fa-circle"><span style="color: #fff"> <?php echo(number_format(rand(100000,500000),0,',','.')); ?> thành viên online</span></i> 
+                            </div>
+                          </div>
                     </div>
                 </div>
             </div>
@@ -50,7 +70,7 @@
                             <img width="25px" src="{{asset("/resources/image/img_app/star_gold.png")}}"/> 
                             Flash sale
                         </h4>
-                        <marquee  class="form-control"/><span>100.000vnđ Viettel chỉ với 10.000vnđ</span></marquee>
+                        <marquee  class="form-control"/><span>{{$notice->content}}</span></marquee>
                     </div>
                 </div>
             </div>

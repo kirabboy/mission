@@ -4,9 +4,7 @@
 		<div class="container-fluid p-0">
 			<div class="row no-gutters">
 				<div class="col-12 text-center">
-					<div class="block area-title-page">
-						<h5>Rút tiền</h5>
-					</div>		
+					<h4 class="title-block">Rút tiền về ngân hàng</h4>
 				</div>
 			</div>
 			@if(Session::has('success'))
@@ -24,20 +22,22 @@
 					<form id="form-info" action="" method="POST" >
 						{{ csrf_field() }}
 						
-						<div id="alert-deposit" class="alert alert-primary text-center" role="alert">
-							<h5 style="color: #000">Thông tin tài khoản ngân hàng của bạn</h5>
-							<b>Chủ tài khoản: </b><span>{{$bank->username}}</span><br />
-							<b>Số tài khoản: </b><span>{{$bank->banknumber}}</span><br />
-							<b>Tên ngân hàng: </b><span>{{$bank->bankname}}</span>
+						<div id="alert-deposit" class="alert alert-warning text-center" role="alert">
+							<h5 style="color: #000">Xác nhận đúng thông tin ngân hàng của bạn, nếu sai chúng tôi không chịu trách nhiệm về khoản tiền này</h5>
+							<div class="text-left">
+								<b>Tên ngân hàng: </b><span style="color: red;">{{$bank->bankname}}</span><br/>
+								<b>Chủ tài khoản: </b><span style="color: red;">{{$bank->username}}</span><br />
+								<b>Số tài khoản: </b><span style="color: red;">{{$bank->banknumber}}</span><br />
+							</div>
 						</div>
 						  
 						<div class="form-group">
-							<label>Nhập vào số tiền bạn muốn rút (ít nhất 100.000 vnđ)</label>
-							<input id="amount" class="form-control" type="number" name="amount" value="" min="100000" required/>
+							<label>Cấp của bạn được rút ít nhất {{number_format($role->min_withd,0,',','.')}} vnđ</label>
+							<input id="amount" class="form-control" type="number" name="amount" value="" min="{{$role->min_withd}}" required/>
 						</div>
 					
 						<div class="form-group text-center">
-							<button class="btn btn-primary">Rút</button>
+							<button class="btn btn-danger">Rút</button>
 						</div>
 					</form>
 				

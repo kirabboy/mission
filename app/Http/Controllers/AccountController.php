@@ -267,10 +267,7 @@ class AccountController extends Controller
                 return back()->with('error', 'Cấp hiện tại của bạn cao hơn');
             }else{
                 
-                $check = $id_role - $user->role;
-                if($check >1){
-                    return back()->with('error', 'Bạn phải nâng cấp từng cấp');
-                }
+                
                 $role = DB::table('role')->where('ofrole', $id_role)->first();
                 return view('deposit_upgrate', ['role'=>$role]); 
             }
@@ -310,8 +307,9 @@ class AccountController extends Controller
     public function getWithdrawn(Request $request){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
+            $role = DB::table('role')->where('ofrole', $user->role)->first();
             $bank = DB::table('bank')->where('ofuser', $user->phone)->first();
-            return view('withdrawn', ['bank'=> $bank]);
+            return view('withdrawn', ['bank'=> $bank,'role'=>$role]);
         }else{
             return redirect('/login');
         }

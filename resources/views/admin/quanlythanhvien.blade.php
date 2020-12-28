@@ -9,6 +9,21 @@
 					</div>	
 				</div>
 			</div>
+			<div class="row no-gutters container-fluid">
+				<div class="col-12">
+                    <form action="{{URL::to('/admin/viewchitiet')}}" method="POST">
+                        {{ csrf_field() }}
+
+                        <div class="form-group">
+                            <label style="color: #fff">Nhập số điện thoại người cần xem</label>
+                            <input class="form-controll" name="phone" type="text" required/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Xem</button>
+                        </div>
+                    </form>
+				</div>
+			</div>
 			@if(Session::has('success'))
 				<div class="alert alert-success" role="alert">
 					{{Session::get('success')}}
@@ -21,11 +36,6 @@
 			@endif
 			<div class="row no-gutters container-fluid" style="background: #fff">
 				<div class="col-12">
-					<script>
-						$(document).ready( function () {
-							$('#user-table').DataTable();
-						} );
-					</script>
 					<table class="table table-bordered table-cus" id="user-table" style="background: #fff;">
 						<thead>
 						  <tr>
@@ -60,29 +70,14 @@
 						  </tr>
                             @endforeach
 						</tbody>
-                      </table>
-                      <div id="myModal" class="modal text-center" >
-                          <div class="modal-content" style="background: #fff;">
-                            <img  id="img-modal" >
-                            <span class="close" style="color: #000">Đóng</span>
-                          </div>
-                      </div>
-                      <script>
-                        // Get the modal
-                        function showimg(element){
-                            $('#img-modal').attr('src',$(element).attr('src'));
-                            $('#myModal').css("display","block");
-
-                        }
-                        
-                        $('.close').click(function(){
-                            $('#myModal').css("display","none");
-                        });
-                     
-
-                        // When the user clicks on <span> (x), close the modal
-                     
-                        </script>
+					  </table>
+					
+                      
+				</div>
+			</div>
+			<div class="text-center row">
+				<div class="col-12">
+					{{ $users->links() }}
 				</div>
 			</div>
 		</div>
