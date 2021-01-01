@@ -14,6 +14,73 @@ class HomeController extends Controller
         return view('homepage',['banners'=>$banners, 'notice'=>$notice]);
     }
 
+    public function getDetail(Request $request){
+        $idvip = $_GET['id'];
+        $vip = DB::table('users')->where('id', $idvip)->first();
+        $info_vip = DB::table('info_users')->where('ofuser', $vip->phone)->first();
+        $wallet_vip = DB::table('wallet')->where('ofuser', $vip->phone)->first();
+        $html = '
+        <div class="avatar-detail-vip">
+        <div class="account-avatar" >
+        <div class="khung-avatar khung-avatar-'.$vip->role.'" style="background-image: url('.asset("/resources/image/img_avatar/".$vip->avatar).')">
+            <div class="avatar" ></div>
+        </div>
+    </div>
+        </div>
+        <h4 style="color: red">'.$info_vip->nickname.'<h4>
+        
+        <div>
+            <h5 style="color: #efd363">Số dư: <span style="color: #fff">'.number_format($wallet_vip->balance,0,',','.').'</span></h5>
+            <h5 style="color: #efd363">Số coin: <span style="color: #fff">'.number_format($wallet_vip->coin,0,',','.').'</span></h5>
+            <div class="bounce">
+                <p>'.$vip->status.'</p>
+            </div>
+        </div>
+        ';
+        return $html;
+    }
+
+    public function getnhanqua(Request $request){
+
+         if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            return view('nhanqua');
+        }
+        
+    }
+
+    public function nhanqua(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+            
+            if($statistical->status_gift == 0){
+                $ran  = rand(0,9);
+                if($ran < 5){
+                    return 'Chúc bạn may mắn lần sau';
+                }
+                if(4 < $ran && $ran < 8){
+                    $coin = 10;
+                }
+                if($ran == 8){
+                    $coin = 20;
+                }
+                if($ran == 9){
+                    $coin = 100;
+                }
+                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                DB::table('wallet')->where('ofuser',$user->phone)->update(['coin'=>$wallet->coin+$coin]);
+                DB::table('statistical')->where('ofuser',$user->phone)->update(['status_gift'=>1]);
+                $createhistory = new AccountController();
+                $createhistory->createHistory($user->phone, 'Nhận '.$coin.' coin VIP từ nhận thưởng hàng ngày');
+                return 'Bạn đã nhận được '.$coin.' coin VIP từ nhận thưởng hàng ngày';
+            }else{
+                return 'Bạn đã nhận thưởng hàng ngày rồi';
+            }
+           
+        }
+    }
+
     public function getshopping(){
        return view('shopping');
     }
@@ -50,7 +117,6 @@ class HomeController extends Controller
     public function getContact(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
-            DB::table('missions')->where('ofrole', 0)->update(['price'=> 10000]);
             return view('contact', ['user' => $user]);
         }else{
             return redirect('/login');
@@ -79,17 +145,11 @@ class HomeController extends Controller
             $mission_avai_z = array();
             $role = DB::table('role')->where('ofrole', $user->role)->first();
             $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first(); 
-            if($user->role == -1){
-                $num_f = 1;
-                $num_y = 1;
-                $num_z = 1;
+            
+            $num_f = 1;
+            $num_y = $role->max_mission - 2;
+            $num_z = 1;
 
-            }else{
-                $num_f = intval($role->max_mission *1/5);
-                $num_y = intval($role->max_mission *3/5);
-                $num_z = intval($role->max_mission *1/5);
-
-            }
             if(count($checkMissionDones) == 0){
                 foreach($missions as $mission){
                   
@@ -146,6 +206,136 @@ class HomeController extends Controller
         }
     }
 
+    public function robot(Request $request){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 5){
+                date_default_timezone_set('Asia/Ho_Chi_Minh');
+                $date =date("Y-m-d");
+                $checkMissionDones = DB::table('taking_mission')->where('id_user', $user->id)->where(function($query){
+                    $query->where('status_day',1)->orWhere('status',3);
+                })->get();
+
+
+                $missions = DB::table('missions')->where('ofrole', $user->role)->get();
+                $mission_avai_f = array();
+                $mission_avai_y = array();
+                $mission_avai_z = array();
+                $role = DB::table('role')->where('ofrole', $user->role)->first();
+                $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first(); 
+            
+                $num_f = 1;
+                $num_y = $role->max_mission - 2;
+                $num_z = 1;
+
+                
+                if(count($checkMissionDones) == 0){
+                    foreach($missions as $mission){
+                    
+                        if($mission->type == 1 ){
+                            if(count($mission_avai_f) < $num_f){
+                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                                $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+                                DB::table('taking_mission')->insert(['id_mission'=>$mission->id, 'id_user'=>$user->id, 'result'=>'robot-vipro.png', 'today'=>$date, 'status' => 3, 'status_day' => 0 ]);
+                                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+                                DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+                                $createhistory = new AccountController();
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+                                $createhistory->createHistory($user->phone, 'Bạn đã đã hoàn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+                                array_push($mission_avai_f, $mission);
+
+                            }
+                        }
+                        if( $mission->type == 2 ){
+                            if(count($mission_avai_y) < $num_y){
+                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                                $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+                                DB::table('taking_mission')->insert(['id_mission'=>$mission->id, 'id_user'=>$user->id, 'result'=>'robot-vipro.png', 'today'=>$date, 'status' => 3, 'status_day' => 0 ]);
+                                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+                                DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+                                $createhistory = new AccountController();
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+                                array_push($mission_avai_y, $mission);
+
+                            }
+                        }
+                        if($mission->type == 3 ){
+                            if(count($mission_avai_z) < $num_z){
+                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                                $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+                                DB::table('taking_mission')->insert(['id_mission'=>$mission->id, 'id_user'=>$user->id, 'result'=>'robot-vipro.png', 'today'=>$date, 'status' => 3, 'status_day' => 0 ]);
+                                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+                                DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+                                $createhistory = new AccountController();
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+                                array_push($mission_avai_z, $mission);
+
+                            }
+                        }
+                            
+                        
+                    }
+                }else{
+                    foreach($missions as $mission){
+                        $check = true;
+                        foreach($checkMissionDones as $checkMissionDone){
+                            if($mission->id == $checkMissionDone->id_mission){
+                                $check = false;
+                            }
+                        }
+                        if($check && $mission->type == 1 ){
+                            if(count($mission_avai_f) < $num_f){
+                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                                $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+                                DB::table('taking_mission')->insert(['id_mission'=>$mission->id, 'id_user'=>$user->id, 'result'=>'robot-vipro.png', 'today'=>$date, 'status' => 3, 'status_day' => 0 ]);
+                                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+                                DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+                                $createhistory = new AccountController();
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+                                array_push($mission_avai_f, $mission);
+
+                            }
+                        }
+                        if($check && $mission->type == 2 ){
+                            if(count($mission_avai_y) < $num_y){
+                                DB::table('taking_mission')->insert(['id_mission'=>$mission->id, 'id_user'=>$user->id, 'result'=>'robot-vipro.png', 'today'=>$date, 'status' => 3, 'status_day' => 0 ]);
+                                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+                                DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+                                $createhistory = new AccountController();
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+                                array_push($mission_avai_y, $mission);
+
+                            }
+                        }
+                        if($check && $mission->type == 3 ){
+                            if(count($mission_avai_z) < $num_z){
+                                $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
+                                $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
+                                DB::table('taking_mission')->insert(['id_mission'=>$mission->id, 'id_user'=>$user->id, 'result'=>'robot-vipro.png', 'today'=>$date, 'status' => 3, 'status_day' => 0 ]);
+                                DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+                                DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
+                                $createhistory = new AccountController();
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+                                $createhistory->createHistory($user->phone, 'Robot đã giúp bạn hoàn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+                                array_push($mission_avai_z, $mission);
+
+                            }
+                        }
+                            
+                        
+                    }
+
+                    
+                } 
+            }
+          }
+          return 'Thành công';
+    }
+
     public function getMissionDetail(Request $request){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
@@ -179,14 +369,16 @@ class HomeController extends Controller
         $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
         $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
 
-        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price]);
         $file->move('resources/image/img_mission/', $file->getClientOriginalName());
         $idtakingmission = DB::table('taking_mission')->where('id_mission', $request->idmission)->where('id_user', $user->id)->first();
-        Db::table('taking_mission')->where('id', $idtakingmission->id)->update(['result'=>$file->getClientOriginalName()]);
+        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
+        DB::table('taking_mission')->where('id', $idtakingmission->id)->update(['result'=>$file->getClientOriginalName()]);
         DB::table('taking_mission')->where('id', $idtakingmission->id)->update(['status' => 3]);
         DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
         $createhistory = new AccountController();
-        $createhistory->createHistory($user->phone, 'Bạn đã đã hoàn thành nhiệm vụ và  nhận được '.$mission->price.'vnđ');
+        $createhistory->createHistory($user->phone, 'Bạn đã  hoàn thành nhiệm vụ và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+        $createhistory->createHistory($user->phone, 'Bạn đã  hoàn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+
         return back()->with('success', 'Bạn đã hoàn thành nhiệm vụ');
         
     }
@@ -204,13 +396,15 @@ class HomeController extends Controller
         $wallet = DB::table('wallet')->where('ofuser', $user->phone)->first();
         $statistical = DB::table('statistical')->where('ofuser', $user->phone)->first();
 
-        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price]);
+        DB::table('wallet')->where('ofuser', $user->phone)->update(['balance'=>$wallet->balance+$mission->price, 'coin'=>$wallet->coin + $mission->price/1000]);
         DB::table('taking_mission')->where('id', $taking_mission->id)->update(['status' => 3]);
         DB::table('statistical')->where('ofuser', $user->phone)->update(['total'=>$statistical->total+$mission->price]);
 
 
         $createhistory = new AccountController();
-        $createhistory->createHistory($user->phone, 'Bạn đã đã hoàn thành nhiệm vụ xem video và  nhận được '.$mission->price.'vnđ');
+        $createhistory->createHistory($user->phone, 'Bạn đã  hoàn thành nhiệm vụ xem video và  nhận được '.number_format($mission->price,0,',','.').'vnđ');
+        $createhistory->createHistory($user->phone, 'Bạn đã  hoàn thành nhiệm vụ và  nhận được '.number_format(($mission->price/1000),0,',','.').'coin');
+
         return back()->with('success', 'Bạn đã hoàn thành nhiệm vụ');
 
     }

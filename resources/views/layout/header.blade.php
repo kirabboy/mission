@@ -26,6 +26,129 @@
         <title>Like</title>
     </head>
     <style>
+        .avatar-detail-vip .account-avatar img{
+            width: 100%;
+        }
+        .avatar-detail-vip .account-avatar {
+            height: 100px;
+            width: 100px;
+            margin: auto;
+        }
+         .bounce {
+            overflow: hidden;
+            position: relative;
+            height: 20px;
+            border: 1px solid #eee;
+        }
+        
+        .bounce p {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            color: #efd363 !important;
+
+            vertical-align: middle;
+            font-size: 15px;
+            margin: auto 0;
+            text-align: center;
+            -moz-transform: translateX(50%);
+            -webkit-transform: translateX(50%);
+            transform: translateX(50%);
+            -moz-animation: bouncing-text 5s linear infinite alternate;
+            -webkit-animation: bouncing-text 5s linear infinite alternate;
+            animation: bouncing-text 10s linear infinite alternate;
+        }
+        
+        @-moz-keyframes bouncing-text {
+            0% {
+                -moz-transform: translateX(50%);
+            }
+            100% {
+                -moz-transform: translateX(-50%);
+            }
+        }
+        
+        @-webkit-keyframes bouncing-text {
+            0% {
+                -webkit-transform: translateX(50%);
+            }
+            100% {
+                -webkit-transform: translateX(-50%);
+            }
+        }
+        
+        @keyframes bouncing-text {
+            0% {
+                -moz-transform: translateX(50%);
+                -webkit-transform: translateX(50%);
+                transform: translateX(50%);
+            }
+            100% {
+                -moz-transform: translateX(-50%);
+                -webkit-transform: translateX(-50%);
+                transform: translateX(-50%);
+            }
+        }
+        .marquee {
+    width: 450px; /* Width of marquee "window" must match the width of p elements*/
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 1px 6px #777;
+}
+
+.marquee > div {
+  display: table-row;
+  white-space: nowrap;
+  padding-left: 100%; 
+  animation: marquee 20s linear infinite; /* Time must be adjusted based on total width of scrolled elements*/
+}
+
+.marquee > div p {
+  width: 450px; /* Width of p elements must match the width of marquee "window"*/
+  padding-left: 450px; /* Padding determines space between scrolled elements */
+  display: table-cell; 
+}
+
+/* Make it move */
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+        .card-qua img{
+            border: 1px solid red;
+            margin: 40px 0px; 
+        }
+        .card-qua img{
+            -webkit-animation: glowing5 1500ms infinite;
+            -moz-animation: glowing5 1500ms infinite;
+            -o-animation: glowing5 1500ms infinite;
+            animation: glowing5 1500ms infinite;
+        }
+        @-webkit-keyframes glowing5 {
+            0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            }
+
+            @-moz-keyframes glowing5{
+                0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            }
+
+            @-o-keyframes glowing5 {
+                0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            }
+
+            @keyframes glowing5 {
+                0% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+            50% { background-color: #9bdeff; -webkit-box-shadow: 0 0 30px #9bdeff; }
+            100% { background-color: #9bdeff; -webkit-box-shadow: 0 0 3px #9bdeff; }
+        }
         .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
             background: #efd363;
             color: #000;
@@ -1371,4 +1494,30 @@
                 echo  '<div class="text-center"><a style="width: 100%" class="btn btn-danger" href="'.url('/admin').'">Quản trị</a></div>';
             }}
             ?>
+            <script>
+                var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+                // Firefox 1.0+
+                var isFirefox = typeof InstallTrigger !== 'undefined';
+
+                // Safari 3.0+ "[object HTMLElementConstructor]" 
+                var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+
+                // Internet Explorer 6-11
+                var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+                // Edge 20+
+                var isEdge = !isIE && !!window.StyleMedia;
+
+                // Chrome 1 - 79
+                var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+                // Edge (based on chromium) detection
+                var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
+
+                // Blink engine detection
+                var isBlink = (isChrome || isOpera) && !!window.CSS;
+                if(!isChrome && !isSafari) {
+                }
+            </script>
         </header>

@@ -104,9 +104,10 @@
             </div>
             <div class="row no-gutters">
                 <div class="col-12">
+                    
                     <div class="qua block">
                         <h4 class="title-block">Hộp quà may mắn</h4>
-                        <img  src="{{asset("/resources/image/img_app/gift.png")}}"/>
+                        <img onclick="location.href='{{URL::to('/get-gift')}}'" src="{{asset("/resources/image/img_app/gift.png")}}"/>
                     </div>
                 </div>
             </div>

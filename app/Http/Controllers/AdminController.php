@@ -73,7 +73,79 @@ class AdminController extends Controller
             return redirect('/login');
         }
     }
-    
+    public function viewhistory(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                
+                return view('admin.viewhistory');
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+
+    public function viewhistorydetail(){
+        if (Auth::guard('users')->check()) {
+            $user = Auth::guard('users')->user();
+            if($user->role == 99){
+                $phone = $request->phone;
+                $id_user = DB::table('users')->where('phone', $phone)->value('id');
+                $histories = DB::table('history')->where('ofuser', $phone)->get();
+                $taking_missions = DB::table('taking_mission')->where('id_user', $id_user)->get();
+
+            $arr_mission_done=$arr_mission_pending=$arr_mission_new=$arr_mission_cancel = array();
+            foreach($taking_missions as $val){
+                $mission = DB::table('missions')->where('id', $val->id_mission)->first();
+                if($val->status == 3){
+                    array_push( $arr_mission_done, $mission);
+                }elseif($val->status == 2){
+                    array_push($arr_mission_pending, $mission);
+                }elseif($val->status == 1){
+                    array_push($arr_mission_cancel, $mission);
+                }elseif($val->status == 0){
+                    array_push($arr_mission_new, $mission);
+                }
+            }
+            for($i=0; $i<count($arr_mission_done)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_done)-1; $j++){
+                    if($arr_mission_done[$i]->id == $arr_mission_done[$j]->id ){
+                        unset($arr_mission_done[$j]);
+                    }
+                }
+            }
+            for($i=0; $i<count($arr_mission_pending)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_pending)-1; $j++){
+                    if($arr_mission_pending[$i]->id == $arr_mission_pending[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+            for($i=0; $i<count($arr_mission_cancel)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_cancel)-1; $j++){
+                    if($arr_mission_cancel[$i]->id == $arr_mission_cancel[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+            for($i=0; $i<count($arr_mission_new)-2; $i++){
+                for($j=$i+1; $j<count($arr_mission_new)-1; $j++){
+                    if($arr_mission_new[$i]->id == $arr_mission_new[$j]->id ){
+                        unset($array[$j]);
+                    }
+                }
+            }
+                return view('admin.viewhistorydetail', ['histories'=>$histories, 'mission_done'=>$arr_mission_done,'mission_cancel'=>$arr_mission_cancel,'mission_new'=>$arr_mission_new,'mission_pending'=>$arr_mission_pending ]);
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/login');
+        }
+    }
+
     public function getEditBalance(){
         if (Auth::guard('users')->check()) {
             $user = Auth::guard('users')->user();
@@ -237,8 +309,8 @@ class AdminController extends Controller
         DB::table('deposit')->where('id',$request->id)->update(['status'=>1]);
         if($user->role < $upvip->role){
             $createhistory = new AccountController();
-            DB::table('users')->where('phone', $upvip->ofuser)->update(['role'=>$upvip->role]);
-            $createhistory->createHistory($upvip->ofuser, 'Tài khoản được nâng cấp lên '.$role->name);
+            DB::table('users')->where('phone', $user->phone)->update(['role'=>$upvip->role]);
+            $createhistory->createHistory($user->phone, 'Tài khoản được nâng cấp lên '.$role->name);
         }
        
         $createhistory->createHistory($upvip->ofuser, 'Tài khoản được cộng '.number_format(intval($upvip->amount/1000),0,',','.').'coin');
@@ -261,7 +333,7 @@ class AdminController extends Controller
                 if($f0 != null){
                     $statisticalf0 = DB::table('statistical')->where('ofuser', $f0->phone)->first();
                     $walletf0 = DB::table('wallet')->where('ofuser', $f0->phone)->first();
-                    DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf0->balance+intval($upvip->amount*5/100),'coin'=> $wallet2->coin+intval($upvip->amount*5/100000)]);
+                    DB::table('wallet')->where('ofuser', $f0->phone)->update(['balance'=> $walletf0->balance+intval($upvip->amount*5/100),'coin'=> $walletf0->coin+intval($upvip->amount*5/100000)]);
                     DB::table('statistical')->where('ofuser',$f0->phone)->update([ 'total'=> $statisticalf0->total+intval($upvip->amount*5/100),'total_referal'=> $statisticalf0->total_referal + intval($upvip->amount*5/100)]);
                     $createhistory->createHistory($f0->phone, 'Bạn đã nhận được tiền hoa hồng 5% từ '.$user->phone.' : '.number_format(intval($upvip->amount*5/100),0,',','.').'vnđ');
                     $createhistory->createHistory($f0->phone, 'Bạn đã nhận được coin hoa hồng 5% từ '.$user->phone.' : '.number_format(intval($upvip->amount*5/100000),0,',','.').'coin');

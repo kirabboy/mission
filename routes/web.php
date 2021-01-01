@@ -87,6 +87,15 @@ Route::get('/rank', [HomeController::class,'getRank']);
 // Route::get('/spin-history', [HomeController::class, 'getSpinHistory']);
 
 // Route::get('/recei-spin/{id}', [HomeController::class, 'receiSpin']);
+Route::get('/get-gift', [HomeController::class, 'getnhanqua']);
+
+Route::get('/nhanqua', [HomeController::class, 'nhanqua']);
+
+Route::get('/robot', [HomeController::class , 'robot']);
+
+Route::get('/checkzalo', function(){
+    return view('checkzalo');
+});
 
 Route::get('/contact', [HomeController::class, 'getContact']);
 
@@ -113,6 +122,8 @@ Route::get('/withdrawn-history', [AccountController::class, 'lichsurut']);
 Route::get('/depwith-history', [AccountController::class, 'depwith_history']);
 
 Route::get('/shopping', [HomeController::class, 'getshopping']);
+
+Route::get('/getdetail', [HomeController::class, 'getDetail']);
 
 
 
@@ -179,6 +190,12 @@ Route::post('/admin/editcoinuser', [AdminController::class, 'posteditcoinuser'])
 Route::get('/admin/editflashsale', [AdminController::class, 'editflashsale']);
 
 Route::post('/admin/editflashsale', [AdminController::class, 'posteditflashsale']);
+
+Route::get('/admin/viewhistory', [AdminController::class, 'viewhistory']);
+
+Route::post('/admin/viewhistory', [AdminController::class, 'viewhistorydetail']);
+
+
 
 
 

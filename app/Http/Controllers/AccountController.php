@@ -50,11 +50,15 @@ class AccountController extends Controller
             $date =date("Y-m-d");
             $statistical = DB::table('statistical')->where('ofuser', $phone)->first();
             $taking_missions = DB::table('taking_mission')->where('id_user', $user->id)->get();
+            if(strtotime($date) != strtotime($statistical->today)){
+                DB::table('statistical')->where('ofuser', $user->phone)->update(['status_gift'=>0, 'today'=>$date ]);
 
+            }
             foreach($taking_missions as $taking_mission){
-
+               
                 if(strtotime($date) != strtotime($taking_mission->today)){
                     DB::table('taking_mission')->where('id', $taking_mission->id)->update(['status_day'=>1 ]);
+
                     if($taking_mission->status == 0){
                         DB::table('taking_mission')->where('id', $taking_mission->id)->update(['status'=>1 ]);
                     }
@@ -95,24 +99,19 @@ class AccountController extends Controller
             if($code_invite != null){
                 $user_invite = DB::table('users')->where('referal_code', $code_invite)->first();
                 if($user_invite != null){
-                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>0, 'referal_code' => $referal_code,'status'=>'Chào mừng đến với app VIP-PRO', 'dayres'=>$date]);
+                    DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=> $user_invite->phone, 'role'=>0, 'referal_code' => $referal_code, 'status'=>'Chào mừng đến với app VIP-PRO', 'dayres'=>$date]);
                     DB::table('wallet')->insert(['ofuser'=> $phone]);
                     DB::table('statistical')->insert(['ofuser'=> $phone]);
                     DB::table('bank')->insert(['ofuser'=>$phone]);
-
-
                 }else{
                     return redirect('/register')->with('error', 'Số điện thoại giới thiệu không tồn tại');
                 }
             }else{
-                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code,'status'=>'Chào mừng đến với app VIP-PRO', 'dayres'=>$date]);
+                DB::table('users')->insert(['phone' => $phone, 'password' => $hashed, 'referal_ofuser'=>null, 'role'=>0,'referal_code' => $referal_code, 'status'=>'Chào mừng đến với app VIP-PRO', 'dayres'=>$date]);
                 DB::table('wallet')->insert(['ofuser'=> $phone]);
                 DB::table('statistical')->insert(['ofuser'=> $phone]);
                 DB::table('info_users')->insert(['ofuser'=> $phone]);
                 DB::table('bank')->insert(['ofuser'=>$phone]);
-
-            
-
             }
             return redirect('/login')->with('success', 'Chào mừng bạn đến với chúng tôi, hãy đăng nhập để có trải nghiệm tuyệt vời nhất!!!');
         }else{
@@ -193,7 +192,7 @@ class AccountController extends Controller
             for($i=0; $i<count($arr_mission_done)-2; $i++){
                 for($j=$i+1; $j<count($arr_mission_done)-1; $j++){
                     if($arr_mission_done[$i]->id == $arr_mission_done[$j]->id ){
-                        unset($array[$j]);
+                        unset($arr_mission_done[$j]);
                     }
                 }
             }
@@ -218,7 +217,7 @@ class AccountController extends Controller
                     }
                 }
             }
-            return view('history', ['user' => $user, 'histories'=>$histories, 'mission_done'=>$arr_mission_done,'mission_cancel'=>$arr_mission_cancel,'mission_new'=>$arr_mission_new,'mission_pending'=>$arr_mission_pending ]);
+            return view('historyofuser', ['user' => $user, 'histories'=>$histories, 'mission_done'=>$arr_mission_done,'mission_cancel'=>$arr_mission_cancel,'mission_new'=>$arr_mission_new,'mission_pending'=>$arr_mission_pending ]);
         }else{
             return redirect('/login');
         }
@@ -288,7 +287,7 @@ class AccountController extends Controller
                     $file = $request->file('bill');
                     $file_name = $file->getClientOriginalName(); 
                     $file->move($destinationPath , $file_name); 
-                    $checkup = DB::table('deposit')->where('role',$request->role)->where('ofuser', $user->phone)->get();
+                    $checkup = DB::table('deposit')->where('ofuser', $user->phone)->where('status',0)->get();
                     if(count($checkup)>0){
                         return back()->with('error', 'Bạn đang có 1 lệnh nâng cấp chưa xử lý, vui lòng đợi');
                     }

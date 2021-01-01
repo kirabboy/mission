@@ -78,7 +78,98 @@
                  
              
                         </div>
-                        
+                        @if($user->role == 5)
+
+                            <div class="row no-gutters">
+                                <div class="col-12 text-center">
+                                        <button class="btn btn-info" id="robot">Robot</button>
+                                        
+                                </div>
+                            </div>
+                            <div class="modal fade" id="robot-notice" role="dialog">
+                                <div class="modal-dialog  modal-dialog-centered">
+                                
+                                  <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Robot làm nhiệm vụ</h4>
+                                    </div>
+                                    <div class="modal-body text-center" style="color: #fff">
+                                        
+                                            <button style="color: #fff !important" type="button" id="batdau" class="btn btn-warning" autocomplete="off" style="width:8em">
+                                                Bắt đầu
+                                            </button>
+                                            
+                                            <div class="progress" id="submit_progress" >
+                                                <div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="load" style="width:0%">
+                                                0%
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                              </div>
+                              <script>
+                                $('#batdau').click(function() {
+                                    $.ajax({
+                                        type: "get",
+                                        url: "{{URL::to('/robot')}}",
+                                        data: {}, 
+                                        error: function(reponses){
+                                            console.log(reponses);
+                                            console.log('false');
+                                        },
+                                        success: function(reponses)
+                                        {
+                                            console.log(reponses); 
+                                        }
+                                    });  
+
+                                    var timerId, percent;
+
+                                    // reset progress bar
+                                    percent = 0;
+                                    $('#batdau').attr('disabled', true);
+                                    $('#load').css('width', '0px');
+                                    $('#load').addClass('progress-bar-striped active');
+
+
+                                    timerId = setInterval(function() {
+
+                                    // increment progress bar
+                                    percent += 5;
+                                    $('#load').css('width', percent + '%');
+                                    $('#load').html(percent + '%');
+
+
+                                    // complete
+                                    if (percent >= 100) {
+                                        clearInterval(timerId);
+                                        $('#batdau').addClass('btn-success');
+                                        $('#batdau').removeClass('btn-warning');
+                                        $('#batdau').text('Đã xong');
+                                        // $('#load').removeClass('progress-bar-striped active');
+                                        // $('#load').html('payment complete');
+
+                                        // do more ...
+
+                                    }
+
+                                    }, 200);
+
+
+                                    });
+                                $('#robot').click(function(){
+                                    $("#robot-notice").modal();
+                                });
+                                
+                            </script>
+                        @endif
+
                     
                         <div class="row no-gutters">
                             <div class="col-12">
